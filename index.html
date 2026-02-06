@@ -4,130 +4,143 @@
     <meta charset="UTF-8">
     <title>Ultraviolence | Archive</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,900&family=Parisienne&family=IM+Fell+English+SC&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&display=swap');
 
         :root {
             --cherry: #8b0000;
             --cream: #f4f1ea;
-            --ink: #1a1a1a;
             --paper: #fdfaf0;
+            --nav-h: 90px;
         }
 
-        body { background-color: var(--cream); margin: 0; padding: 0; font-family: 'Courier Prime', monospace; overflow: hidden; color: var(--ink); }
+        /* RESET & BASE */
+        * { box-sizing: border-box; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; overflow: hidden; font-family: 'Courier Prime', monospace; }
 
-        /* FIXED NAV - ENSURES CONTENT BELOW IS VISIBLE */
+        /* FIXED NAVIGATION - NO OVERLAP */
         nav {
-            background: #000; height: 80px; display: flex; justify-content: center; align-items: center; gap: 50px;
-            position: fixed; top: 0; width: 100%; z-index: 9999; border-bottom: 3px solid var(--cherry);
+            height: var(--nav-h); width: 100%; background: #000; border-bottom: 3px solid var(--cherry);
+            display: flex; justify-content: center; align-items: center; gap: 60px;
+            position: fixed; top: 0; left: 0; z-index: 1000;
         }
         nav button {
             background: transparent; border: none; color: white; font-family: 'Bebas Neue'; 
-            font-size: 1.8rem; cursor: pointer; letter-spacing: 4px; transition: 0.3s;
+            font-size: 2.2rem; cursor: pointer; letter-spacing: 5px; transition: 0.3s;
         }
         nav button:hover { color: var(--cherry); }
-        .active-nav { color: var(--cherry) !important; text-shadow: 0 0 10px var(--cherry); }
+        .active-nav { color: var(--cherry) !important; text-decoration: underline; }
 
-        .view { display: none; height: 100vh; width: 100%; box-sizing: border-box; padding-top: 80px; }
+        /* VIEW CONTAINER - STARTS BELOW NAV */
+        .stage { margin-top: var(--nav-h); height: calc(100vh - var(--nav-h)); width: 100%; position: relative; }
+        .view { display: none; height: 100%; width: 100%; animation: fadeIn 0.5s ease; }
         .view.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* HOME - REMOVED OBSTRUCTION */
-        #home { flex-direction: column; align-items: center; justify-content: flex-start; background: #000; color: white; text-align: center; padding-top: 120px; }
-        .hero-title { font-family: 'Bebas Neue'; font-size: 8rem; letter-spacing: 15px; margin: 0; line-height: 1; z-index: 1; }
-        .scrapbook-area { display: flex; gap: 30px; margin-top: 50px; }
-        
-        /* POLAROID - TITLES AT THE BOTTOM */
-        .polaroid { background: white; padding: 15px 15px 10px 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: 0.6s ease; }
-        .polaroid img { width: 220px; height: 280px; object-fit: cover; filter: grayscale(100%); transition: 1s; display: block; }
-        .polaroid p { color: black; font-family: 'Bebas Neue'; font-size: 1.2rem; margin: 15px 0 5px 0; text-align: center; }
+        /* HOME PAGE */
+        #home { background: #000; flex-direction: column; align-items: center; justify-content: center; color: white; }
+        .hero-title { font-family: 'Bebas Neue'; font-size: 10rem; letter-spacing: 20px; margin-bottom: 40px; }
+        .scrapbook { display: flex; gap: 40px; }
+        .polaroid { background: white; padding: 15px 15px 55px 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; transition: 0.8s; cursor: crosshair; }
+        .polaroid img { width: 220px; height: 280px; object-fit: cover; filter: grayscale(100%); transition: 1.5s; }
+        .polaroid p { position: absolute; bottom: 10px; left: 0; width: 100%; text-align: center; color: black; font-family: 'Bebas Neue'; font-size: 1.5rem; margin: 0; }
         .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; }
         .polaroid:hover img { filter: grayscale(0%); }
 
-        /* DIARY & REAL PAGE TURN */
-        .diary-wrap { display: flex; width: 100%; height: 100%; }
-        .archive-sidebar { 
-            width: 280px; background: #000; color: white; padding: 25px; 
-            display: flex; flex-direction: column; gap: 20px; z-index: 10;
-        }
-        .archive-sidebar h2 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--cherry); margin: 0; }
-        
-        .book-container { flex-grow: 1; background: #1a120d; display: flex; align-items: center; justify-content: center; perspective: 2000px; }
-        .book { 
-            width: 850px; height: 580px; background: var(--paper); display: flex; 
-            box-shadow: 0 0 100px #000; position: relative; 
-            transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1); transform-style: preserve-3d;
-        }
-        
-        /* 3D TURN ANIMATION */
-        .page-turn { transform: rotateY(-10deg) scale(0.95); filter: brightness(0.8); }
+        /* GOOGLE CALENDAR PLANNER */
+        .planner-container { display: flex; width: 100%; background: white; height: 100%; }
+        .planner-side { width: 250px; border-right: 1px solid #ddd; padding: 20px; background: #fcfcfc; }
+        .time-grid { flex-grow: 1; display: grid; grid-template-columns: 80px repeat(7, 1fr); overflow-y: auto; position: relative; }
+        .time-label { height: 60px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #999; font-size: 0.7rem; text-align: right; padding: 5px; }
+        .day-slot { height: 60px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; position: relative; cursor: pointer; }
+        .day-slot:hover { background: rgba(139, 0, 0, 0.05); }
+        .event { position: absolute; inset: 2px; background: var(--cherry); color: white; padding: 4px; font-size: 0.7rem; border-radius: 4px; z-index: 5; }
 
-        .page { width: 50%; padding: 40px; border: 1px solid rgba(0,0,0,0.05); background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; }
-        .page-left { border-right: 2px solid rgba(0,0,0,0.1); }
-        textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; font-size: 1.2rem; }
+        /* DIARY & 3D FLIP */
+        .diary-container { display: flex; width: 100%; height: 100%; }
+        .archive-sidebar { width: 300px; background: #000; color: white; padding: 30px; border-right: 2px solid var(--cherry); display: flex; flex-direction: column; gap: 20px; }
+        .archive-sidebar h2 { font-family: 'Bebas Neue'; font-size: 2.5rem; color: var(--cherry); margin: 0; }
+        .archive-sidebar select, .archive-sidebar input { background: #222; border: 1px solid #444; color: white; padding: 12px; width: 100%; }
 
-        /* PLANNER - GOOGLE STYLE VERTICAL */
-        .planner-view { width: 100%; background: white; display: flex; }
-        .time-col { width: 70px; border-right: 1px solid #ddd; background: #f8f8f8; display: flex; flex-direction: column; }
-        .time-label { height: 60px; font-size: 0.7rem; color: #888; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #eee; }
-        .grid-main { flex-grow: 1; display: grid; grid-template-columns: repeat(7, 1fr); overflow-y: auto; height: calc(100vh - 150px); }
-        .day-col { border-right: 1px solid #eee; }
-        .day-header { padding: 10px; text-align: center; font-weight: bold; background: #eee; border-bottom: 1px solid #ddd; }
-        .slot { height: 60px; border-bottom: 1px solid #eee; cursor: cell; position: relative; }
-        .slot:hover { background: rgba(139, 0, 0, 0.05); }
-        .ev-box { position: absolute; inset: 2px; background: var(--cherry); color: white; font-size: 0.7rem; padding: 4px; border-radius: 3px; cursor: pointer; }
+        .book-stage { flex-grow: 1; background: #130d0a; display: flex; align-items: center; justify-content: center; perspective: 2000px; }
+        .book { width: 900px; height: 600px; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
+        .page { width: 50%; height: 100%; background: var(--paper); position: absolute; left: 50%; top: 0; transform-origin: left; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); box-shadow: inset 3px 0 10px rgba(0,0,0,0.1); padding: 50px; box-sizing: border-box; }
+        .page-back { transform: rotateY(-180deg); z-index: 2; }
+        .page-front { z-index: 1; left: 0; border-right: 2px solid rgba(0,0,0,0.1); }
+        .page-right { left: 50%; transform: rotateY(0deg); z-index: 0; }
+        
+        /* THE FLIP ANIMATION */
+        .flipping { transform: rotateY(-180deg) !important; }
+
+        textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; font-size: 1.2rem; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; }
+        
+        .controls { position: absolute; bottom: 30px; display: flex; gap: 450px; }
+        .btn-black { background: #000; color: white; border: none; padding: 15px 40px; font-family: 'Bebas Neue'; font-size: 1.5rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <nav>
-        <button onclick="showTab('home')" id="btn-home">HOME</button>
-        <button onclick="showTab('planner')" id="btn-planner">PLANNER</button>
-        <button onclick="showTab('diary')" id="btn-diary">THE DIARY</button>
+        <button onclick="showTab('home')" id="tab-home">HOME</button>
+        <button onclick="showTab('planner')" id="tab-planner">PLANNER</button>
+        <button onclick="showTab('diary')" id="tab-diary">THE DIARY</button>
     </nav>
 
-    <div id="home" class="view active">
-        <h1 class="hero-title">ULTRAVIOLENCE</h1>
-        <div class="scrapbook-area">
-            <div class="polaroid" style="transform: rotate(-3deg);"><img src="Cadillac.png"><p>GETAWAY</p></div>
-            <div class="polaroid" style="transform: rotate(2deg);"><img src="lanacig.png"><p>LANA</p></div>
-            <div class="polaroid" style="transform: rotate(-1deg);"><img src="coke.png"><p>DIET SODA</p></div>
-        </div>
-    </div>
-
-    <div id="planner" class="view">
-        <div class="planner-view">
-            <div class="time-col" id="times"></div>
-            <div class="grid-main" id="grid"></div>
-        </div>
-    </div>
-
-    <div id="diary" class="view">
-        <div class="diary-wrap">
-            <div class="archive-sidebar">
-                <h2>ARCHIVES</h2>
-                <div style="font-size:0.8rem">STYLE</div>
-                <select id="fnt" onchange="applyStyle()" style="padding:8px; background:#222; color:white; border:none;">
-                    <option value="'Homemade Apple'">Handwritten</option>
-                    <option value="'Special Elite'">Grunge</option>
-                    <option value="'Parisienne'">Coquette</option>
-                </select>
-                <div style="font-size:0.8rem">DATE</div>
-                <input type="date" id="jumpDate" onchange="jump(this.value)" style="padding:8px; background:#222; color:white; border:none;">
-                <input type="text" placeholder="Search entries..." onkeyup="search(this.value)" style="padding:8px; background:#222; color:white; border:none; margin-top:10px;">
-                <div id="res" style="overflow-y:auto; flex-grow:1;"></div>
+    <div class="stage">
+        <div id="home" class="view active">
+            <h1 class="hero-title">ULTRAVIOLENCE</h1>
+            <div class="scrapbook">
+                <div class="polaroid" style="transform: rotate(-3deg);"><img src="Cadillac.png"><p>GETAWAY</p></div>
+                <div class="polaroid" style="transform: rotate(2deg);"><img src="lanacig.png"><p>LANA</p></div>
+                <div class="polaroid" style="transform: rotate(-1deg);"><img src="coke.png"><p>DIET SODA</p></div>
             </div>
-            <div class="book-container">
-                <div class="book" id="bookObj">
-                    <div class="page page-left">
-                        <h3 id="dateTag" style="font-family:'Bebas Neue'; color:var(--cherry); margin-bottom:15px;"></h3>
-                        <textarea id="L" onkeyup="save()" placeholder="Start writing..."></textarea>
-                    </div>
-                    <div class="page">
-                        <textarea id="R" onkeyup="save()" placeholder="Continued..."></textarea>
+        </div>
+
+        <div id="planner" class="view">
+            <div class="planner-container">
+                <div class="planner-side">
+                    <h2 style="font-family:'Bebas Neue'; font-size:2rem;">FEB 2026</h2>
+                    <p style="font-size:0.7rem; color:#888;">GOOGLE CALENDAR SYNC</p>
+                    <hr>
+                    <div style="font-size:0.8rem; margin-top:20px;">
+                        <input type="checkbox" checked> <span style="color:var(--cherry)">●</span> Primary Archive
                     </div>
                 </div>
-                <div style="position:absolute; bottom:30px; display:flex; gap:300px;">
-                    <button onclick="turn(-1)" style="background:#000; color:white; border:none; padding:10px 40px; cursor:pointer; font-family:'Bebas Neue';">PREV</button>
-                    <button onclick="turn(1)" style="background:#000; color:white; border:none; padding:10px 40px; cursor:pointer; font-family:'Bebas Neue';">NEXT</button>
+                <div class="time-grid" id="planGrid"></div>
+            </div>
+        </div>
+
+        <div id="diary" class="view">
+            <div class="diary-container">
+                <div class="archive-sidebar">
+                    <h2>ARCHIVES</h2>
+                    <label>TYPOGRAPHY</label>
+                    <select id="fnt" onchange="style()">
+                        <option value="'Homemade Apple'">Handwritten</option>
+                        <option value="'Special Elite'">Grunge</option>
+                        <option value="'Courier Prime'">Typewriter</option>
+                    </select>
+                    <label>JUMP TO DATE</label>
+                    <input type="date" onchange="jump(this.value)">
+                    <input type="text" placeholder="Search entries..." onkeyup="search(this.value)">
+                    <div id="searchRes" style="font-size:0.7rem; overflow-y:auto; flex-grow:1;"></div>
+                </div>
+                <div class="book-stage">
+                    <div class="book">
+                        <div class="page page-back" id="flipPage">
+                            <textarea id="areaFlip" placeholder="..."></textarea>
+                        </div>
+                        <div class="page page-front">
+                            <h3 id="dateH" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0 0 10px 0;"></h3>
+                            <textarea id="areaL" onkeyup="save()" placeholder="Write something..."></textarea>
+                        </div>
+                        <div class="page page-right">
+                            <textarea id="areaR" onkeyup="save()" placeholder="Continued..."></textarea>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <button class="btn-black" onclick="move(-1)">PREVIOUS</button>
+                        <button class="btn-black" onclick="move(1)">NEXT</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,83 +148,43 @@
 
     <script>
         let day = new Date().toISOString().split('T')[0];
-        let logs = JSON.parse(localStorage.getItem('uv_logs_v3')) || {};
-        let evs = JSON.parse(localStorage.getItem('uv_evs_v3')) || {};
+        let logs = JSON.parse(localStorage.getItem('uv_logs_v99')) || {};
+        let evs = JSON.parse(localStorage.getItem('uv_evs_v99')) || {};
 
         function showTab(t) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
             document.getElementById(t).classList.add('active');
-            document.getElementById('btn-'+t).classList.add('active-nav');
+            document.getElementById('tab-'+t).classList.add('active-nav');
             if(t === 'planner') initPlanner();
             if(t === 'diary') initDiary();
         }
 
+        /* PLANNER - TRUE GOOGLE STYLE */
         function initPlanner() {
-            const times = document.getElementById('times');
-            const grid = document.getElementById('grid');
-            times.innerHTML = ""; grid.innerHTML = "";
+            const grid = document.getElementById('planGrid');
+            grid.innerHTML = "";
             for(let h=0; h<24; h++) {
-                let lbl = document.createElement('div'); lbl.className = 'time-label'; lbl.innerText = h+":00";
-                times.appendChild(lbl);
-            }
-            for(let d=0; d<7; d++) {
-                let col = document.createElement('div'); col.className = 'day-col';
-                let head = document.createElement('div'); head.className = 'day-header'; head.innerText = "DAY "+(d+1);
-                col.appendChild(head);
-                for(let h=0; h<24; h++) {
-                    let s = document.createElement('div'); s.className = 'slot';
-                    let key = d+'-'+h;
-                    if(evs[key]) s.innerHTML = `<div class="ev-box" onclick="event.stopPropagation(); delEv('${key}')">${evs[key]}</div>`;
-                    s.onclick = () => { let v = prompt("Event?"); if(v) { evs[key]=v; localStorage.setItem('uv_evs_v3', JSON.stringify(evs)); initPlanner(); } };
-                    col.appendChild(s);
+                let lbl = document.createElement('div');
+                lbl.className = 'time-label'; lbl.innerText = h + ":00";
+                grid.appendChild(lbl);
+                for(let d=0; d<7; d++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'day-slot';
+                    let key = d + '-' + h;
+                    if(evs[key]) cell.innerHTML = `<div class="event" onclick="event.stopPropagation(); delEv('${key}')">${evs[key]}</div>`;
+                    cell.onclick = () => { let v = prompt("Event description:"); if(v) { evs[key]=v; savePlan(); } };
+                    grid.appendChild(cell);
                 }
-                grid.appendChild(col);
             }
         }
+        function savePlan() { localStorage.setItem('uv_evs_v99', JSON.stringify(evs)); initPlanner(); }
+        function delEv(k) { delete evs[k]; savePlan(); }
 
-        function delEv(k) { delete evs[k]; localStorage.setItem('uv_evs_v3', JSON.stringify(evs)); initPlanner(); }
-
+        /* DIARY - 3D FLIP */
         function initDiary() {
-            const book = document.getElementById('bookObj');
-            book.classList.add('page-turn'); // Visual feedback for turn
+            const p = document.getElementById('flipPage');
+            p.classList.add('flipping'); // Trigger flip animation
+            
             setTimeout(() => {
-                document.getElementById('dateTag').innerText = new Date(day).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
-                let data = logs[day] || {l:"", r:""};
-                document.getElementById('L').value = data.l;
-                document.getElementById('R').value = data.r;
-                book.classList.remove('page-turn');
-                applyStyle();
-            }, 300);
-        }
-
-        function save() {
-            logs[day] = { l: document.getElementById('L').value, r: document.getElementById('R').value };
-            localStorage.setItem('uv_logs_v3', JSON.stringify(logs));
-        }
-
-        function turn(n) {
-            save();
-            let d = new Date(day); d.setDate(d.getDate() + n);
-            day = d.toISOString().split('T')[0];
-            initDiary();
-        }
-
-        function applyStyle() {
-            const f = document.getElementById('fnt').value;
-            document.querySelectorAll('#diary textarea').forEach(t => t.style.fontFamily = f);
-        }
-
-        function jump(v) { day = v; initDiary(); }
-        function search(q) {
-            const r = document.getElementById('res'); r.innerHTML = "";
-            if(q.length < 2) return;
-            for(let d in logs) {
-                if(logs[d].l.includes(q)) {
-                    let i = document.createElement('div'); i.innerText = d; i.style.padding="5px"; i.onclick = () => jump(d); r.appendChild(i);
-                }
-            }
-        }
-    </script>
-</body>
-</html>
+                document.getElementById('dateH').innerText = new Date(day).toLocaleDateString('en-US',
