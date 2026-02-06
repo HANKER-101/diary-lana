@@ -15,86 +15,87 @@
 
         body { background-color: var(--cream); margin: 0; padding: 0; font-family: 'Courier Prime', monospace; overflow-x: hidden; color: var(--ink); }
 
-        /* CLEAN TEXT NAVIGATION (No more boxes) */
+        /* SLEEK TEXT NAV */
         nav {
             background: #000; padding: 25px; display: flex; justify-content: center; gap: 60px;
             position: sticky; top: 0; z-index: 9999; border-bottom: 4px solid var(--cherry);
         }
         nav button {
             background: transparent; border: none; color: white; font-family: 'Bebas Neue'; 
-            font-size: 2rem; cursor: pointer; letter-spacing: 4px; transition: 0.3s;
+            font-size: 2.2rem; cursor: pointer; letter-spacing: 4px; transition: 0.4s ease;
         }
-        nav button:hover { color: var(--cherry); transform: scale(1.1); }
+        nav button:hover { color: var(--cherry); transform: translateY(-2px); }
+        nav button.active-nav { color: var(--cherry); text-decoration: underline; }
 
         .view { display: none; min-height: 100vh; width: 100%; }
-        .view.active { display: block; }
+        .view.active { display: block; animation: smoothFade 0.6s ease; }
+        @keyframes smoothFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* HOME PAGE MOODBOARD */
         .moodboard { padding: 60px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; text-align: center; }
-        .hero-title { font-family: 'Playfair Display'; font-style: italic; font-size: 5rem; margin: 0; color: white; }
+        .hero-title { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 0; animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both; }
         .scrapbook-area { display: flex; gap: 40px; margin-top: 50px; }
-        .polaroid { background: white; padding: 15px 15px 50px 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: 0.4s; }
-        .polaroid img { width: 260px; height: 330px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .polaroid { background: white; padding: 15px 15px 50px 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: transform 0.5s ease; }
+        .polaroid img { width: 260px; height: 330px; object-fit: cover; filter: grayscale(100%); transition: filter 1.2s ease; }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
         .polaroid:hover img { filter: grayscale(0%); }
 
-        /* GOOGLE STYLE PLANNER */
+        /* PRO PLANNER */
         .planner-view { background: white; padding: 40px; }
-        .cal-container { max-width: 1200px; margin: 0 auto; border: 2px solid #000; box-shadow: 15px 15px 0 var(--cherry); }
-        .cal-header { background: #000; color: white; padding: 20px; display: flex; justify-content: space-between; font-family: 'Bebas Neue'; font-size: 2rem; }
+        .cal-container { max-width: 1200px; margin: 0 auto; border: 2px solid #000; box-shadow: 20px 20px 0 var(--cherry); }
+        .cal-header { background: #000; color: white; padding: 20px; display: flex; justify-content: space-between; font-family: 'Bebas Neue'; font-size: 2.5rem; }
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); background: #000; gap: 1px; }
-        .cal-label { background: #f0f0f0; padding: 15px; text-align: center; font-weight: bold; border-bottom: 2px solid #000; }
-        .cal-cell { background: white; min-height: 130px; padding: 10px; cursor: pointer; position: relative; }
-        .cal-cell:hover { background: #fffde7; }
-        .ev-tag { background: var(--cherry); color: white; font-size: 0.75rem; padding: 3px 6px; margin-top: 5px; border-radius: 2px; font-family: 'Courier Prime'; }
+        .cal-label { background: #f8f8f8; padding: 15px; text-align: center; font-weight: bold; border-bottom: 2px solid #000; }
+        .cal-cell { background: white; min-height: 140px; padding: 10px; cursor: pointer; transition: 0.3s; overflow-y: auto; }
+        .cal-cell:hover { background: #fffcf0; }
+        .ev-chip { background: var(--cherry); color: white; font-size: 0.7rem; padding: 4px 8px; margin-top: 5px; border-radius: 3px; display: flex; justify-content: space-between; }
+        .ev-chip:hover { opacity: 0.8; }
 
         /* 3D DIARY BOOK */
-        #diary { background: #1a120d; display: flex; align-items: center; justify-content: center; padding: 50px 0; perspective: 2000px; }
-        .book-container { position: relative; width: 950px; height: 650px; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1); }
-        .book { width: 100%; height: 100%; display: flex; position: relative; box-shadow: 0 0 100px #000; }
-        .page { 
-            width: 50%; height: 100%; padding: 50px; box-sizing: border-box; background: var(--paper); 
-            background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; border: 1px solid #ddd;
-        }
-        .left-page { border-right: 3px solid rgba(0,0,0,0.1); border-radius: 5px 0 0 5px; }
-        .right-page { border-radius: 0 5px 5px 0; }
+        #diary { background: #130d0a; display: flex; align-items: center; justify-content: center; padding: 50px 0; perspective: 1500px; }
+        .book-wrap { width: 1000px; height: 700px; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .book { width: 100%; height: 100%; display: flex; box-shadow: 0 0 100px #000; }
+        .page { width: 50%; height: 100%; padding: 60px; box-sizing: border-box; background: var(--paper); border: 1px solid #ddd; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; }
+        .left-p { border-right: 4px solid rgba(0,0,0,0.15); border-radius: 5px 0 0 5px; }
+        .right-p { border-radius: 0 5px 5px 0; }
         
-        /* THE ACTUAL FLIP ANIMATION */
-        .page-flip-anim { animation: flipEffect 0.7s ease-in-out; }
-        @keyframes flipEffect {
-            0% { transform: rotateY(0deg); }
-            50% { transform: rotateY(-15deg) scale(0.95); opacity: 0.7; }
-            100% { transform: rotateY(0deg); }
+        .flipping { animation: pageTurn 0.8s ease-in-out; }
+        @keyframes pageTurn { 
+            0% { transform: rotateY(0deg) scale(1); } 
+            50% { transform: rotateY(-20deg) scale(0.9); opacity: 0.5; }
+            100% { transform: rotateY(0deg) scale(1); } 
         }
 
         textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; color: #1a1a1a; }
 
         /* SIDE PANEL */
-        .archive-sidebar { width: 280px; background: rgba(0,0,0,0.9); height: 650px; padding: 25px; color: white; border-right: 3px solid var(--cherry); display: flex; flex-direction: column; gap: 15px; }
-        .archive-sidebar select, .archive-sidebar input { background: #222; border: 1px solid #444; color: white; padding: 10px; font-family: 'Courier Prime'; }
+        .archive-sidebar { width: 280px; background: rgba(0,0,0,0.95); height: 700px; padding: 25px; color: white; border-right: 4px solid var(--cherry); display: flex; flex-direction: column; gap: 15px; }
+        .archive-sidebar select, .archive-sidebar input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px; font-family: 'Courier Prime'; width: 100%; box-sizing: border-box; }
 
-        /* MODAL */
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 5px solid #000; padding: 30px; z-index: 10001; width: 320px; }
+        /* EVENT MODAL */
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 6px solid #000; padding: 35px; z-index: 10001; width: 350px; box-shadow: 0 0 0 1000px rgba(0,0,0,0.8); }
     </style>
 </head>
 <body>
 
-    <nav>
-        <button onclick="tab('home')">HOME</button>
-        <button onclick="tab('planner')">PLANNER</button>
-        <button onclick="tab('diary')">THE DIARY</button>
+    <nav id="topNav">
+        <button onclick="tab('home')" id="nav-home">HOME</button>
+        <button onclick="tab('planner')" id="nav-planner">PLANNER</button>
+        <button onclick="tab('diary')" id="nav-diary">THE DIARY</button>
     </nav>
 
     <div id="home" class="view active">
         <div class="moodboard">
             <h1 class="hero-title">Ultraviolence</h1>
-            <p style="letter-spacing: 6px; font-size: 1.2rem; opacity: 0.8;">DAILY ARCHIVE & PLANNER</p>
+            <p style="letter-spacing: 8px; font-size: 1.3rem; opacity: 0.7; margin-top: 10px;">A PRIVATE DIGITAL ARCHIVE</p>
             <div class="scrapbook-area">
-                <div class="polaroid" style="transform: rotate(-3deg);"><img src="Cadillac.png"><p style="color:black;text-align:center;font-family:'Bebas Neue'">THE GETAWAY</p></div>
-                <div class="polaroid" style="transform: rotate(2deg);"><img src="lanacig.png"><p style="color:black;text-align:center;font-family:'Bebas Neue'">LANA</p></div>
-                <div class="polaroid" style="transform: rotate(-1deg);"><img src="coke.png"><p style="color:black;text-align:center;font-family:'Bebas Neue'">DIET SODA</p></div>
+                <div class="polaroid" style="transform: rotate(-4deg);"><img src="Cadillac.png"><p style="color:black;text-align:center;font-family:'Bebas Neue'; margin-top:15px;">GETAWAY</p></div>
+                <div class="polaroid" style="transform: rotate(3deg);"><img src="lanacig.png"><p style="color:black;text-align:center;font-family:'Bebas Neue'; margin-top:15px;">LANA</p></div>
+                <div class="polaroid" style="transform: rotate(-2deg);"><img src="coke.png"><p style="color:black;text-align:center;font-family:'Bebas Neue'; margin-top:15px;">DIET SODA</p></div>
             </div>
-            <p style="margin-top: 40px; max-width: 650px; font-size: 1.1rem; line-height: 1.8;">
-                Welcome to your personal log. A high-fidelity space designed to track your schedule in the <b>Planner</b> and archive your thoughts in the <b>Diary</b>. No data leaves your browser—it's for your eyes only.
+            <p style="margin-top: 50px; max-width: 700px; font-size: 1.2rem; line-height: 2; opacity: 0.9;">
+                Architect your life in the <b>Planner</b>. Archive your deepest thoughts in the <b>Diary</b>. 
+                Designed for the high-fidelity coquette aesthetic.
             </p>
         </div>
     </div>
@@ -103,10 +104,10 @@
         <div class="planner-view">
             <div class="cal-container">
                 <div class="cal-header">
-                    <span id="calMonth">FEBRUARY 2026</span>
-                    <span style="opacity: 0.5; font-size: 1.2rem;">LOGBOOK v2.0</span>
+                    <span>FEBRUARY 2026</span>
+                    <span style="opacity: 0.4; font-size: 1.2rem;">PRO PLANNER v2.0</span>
                 </div>
-                <div class="cal-grid" id="googleGrid">
+                <div class="cal-grid" id="pGrid">
                     <div class="cal-label">SUN</div><div class="cal-label">MON</div><div class="cal-label">TUE</div><div class="cal-label">WED</div><div class="cal-label">THU</div><div class="cal-label">FRI</div><div class="cal-label">SAT</div>
                 </div>
             </div>
@@ -114,144 +115,167 @@
     </div>
 
     <div id="diary" class="view">
-        <div class="archive-sidebar">
-            <h2 style="font-family:'Bebas Neue'; margin:0;">ARCHIVES</h2>
-            <label style="font-size:0.7rem;">FONT FAMILY</label>
-            <select id="fontSel" onchange="updateBook()"><option value="'Homemade Apple'">Handwritten</option><option value="'Special Elite'">Typewriter</option><option value="'Parisienne'">Coquette</option><option value="'IM Fell English SC'">Old English</option></select>
-            <label style="font-size:0.7rem;">FONT SIZE</label>
-            <input type="range" id="sizeRange" min="14" max="38" value="20" oninput="updateBook()">
-            <label style="font-size:0.7rem;">JUMP TO DATE</label>
-            <input type="date" onchange="jumpTo(this.value)">
-            <input type="text" placeholder="Search entries..." onkeyup="doSearch(this.value)">
-            <div id="searchResults" style="flex-grow:1; overflow-y:auto; font-size:0.8rem;"></div>
-        </div>
-        <div class="book-container" id="bookContainer">
-            <div class="book">
-                <div class="page left-page">
-                    <h3 id="dateTag" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0; border-bottom: 2px solid #ddd;"></h3>
-                    <textarea id="leftArea" onkeyup="save()" placeholder="Dear Diary..."></textarea>
-                </div>
-                <div class="page right-page">
-                    <textarea id="rightArea" onkeyup="save()" placeholder="Continued..."></textarea>
-                </div>
-                <div style="position:absolute; bottom:-70px; width:100%; display:flex; justify-content:space-between;">
-                    <button onclick="changeDay(-1)" style="background:var(--cherry); color:white; border:none; padding:12px 30px; font-family:'Bebas Neue'; cursor:pointer; font-size:1.4rem;">PREVIOUS DAY</button>
-                    <button onclick="changeDay(1)" style="background:var(--cherry); color:white; border:none; padding:12px 30px; font-family:'Bebas Neue'; cursor:pointer; font-size:1.4rem;">NEXT DAY</button>
+        <div style="display:flex; justify-content:center; align-items:center;">
+            <div class="archive-sidebar">
+                <h2 style="font-family:'Bebas Neue'; font-size:2.5rem; margin:0; color:var(--cherry);">ARCHIVES</h2>
+                <label style="font-size:0.7rem; letter-spacing:1px;">FONT STYLE</label>
+                <select id="fntSel" onchange="applyDiaryStyle()">
+                    <option value="'Homemade Apple'">Handwritten</option>
+                    <option value="'Special Elite'">Grunge Elite</option>
+                    <option value="'Parisienne'">Coquette</option>
+                    <option value="'IM Fell English SC'">Old English</option>
+                    <option value="'Libre Barcode 39'">Barcode</option>
+                    <option value="'Courier Prime'">Typewriter</option>
+                    <option value="'Playfair Display'">Classic Serif</option>
+                    <option value="'Dancing Script'">Cursive</option>
+                </select>
+                <label style="font-size:0.7rem; letter-spacing:1px;">FONT SIZE</label>
+                <input type="range" id="sizeRange" min="14" max="40" value="20" oninput="applyDiaryStyle()">
+                <label style="font-size:0.7rem; letter-spacing:1px;">JUMP TO DATE</label>
+                <input type="date" onchange="jumpDiary(this.value)">
+                <input type="text" placeholder="Search entries..." onkeyup="searchDiary(this.value)">
+                <div id="sResults" style="flex-grow:1; overflow-y:auto; border-top:1px solid #333;"></div>
+            </div>
+            <div class="book-wrap" id="bWrap">
+                <div class="book">
+                    <div class="page left-p">
+                        <h3 id="dLabel" style="font-family:'Bebas Neue'; color:var(--cherry); font-size:2rem; margin:0 0 10px 0;"></h3>
+                        <textarea id="areaL" onkeyup="saveDiary()" placeholder="Start here..."></textarea>
+                    </div>
+                    <div class="page right-p">
+                        <textarea id="areaR" onkeyup="saveDiary()" placeholder="Continue..."></textarea>
+                    </div>
+                    <div style="position:absolute; bottom:-75px; width:100%; display:flex; justify-content:space-between;">
+                        <button onclick="moveDiary(-1)" style="background:black; color:white; border:none; padding:15px 40px; font-family:'Bebas Neue'; cursor:pointer; font-size:1.6rem; letter-spacing:2px;">◀ PREV PAGE</button>
+                        <button onclick="moveDiary(1)" style="background:black; color:white; border:none; padding:15px 40px; font-family:'Bebas Neue'; cursor:pointer; font-size:1.6rem; letter-spacing:2px;">NEXT PAGE ▶</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="evModal">
-        <h3 style="font-family:'Bebas Neue'; margin:0;">ADD EVENT</h3>
-        <p id="modalDate" style="font-size:0.8rem; margin: 5px 0 15px 0;"></p>
-        <input type="time" id="evTime" style="width:100%"><br><br>
-        <input type="text" id="evText" placeholder="Event name..." style="width:100%; padding:8px; box-sizing:border-box;"><br><br>
-        <button onclick="confirmEv()" style="width:100%; background:black; color:white; padding:10px; border:none; font-family:'Bebas Neue'; cursor:pointer;">SAVE TO PLANNER</button>
-        <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:5px; cursor:pointer; text-decoration:underline;">Cancel</button>
+    <div class="modal" id="pModal">
+        <h2 style="font-family:'Bebas Neue'; margin:0;" id="modalTitle">MANAGE EVENT</h2>
+        <div id="existingEvents" style="margin:15px 0;"></div>
+        <hr>
+        <p style="font-size:0.8rem; margin:15px 0 5px 0;">ADD NEW:</p>
+        <input type="time" id="evTime" style="width:100%; padding:10px; margin-bottom:10px;">
+        <input type="text" id="evName" placeholder="What's the plan?" style="width:100%; padding:10px; box-sizing:border-box;">
+        <div style="margin-top:20px; display:flex; gap:10px;">
+            <button onclick="addEv()" style="flex:1; background:var(--cherry); color:white; border:none; padding:12px; cursor:pointer; font-family:'Bebas Neue';">SAVE</button>
+            <button onclick="closePModal()" style="flex:1; background:#ccc; border:none; padding:12px; cursor:pointer;">CLOSE</button>
+        </div>
     </div>
 
     <script>
-        let currentDay = new Date().toISOString().split('T')[0];
-        let diaryDb = JSON.parse(localStorage.getItem('ultraviolence_diary')) || {};
-        let plannerDb = JSON.parse(localStorage.getItem('ultraviolence_planner')) || {};
-        let activePlannerDay = null;
+        let curD = new Date().toISOString().split('T')[0];
+        let dDB = JSON.parse(localStorage.getItem('uv_diary_v9')) || {};
+        let pDB = JSON.parse(localStorage.getItem('uv_planner_v9')) || {};
+        let activePDay = null;
 
         function tab(t) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
             document.getElementById(t).classList.add('active');
-            if(t === 'planner') initPlanner();
-            if(t === 'diary') initDiary();
+            document.getElementById('nav-'+t).classList.add('active-nav');
+            if(t === 'planner') renderPlanner();
+            if(t === 'diary') renderDiary();
         }
 
-        /* PLANNER LOGIC */
-        function initPlanner() {
-            const grid = document.getElementById('googleGrid');
-            grid.innerHTML = '<div class="cal-label">SUN</div><div class="cal-label">MON</div><div class="cal-label">TUE</div><div class="cal-label">WED</div><div class="cal-label">THU</div><div class="cal-label">FRI</div><div class="cal-label">SAT</div>';
+        /* PLANNER */
+        function renderPlanner() {
+            const g = document.getElementById('pGrid');
+            g.innerHTML = '<div class="cal-label">SUN</div><div class="cal-label">MON</div><div class="cal-label">TUE</div><div class="cal-label">WED</div><div class="cal-label">THU</div><div class="cal-label">FRI</div><div class="cal-label">SAT</div>';
             for(let i=1; i<=28; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'cal-cell';
-                cell.innerHTML = `<b>${i}</b>`;
-                if(plannerDb[i]) {
-                    plannerDb[i].forEach(ev => {
-                        cell.innerHTML += `<div class="ev-tag">${ev.time} ${ev.text}</div>`;
+                const c = document.createElement('div');
+                c.className = 'cal-cell';
+                c.innerHTML = `<b>${i}</b>`;
+                if(pDB[i]) {
+                    pDB[i].forEach((ev, idx) => {
+                        c.innerHTML += `<div class="ev-chip" onclick="event.stopPropagation(); editEv(${i}, ${idx})">${ev.t} ${ev.n}</div>`;
                     });
                 }
-                cell.onclick = () => {
-                    activePlannerDay = i;
-                    document.getElementById('modalDate').innerText = "FEBRUARY " + i + ", 2026";
-                    document.getElementById('evModal').style.display = 'block';
-                };
-                grid.appendChild(cell);
+                c.onclick = () => { activePDay = i; openPModal(); };
+                g.appendChild(c);
             }
         }
 
-        function confirmEv() {
-            const time = document.getElementById('evTime').value;
-            const text = document.getElementById('evText').value;
-            if(!plannerDb[activePlannerDay]) plannerDb[activePlannerDay] = [];
-            plannerDb[activePlannerDay].push({time, text});
-            localStorage.setItem('ultraviolence_planner', JSON.stringify(plannerDb));
-            closeModal(); initPlanner();
+        function openPModal() {
+            document.getElementById('modalTitle').innerText = "FEBRUARY " + activePDay;
+            const list = document.getElementById('existingEvents');
+            list.innerHTML = "";
+            if(pDB[activePDay]) {
+                pDB[activePDay].forEach((ev, idx) => {
+                    list.innerHTML += `<div style="background:#f0f0f0; padding:8px; margin-bottom:5px; display:flex; justify-content:space-between;">
+                        <span>${ev.t} - ${ev.n}</span>
+                        <button onclick="delEv(${activePDay}, ${idx})" style="color:red; border:none; background:none; cursor:pointer;">DEL</button>
+                    </div>`;
+                });
+            }
+            document.getElementById('pModal').style.display = 'block';
         }
 
-        function closeModal() { document.getElementById('evModal').style.display='none'; }
+        function addEv() {
+            const t = document.getElementById('evTime').value;
+            const n = document.getElementById('evName').value;
+            if(!pDB[activePDay]) pDB[activePDay] = [];
+            pDB[activePDay].push({t, n});
+            localStorage.setItem('uv_planner_v9', JSON.stringify(pDB));
+            renderPlanner(); openPModal();
+        }
 
-        /* DIARY LOGIC */
-        function initDiary() {
-            const container = document.getElementById('bookContainer');
-            container.classList.add('page-flip-anim');
+        function delEv(day, idx) {
+            pDB[day].splice(idx, 1);
+            localStorage.setItem('uv_planner_v9', JSON.stringify(pDB));
+            renderPlanner(); openPModal();
+        }
+
+        function closePModal() { document.getElementById('pModal').style.display='none'; }
+
+        /* DIARY */
+        function renderDiary() {
+            const wrap = document.getElementById('bWrap');
+            wrap.classList.add('flipping');
             
             setTimeout(() => {
-                const prettyDate = new Date(currentDay).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
-                document.getElementById('dateTag').innerText = prettyDate;
-                
-                const data = diaryDb[currentDay] || {l:"", r:""};
-                document.getElementById('leftArea').value = data.l;
-                document.getElementById('rightArea').value = data.r;
-                container.classList.remove('page-flip-anim');
-                updateBook();
-            }, 350);
+                const opt = { month: 'long', day: 'numeric', year: 'numeric' };
+                document.getElementById('dLabel').innerText = new Date(curD).toLocaleDateString('en-US', opt).toUpperCase();
+                const d = dDB[curD] || {l: "", r: ""};
+                document.getElementById('areaL').value = d.l;
+                document.getElementById('areaR').value = d.r;
+                wrap.classList.remove('flipping');
+                applyDiaryStyle();
+            }, 400);
         }
 
-        function save() {
-            diaryDb[currentDay] = {
-                l: document.getElementById('leftArea').value,
-                r: document.getElementById('rightArea').value
-            };
-            localStorage.setItem('ultraviolence_diary', JSON.stringify(diaryDb));
+        function saveDiary() {
+            dDB[curD] = { l: document.getElementById('areaL').value, r: document.getElementById('areaR').value };
+            localStorage.setItem('uv_diary_v9', JSON.stringify(dDB));
         }
 
-        function changeDay(dir) {
-            save();
-            let d = new Date(currentDay);
-            d.setDate(d.getDate() + dir);
-            currentDay = d.toISOString().split('T')[0];
-            initDiary();
+        function moveDiary(n) {
+            saveDiary();
+            let d = new Date(curD); d.setDate(d.getDate() + n);
+            curD = d.toISOString().split('T')[0];
+            renderDiary();
         }
 
-        function updateBook() {
-            const f = document.getElementById('fontSel').value;
+        function applyDiaryStyle() {
+            const f = document.getElementById('fntSel').value;
             const s = document.getElementById('sizeRange').value + "px";
-            document.querySelectorAll('#diary textarea').forEach(tx => {
-                tx.style.fontFamily = f;
-                tx.style.fontSize = s;
-            });
+            document.querySelectorAll('#diary textarea').forEach(tx => { tx.style.fontFamily = f; tx.style.fontSize = s; });
         }
 
-        function jumpTo(val) { if(val) { currentDay = val; initDiary(); } }
+        function jumpDiary(v) { if(v) { curD = v; renderDiary(); } }
 
-        function doSearch(q) {
-            const results = document.getElementById('searchResults');
-            results.innerHTML = "";
+        function searchDiary(q) {
+            const r = document.getElementById('sResults'); r.innerHTML = "";
             if(q.length < 2) return;
-            for(let date in diaryDb) {
-                if(diaryDb[date].l.includes(q) || diaryDb[date].r.includes(q)) {
-                    const item = document.createElement('div');
-                    item.style.padding="8px"; item.style.borderBottom="1px solid #333"; item.style.cursor="pointer";
-                    item.innerText = date;
-                    item.onclick = () => jumpTo(date);
-                    results.appendChild(item);
+            for(let d in dDB) {
+                if(dDB[d].l.includes(q) || dDB[d].r.includes(q)) {
+                    const dv = document.createElement('div');
+                    dv.style.padding="10px"; dv.style.borderBottom="1px solid #333"; dv.style.cursor="pointer";
+                    dv.innerText = d; dv.onclick = () => jumpDiary(d); r.appendChild(dv);
                 }
             }
         }
