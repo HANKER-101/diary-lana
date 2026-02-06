@@ -13,7 +13,7 @@
             --paper: #fdfaf0;
         }
 
-        body { background-color: var(--cream); margin: 0; padding: 0; font-family: 'Courier Prime', monospace; overflow-x: hidden; color: var(--ink); min-height: 100vh; }
+        body { background-color: #000; margin: 0; padding: 0; font-family: 'Courier Prime', monospace; overflow-x: hidden; color: white; min-height: 100vh; }
 
         /* NAVIGATION */
         nav {
@@ -30,63 +30,84 @@
         .view.active { display: block; }
         #diary.active { display: flex; justify-content: center; align-items: center; background: #1a120d; }
 
-        /* HOME PAGE */
-        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; min-height: 100vh; text-align: center; }
+        /* HOME PAGE - FIXED HOVER & TEXT */
+        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .hero-text { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 20px 0 0 0; color: white; }
-        .home-bio { font-family: 'Courier Prime'; max-width: 600px; opacity: 0.8; margin: 20px 0 40px 0; line-height: 1.6; }
+        .home-bio { font-family: 'Courier Prime'; max-width: 650px; opacity: 0.8; margin: 10px 0 50px 0; line-height: 1.6; font-size: 1.1rem; }
         
-        .scrapbook-area { display: flex; gap: 40px; justify-content: center; }
-        .polaroid { background: white; padding: 15px 15px 50px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); width: 250px; color: #000; }
-        .polaroid img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); }
-        .polaroid p { font-family: 'Dancing Script', cursive; font-size: 1.3rem; margin-top: 15px; }
+        .scrapbook-area { display: flex; gap: 40px; justify-content: center; align-items: center; padding-bottom: 50px; }
+        .polaroid { 
+            background: white; padding: 15px 15px 40px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+            transition: transform 0.6s ease; width: 250px; color: #000; cursor: pointer;
+        }
+        .polaroid img { 
+            width: 100%; height: 300px; object-fit: cover; 
+            filter: grayscale(100%); transition: filter 0.8s ease; 
+        }
+        .polaroid p { 
+            font-family: 'Dancing Script', cursive !important; 
+            font-size: 1.4rem; margin-top: 15px; color: #000;
+        }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
+        .polaroid:hover img { filter: grayscale(0%); }
 
-        /* PLANNER LAYOUT - RESTORED */
-        .planner-container { display: flex; height: calc(100vh - 80px); background: white; overflow: hidden; }
-        .sidebar { width: 320px; background: #000; color: white; padding: 25px; border-right: 2px solid var(--cherry); display: flex; flex-direction: column; }
-        .todo-input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; color: white; font-family: 'Courier Prime'; box-sizing: border-box; border-radius: 5px; }
-        .todo-list { list-style: none; padding: 0; margin-top: 20px; overflow-y: auto; }
-        .todo-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #222; }
-        
-        /* Rounded Checkbox */
-        .todo-item input[type="checkbox"] { appearance: none; width: 20px; height: 20px; border: 2px solid var(--cherry); border-radius: 50%; cursor: pointer; position: relative; flex-shrink: 0; }
+        /* PLANNER & CHECKLIST */
+        .planner-container { display: flex; height: calc(100vh - 80px); background: white; color: #000; }
+        .sidebar { width: 320px; background: #000; color: white; padding: 25px; border-right: 2px solid var(--cherry); }
+        .todo-input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; color: white; font-family: 'Courier Prime'; box-sizing: border-box; }
+        .todo-list { list-style: none; padding: 0; margin-top: 20px; }
+        .todo-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #222; }
+        .todo-item input[type="checkbox"] { appearance: none; width: 20px; height: 20px; border: 2px solid var(--cherry); border-radius: 50%; cursor: pointer; }
         .todo-item input[type="checkbox"]:checked { background: var(--cherry); }
 
-        /* CALENDAR GRID - RESTORED */
-        .calendar-view { flex-grow: 1; display: flex; flex-direction: column; }
+        /* CALENDAR GRID */
+        .calendar-view { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
         .grid-header { display: grid; grid-template-columns: 80px repeat(7, 1fr); background: #f9f9f9; border-bottom: 2px solid #000; }
         .day-label { padding: 10px; text-align: center; font-family: 'Bebas Neue'; border-left: 1px solid #ddd; }
-        .scroll-area { overflow-y: auto; flex-grow: 1; display: flex; }
-        .time-col { width: 80px; background: #f0f0f0; border-right: 1px solid #ccc; flex-shrink: 0; }
+        .scroll-area { overflow-y: scroll; flex-grow: 1; display: flex; }
+        .time-col { width: 80px; background: #f0f0f0; border-right: 1px solid #ccc; }
         .time-slot-label { height: 60px; text-align: center; font-size: 0.7rem; color: #888; border-bottom: 1px solid #eee; line-height: 60px; }
-        .grid-columns { display: grid; grid-template-columns: repeat(7, 1fr); width: 100%; position: relative; }
+        .grid-columns { display: grid; grid-template-columns: repeat(7, 1fr); width: 100%; }
         .grid-day { border-left: 1px solid #eee; height: 1440px; position: relative; }
         .hour-slot { height: 60px; border-bottom: 1px solid #f0f0f0; cursor: cell; }
-        .event { position: absolute; left: 2px; right: 2px; background: var(--cherry); color: white; padding: 5px; font-size: 0.7rem; border-radius: 3px; cursor: pointer; z-index: 10; border: 1px solid rgba(255,255,255,0.2); }
+        .event { position: absolute; left: 2px; right: 2px; background: var(--cherry); color: white; padding: 5px; font-size: 0.7rem; border-radius: 3px; cursor: pointer; }
 
-        /* DIARY SIDEBAR */
-        .archive-side { width: 300px; background: rgba(0,0,0,0.95); color: white; padding: 25px; height: 650px; display: flex; flex-direction: column; gap: 15px; }
-        .archive-side label { font-family: 'Bebas Neue'; color: #666; font-size: 0.8rem; }
-        .archive-side button { border-radius: 25px; cursor: pointer; transition: 0.3s; padding: 10px; font-family: 'Bebas Neue'; }
-
-        /* Custom Slider (No Blue) */
-        input[type=range] { -webkit-appearance: none; background: #333; height: 4px; border-radius: 5px; margin: 10px 0; }
+        /* DIARY CONTROLS - ROUNDED BUTTONS */
+        .archive-side { width: 280px; background: rgba(0,0,0,0.95); color: white; padding: 25px; height: 650px; display: flex; flex-direction: column; gap: 15px; }
+        .archive-side label { font-family: 'Bebas Neue'; color: #666; font-size: 0.8rem; letter-spacing: 1px; }
+        
+        input[type=range] { -webkit-appearance: none; background: #333; height: 4px; border-radius: 5px; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--cherry); cursor: pointer; }
+
+        .archive-side select, .archive-side input[type="date"], .archive-side input[type="text"] {
+            background: #111; border: 1px solid #333; color: white; padding: 10px; border-radius: 8px; font-family: 'Courier Prime';
+        }
+        .archive-side button { 
+            border-radius: 30px; padding: 12px; font-family: 'Bebas Neue'; cursor: pointer; transition: 0.3s; 
+        }
 
         /* DIARY BOOK */
         #bookWrapper { position: relative; perspective: 1500px; width: 900px; height: 650px; }
         #bookCover { width: 100%; height: 100%; background: #1a120d; border: 10px solid #000; border-left: 25px solid #000; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; position: absolute; transition: 0.8s; transform-origin: left; }
-        .book { width: 100%; height: 100%; background: var(--paper); display: flex; border: 4px solid #000; visibility: hidden; }
+        .book { width: 100%; height: 100%; background: var(--paper); display: flex; border: 4px solid #000; visibility: hidden; color: #000; }
         .page-content { width: 50%; padding: 50px; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; position: relative; }
-        textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; }
+        textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; font-size: 20px; }
         textarea.bold-text { font-weight: bold; }
 
-        /* MODAL */
-        #customModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20000; align-items: center; justify-content: center; }
-        .modal-box { background: var(--paper); padding: 40px; border: 5px solid #000; width: 400px; text-align: center; }
-        .modal-box h2 { font-family: 'Bebas Neue'; color: var(--cherry); margin-top: 0; }
+        /* CENTER MODAL */
+        #customModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 20000; align-items: center; justify-content: center;
+        }
+        .modal-box {
+            background: var(--paper); padding: 40px; border: 5px solid #000; width: 400px; text-align: center; color: #000;
+        }
+        .modal-box h2 { font-family: 'Bebas Neue'; color: var(--cherry); margin-top: 0; font-size: 2rem; }
         .modal-box input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #000; font-family: 'Courier Prime'; box-sizing: border-box; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; }
         .modal-btns button { padding: 10px 25px; font-family: 'Bebas Neue'; cursor: pointer; border: none; border-radius: 5px; }
+        .btn-save { background: var(--cherry); color: white; }
+        .btn-del { background: #000; color: white; }
     </style>
 </head>
 <body>
@@ -100,8 +121,11 @@
     <div id="home" class="view active">
         <div class="moodboard">
             <h1 class="hero-text">West Coast Log</h1>
-            <p style="letter-spacing: 5px; opacity: 0.6;">VINTAGE ARCHIVE.</p>
-            <p class="home-bio">Welcome to your digital log. This is a private space to architect your life, schedule your getaway, and archive your deepest thoughts.</p>
+            <p style="letter-spacing: 5px; opacity: 0.6; margin-bottom: 5px;">VINTAGE ARCHIVE.</p>
+            <p class="home-bio">
+                Welcome to your digital log. This is a private space to architect your life, 
+                schedule your getaway, and archive your deepest thoughts.
+            </p>
             <div class="scrapbook-area">
                 <div class="polaroid" style="transform: rotate(-3deg);"><img src="lanaflag.png"><p>"Red, white, blue"</p></div>
                 <div class="polaroid" style="transform: rotate(2deg);"><img src="coke.png"><p>"Coca-Cola"</p></div>
@@ -134,7 +158,7 @@
         <div class="archive-side">
             <h3 style="font-family:'Times New Roman'; color:var(--cherry); font-size:2rem; margin:0;">ARCHIVES</h3>
             <label>TYPEFACE</label>
-            <select id="fnt" onchange="styleBook()" style="background:#111; color:white; border:1px solid #333; padding:10px; border-radius:5px;">
+            <select id="fnt" onchange="styleBook()">
                 <option value="'IM Fell English SC'">Old English</option>
                 <option value="'Courier Prime'">Typewriter</option>
                 <option value="'Homemade Apple'">Handwritten</option>
@@ -150,13 +174,13 @@
             <label>INK SIZE</label>
             <input type="range" id="sz" min="14" max="35" value="20" oninput="styleBook()">
 
-            <button onclick="toggleBold()" style="background:#222; color:white; border:1px solid var(--cherry);">TOGGLE BOLD</button>
+            <button onclick="toggleBold()" style="background:#111; color:white; border:1px solid #333;">TOGGLE BOLD</button>
 
             <label>JUMP TO DATE</label>
-            <input type="date" id="dateJump" onchange="jump(this.value)" style="background:#111; color:white; border:1px solid #333; padding:10px; border-radius:5px;">
+            <input type="date" id="dateJump" onchange="jump(this.value)">
 
-            <label>SEARCH</label>
-            <input type="text" id="searchTerm" placeholder="Keywords..." onkeyup="searchWords()" style="background:#111; color:white; border:1px solid #333; padding:10px; border-radius:5px;">
+            <label>SEARCH LOGS</label>
+            <input type="text" id="searchTerm" placeholder="Keywords..." onkeyup="searchWords()">
             <div id="searchResults" style="overflow-y:auto; flex-grow:1;"></div>
 
             <button onclick="deleteEntry()" style="background:none; border:1px solid var(--cherry); color:var(--cherry);">BURN ENTRY</button>
@@ -189,8 +213,8 @@
             <h2 id="modalTitle">LOG ENTRY</h2>
             <input type="text" id="modalInput">
             <div class="modal-btns">
-                <button style="background:var(--cherry); color:white;" onclick="handleModalSave()">SAVE</button>
-                <button style="background:#000; color:white;" id="modalDelBtn" onclick="handleModalDelete()">DELETE</button>
+                <button class="btn-save" onclick="handleModalSave()">SAVE</button>
+                <button class="btn-del" id="modalDelBtn" onclick="handleModalDelete()">DELETE</button>
                 <button style="background:#ccc;" onclick="closeModal()">CANCEL</button>
             </div>
         </div>
@@ -209,31 +233,14 @@
             if(t==='diary') buildDiary();
         }
 
-        /* INITIALIZE PLANNER GRID */
-        const labels = document.getElementById('timeLabels');
-        const cols = document.getElementById('gridCols');
-        for(let i=0; i<24; i++) {
-            let l = document.createElement('div'); l.className='time-slot-label'; l.innerText=i+":00";
-            labels.appendChild(l);
-        }
-        for(let d=0; d<7; d++) {
-            let col = document.createElement('div'); col.className='grid-day';
-            for(let h=0; h<24; h++) {
-                let s = document.createElement('div'); s.className='hour-slot';
-                s.onclick = () => { selSlot={d,h}; openModal('NEW EVENT', '', 'new_event'); };
-                col.appendChild(s);
-            }
-            cols.appendChild(col);
-        }
-
-        /* MODAL LOGIC */
+        /* MODAL */
         function openModal(title, val, type, id = null) {
             document.getElementById('customModal').style.display = 'flex';
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalInput').value = val;
             currentEditingType = type;
             currentEditingId = id;
-            document.getElementById('modalDelBtn').style.display = (id || type==='event') ? 'block' : 'none';
+            document.getElementById('modalDelBtn').style.display = id ? 'block' : 'none';
         }
         function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
@@ -261,7 +268,21 @@
             closeModal();
         }
 
-        /* CHECKLIST */
+        /* PLANNER SETUP */
+        for(let i=0; i<24; i++) {
+            let l = document.createElement('div'); l.className='time-slot-label'; l.innerText=i+":00";
+            document.getElementById('timeLabels').appendChild(l);
+        }
+        for(let d=0; d<7; d++) {
+            let col = document.createElement('div'); col.className='grid-day';
+            for(let h=0; h<24; h++) {
+                let s = document.createElement('div'); s.className='hour-slot';
+                s.onclick = () => { selSlot={d,h}; openModal('NEW EVENT', '', 'new_event'); };
+                col.appendChild(s);
+            }
+            document.getElementById('gridCols').appendChild(col);
+        }
+
         function addTodo(e) {
             if(e.key==='Enter' && e.target.value!=="") {
                 const id = Date.now();
@@ -278,8 +299,7 @@
         function buildDiary() {
             document.getElementById('dateDisplay').innerText = new Date(day + 'T12:00:00').toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
             let data = logs[day] || {l:"", r:"", bold: false};
-            document.getElementById('txtL').value = data.l; 
-            document.getElementById('txtR').value = data.r;
+            document.getElementById('txtL').value = data.l; document.getElementById('txtR').value = data.r;
             if(data.bold) { document.getElementById('txtL').classList.add('bold-text'); document.getElementById('txtR').classList.add('bold-text'); }
             else { document.getElementById('txtL').classList.remove('bold-text'); document.getElementById('txtR').classList.remove('bold-text'); }
             styleBook();
