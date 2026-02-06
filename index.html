@@ -2,140 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultraviolence | Archive</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,900&family=Parisienne&family=Libre+Barcode+39&family=IM+Fell+English+SC&family=Dancing+Script&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,900&family=Parisienne&family=IM+Fell+English+SC&display=swap');
 
         :root {
             --cherry: #8b0000;
             --cream: #f4f1ea;
             --ink: #1a1a1a;
             --paper: #fdfaf0;
-            --sidebar-w: 260px;
         }
 
         body { background-color: var(--cream); margin: 0; padding: 0; font-family: 'Courier Prime', monospace; overflow: hidden; color: var(--ink); }
 
-        /* CLEAN TOP NAV */
+        /* FIXED NAV - ENSURES CONTENT BELOW IS VISIBLE */
         nav {
-            background: #000; padding: 20px; display: flex; justify-content: center; gap: 50px;
-            position: relative; z-index: 1000; border-bottom: 3px solid var(--cherry);
+            background: #000; height: 80px; display: flex; justify-content: center; align-items: center; gap: 50px;
+            position: fixed; top: 0; width: 100%; z-index: 9999; border-bottom: 3px solid var(--cherry);
         }
         nav button {
             background: transparent; border: none; color: white; font-family: 'Bebas Neue'; 
-            font-size: 2rem; cursor: pointer; letter-spacing: 4px; transition: 0.3s;
+            font-size: 1.8rem; cursor: pointer; letter-spacing: 4px; transition: 0.3s;
         }
         nav button:hover { color: var(--cherry); }
-        .active-nav { color: var(--cherry) !important; text-decoration: underline; }
+        .active-nav { color: var(--cherry) !important; text-shadow: 0 0 10px var(--cherry); }
 
-        .view { display: none; height: calc(100vh - 80px); width: 100%; overflow: hidden; }
+        .view { display: none; height: 100vh; width: 100%; box-sizing: border-box; padding-top: 80px; }
         .view.active { display: flex; }
 
-        /* HOME PAGE */
-        #home { flex-direction: column; align-items: center; justify-content: center; background: #000; color: white; text-align: center; }
-        .hero-title { font-family: 'Bebas Neue'; font-size: 9rem; letter-spacing: 20px; margin: 0; line-height: 0.9; }
-        .polaroid-set { display: flex; gap: 25px; margin-top: 40px; }
-        .polaroid { background: white; padding: 10px 10px 40px 10px; box-shadow: 0 15px 40px rgba(0,0,0,0.5); transition: 0.8s ease-in-out; cursor: pointer; }
-        .polaroid img { width: 220px; height: 280px; object-fit: cover; filter: grayscale(100%); transition: 1.5s; }
-        .polaroid p { color: black; font-family: 'Bebas Neue'; margin-top: 10px; font-size: 1.2rem; }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 5; }
+        /* HOME - REMOVED OBSTRUCTION */
+        #home { flex-direction: column; align-items: center; justify-content: flex-start; background: #000; color: white; text-align: center; padding-top: 120px; }
+        .hero-title { font-family: 'Bebas Neue'; font-size: 8rem; letter-spacing: 15px; margin: 0; line-height: 1; z-index: 1; }
+        .scrapbook-area { display: flex; gap: 30px; margin-top: 50px; }
+        
+        /* POLAROID - TITLES AT THE BOTTOM */
+        .polaroid { background: white; padding: 15px 15px 10px 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: 0.6s ease; }
+        .polaroid img { width: 220px; height: 280px; object-fit: cover; filter: grayscale(100%); transition: 1s; display: block; }
+        .polaroid p { color: black; font-family: 'Bebas Neue'; font-size: 1.2rem; margin: 15px 0 5px 0; text-align: center; }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; }
         .polaroid:hover img { filter: grayscale(0%); }
 
-        /* GOOGLE CALENDAR CLONE */
-        .planner-container { display: flex; width: 100%; background: white; }
-        .cal-sidebar { width: 280px; border-right: 1px solid #ddd; padding: 20px; background: #fcfcfc; }
-        .mini-cal { font-size: 0.8rem; text-align: center; margin-bottom: 30px; }
-        .calendar-body { flex-grow: 1; display: flex; flex-direction: column; }
-        .cal-head { display: grid; grid-template-columns: 60px repeat(7, 1fr); background: #fff; border-bottom: 1px solid #ddd; }
-        .head-cell { padding: 15px; text-align: center; border-right: 1px solid #eee; font-weight: bold; }
-        .time-grid { display: grid; grid-template-columns: 60px repeat(7, 1fr); overflow-y: scroll; flex-grow: 1; }
-        .hour-cell { height: 60px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; position: relative; }
-        .time-label { font-size: 0.7rem; color: #999; text-align: right; padding-right: 5px; padding-top: 5px; }
-        .event-tag { 
-            position: absolute; inset: 2px; background: var(--cherry); color: white; 
-            padding: 4px; border-radius: 4px; font-size: 0.7rem; cursor: pointer;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2); z-index: 2;
-        }
-
-        /* DIARY WITH PAGE TURN */
-        .diary-wrap { display: flex; width: 100%; }
+        /* DIARY & REAL PAGE TURN */
+        .diary-wrap { display: flex; width: 100%; height: 100%; }
         .archive-sidebar { 
-            width: var(--sidebar-w); background: #000; color: white; padding: 25px; 
-            display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;
+            width: 280px; background: #000; color: white; padding: 25px; 
+            display: flex; flex-direction: column; gap: 20px; z-index: 10;
         }
         .archive-sidebar h2 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--cherry); margin: 0; }
-        .book-area { flex-grow: 1; background: #130d0a; display: flex; align-items: center; justify-content: center; position: relative; }
         
-        /* 3D ANIMATION CLASSES */
+        .book-container { flex-grow: 1; background: #1a120d; display: flex; align-items: center; justify-content: center; perspective: 2000px; }
         .book { 
-            width: 900px; height: 600px; display: flex; box-shadow: 0 50px 100px #000; 
-            background: var(--paper); transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 850px; height: 580px; background: var(--paper); display: flex; 
+            box-shadow: 0 0 100px #000; position: relative; 
+            transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1); transform-style: preserve-3d;
         }
-        .page-left { width: 50%; border-right: 2px solid rgba(0,0,0,0.1); padding: 40px; position: relative; }
-        .page-right { width: 50%; padding: 40px; }
         
-        .flipping { animation: flipEffect 0.6s ease-in-out; }
-        @keyframes flipEffect {
-            0% { transform: perspective(1000px) rotateY(0deg); }
-            50% { transform: perspective(1000px) rotateY(-10deg) scale(0.95); filter: brightness(0.7); }
-            100% { transform: perspective(1000px) rotateY(0deg); }
-        }
+        /* 3D TURN ANIMATION */
+        .page-turn { transform: rotateY(-10deg) scale(0.95); filter: brightness(0.8); }
 
-        textarea { 
-            width: 100%; height: 100%; background: transparent; border: none; outline: none; 
-            resize: none; line-height: 35px; background-image: linear-gradient(#e5e5e5 1px, transparent 1px);
-            background-size: 100% 35px;
-        }
+        .page { width: 50%; padding: 40px; border: 1px solid rgba(0,0,0,0.05); background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; }
+        .page-left { border-right: 2px solid rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; font-size: 1.2rem; }
 
-        /* MODAL & UI */
-        .modal { 
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            background: white; border: 4px solid #000; padding: 30px; z-index: 2000; width: 320px;
-            box-shadow: 0 0 0 2000px rgba(0,0,0,0.8);
-        }
-        .btn-black { background: #000; color: white; border: none; padding: 10px; cursor: pointer; font-family: 'Bebas Neue'; width: 100%; margin-top: 10px; }
-        .btn-del { background: var(--cherry); margin-top: 5px; }
+        /* PLANNER - GOOGLE STYLE VERTICAL */
+        .planner-view { width: 100%; background: white; display: flex; }
+        .time-col { width: 70px; border-right: 1px solid #ddd; background: #f8f8f8; display: flex; flex-direction: column; }
+        .time-label { height: 60px; font-size: 0.7rem; color: #888; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #eee; }
+        .grid-main { flex-grow: 1; display: grid; grid-template-columns: repeat(7, 1fr); overflow-y: auto; height: calc(100vh - 150px); }
+        .day-col { border-right: 1px solid #eee; }
+        .day-header { padding: 10px; text-align: center; font-weight: bold; background: #eee; border-bottom: 1px solid #ddd; }
+        .slot { height: 60px; border-bottom: 1px solid #eee; cursor: cell; position: relative; }
+        .slot:hover { background: rgba(139, 0, 0, 0.05); }
+        .ev-box { position: absolute; inset: 2px; background: var(--cherry); color: white; font-size: 0.7rem; padding: 4px; border-radius: 3px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <nav>
-        <button onclick="tab('home')" id="nav-home">HOME</button>
-        <button onclick="tab('planner')" id="nav-planner">PLANNER</button>
-        <button onclick="tab('diary')" id="nav-diary">THE DIARY</button>
+        <button onclick="showTab('home')" id="btn-home">HOME</button>
+        <button onclick="showTab('planner')" id="btn-planner">PLANNER</button>
+        <button onclick="showTab('diary')" id="btn-diary">THE DIARY</button>
     </nav>
 
     <div id="home" class="view active">
         <h1 class="hero-title">ULTRAVIOLENCE</h1>
-        <div class="polaroid-set">
-            <div class="polaroid" style="transform: rotate(-3deg);"><p>GETAWAY</p><img src="Cadillac.png"></div>
-            <div class="polaroid" style="transform: rotate(2deg);"><p>LANA</p><img src="lanacig.png"></div>
-            <div class="polaroid" style="transform: rotate(-1deg);"><p>DIET SODA</p><img src="coke.png"></div>
+        <div class="scrapbook-area">
+            <div class="polaroid" style="transform: rotate(-3deg);"><img src="Cadillac.png"><p>GETAWAY</p></div>
+            <div class="polaroid" style="transform: rotate(2deg);"><img src="lanacig.png"><p>LANA</p></div>
+            <div class="polaroid" style="transform: rotate(-1deg);"><img src="coke.png"><p>DIET SODA</p></div>
         </div>
     </div>
 
     <div id="planner" class="view">
-        <div class="planner-container">
-            <div class="cal-sidebar">
-                <div class="mini-cal">
-                    <h3 style="font-family:'Bebas Neue'">FEBRUARY 2026</h3>
-                    <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:5px; opacity:0.6; font-size:0.6rem;">
-                        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
-                    </div>
-                </div>
-                <hr>
-                <p style="font-size:0.7rem; color:#666;">MY CALENDARS</p>
-                <div style="font-size:0.8rem;"><input type="checkbox" checked> <span style="color:var(--cherry)">●</span> Archive Log</div>
-            </div>
-            <div class="calendar-body">
-                <div class="cal-head">
-                    <div class="head-cell"></div>
-                    <div class="head-cell">SUN 1</div><div class="head-cell">MON 2</div><div class="head-cell">TUE 3</div>
-                    <div class="head-cell">WED 4</div><div class="head-cell">THU 5</div><div class="head-cell">FRI 6</div><div class="head-cell">SAT 7</div>
-                </div>
-                <div class="time-grid" id="gridMain"></div>
-            </div>
+        <div class="planner-view">
+            <div class="time-col" id="times"></div>
+            <div class="grid-main" id="grid"></div>
         </div>
     </div>
 
@@ -143,148 +104,111 @@
         <div class="diary-wrap">
             <div class="archive-sidebar">
                 <h2>ARCHIVES</h2>
-                <div style="font-size:0.7rem;">FONT STYLE</div>
-                <select id="fSel" onchange="upStyle()" style="padding:8px; background:#222; color:white; border:none;">
+                <div style="font-size:0.8rem">STYLE</div>
+                <select id="fnt" onchange="applyStyle()" style="padding:8px; background:#222; color:white; border:none;">
                     <option value="'Homemade Apple'">Handwritten</option>
-                    <option value="'Special Elite'">Typewriter</option>
+                    <option value="'Special Elite'">Grunge</option>
                     <option value="'Parisienne'">Coquette</option>
-                    <option value="'IM Fell English SC'">Old English</option>
                 </select>
-                <div style="font-size:0.7rem;">SIZE</div>
-                <input type="range" id="fSize" min="14" max="40" value="20" oninput="upStyle()">
-                <div style="font-size:0.7rem;">JUMP TO</div>
-                <input type="date" id="dateJump" onchange="jump(this.value)" style="padding:8px; background:#222; color:white; border:none;">
-                <input type="text" placeholder="Search..." onkeyup="search(this.value)" style="padding:8px; background:#222; color:white; border:none; margin-top:20px;">
-                <div id="results" style="overflow-y:auto; font-size:0.7rem;"></div>
+                <div style="font-size:0.8rem">DATE</div>
+                <input type="date" id="jumpDate" onchange="jump(this.value)" style="padding:8px; background:#222; color:white; border:none;">
+                <input type="text" placeholder="Search entries..." onkeyup="search(this.value)" style="padding:8px; background:#222; color:white; border:none; margin-top:10px;">
+                <div id="res" style="overflow-y:auto; flex-grow:1;"></div>
             </div>
-            <div class="book-area">
-                <div class="book" id="book">
-                    <div class="page-left">
-                        <h3 id="curDateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry); font-size:2.2rem; margin:0 0 10px 0;"></h3>
-                        <textarea id="txtL" onkeyup="save()" placeholder="Start writing..."></textarea>
+            <div class="book-container">
+                <div class="book" id="bookObj">
+                    <div class="page page-left">
+                        <h3 id="dateTag" style="font-family:'Bebas Neue'; color:var(--cherry); margin-bottom:15px;"></h3>
+                        <textarea id="L" onkeyup="save()" placeholder="Start writing..."></textarea>
                     </div>
-                    <div class="page-right">
-                        <textarea id="txtR" onkeyup="save()" placeholder="Continued..."></textarea>
+                    <div class="page">
+                        <textarea id="R" onkeyup="save()" placeholder="Continued..."></textarea>
                     </div>
                 </div>
-                <div style="position:absolute; bottom:20px; display:flex; gap:300px;">
-                    <button onclick="move(-1)" class="btn-black" style="width:150px;">PREV PAGE</button>
-                    <button onclick="move(1)" class="btn-black" style="width:150px;">NEXT PAGE</button>
+                <div style="position:absolute; bottom:30px; display:flex; gap:300px;">
+                    <button onclick="turn(-1)" style="background:#000; color:white; border:none; padding:10px 40px; cursor:pointer; font-family:'Bebas Neue';">PREV</button>
+                    <button onclick="turn(1)" style="background:#000; color:white; border:none; padding:10px 40px; cursor:pointer; font-family:'Bebas Neue';">NEXT</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="evModal">
-        <h3 id="modTitle" style="font-family:'Bebas Neue'; margin:0;">SCHEDULE</h3>
-        <input type="text" id="evInp" placeholder="Event Description" style="width:100%; padding:10px; margin-top:15px; box-sizing:border-box;">
-        <button class="btn-black" onclick="confirmEv()">SAVE EVENT</button>
-        <button id="delBtn" class="btn-black btn-del" onclick="deleteEv()" style="display:none;">DELETE EVENT</button>
-        <button onclick="closeModal()" style="display:block; width:100%; background:none; border:none; margin-top:10px; cursor:pointer;">Cancel</button>
-    </div>
-
     <script>
-        let currDay = new Date().toISOString().split('T')[0];
-        let diaryDb = JSON.parse(localStorage.getItem('uv_diary_v10')) || {};
-        let planDb = JSON.parse(localStorage.getItem('uv_plan_v10')) || {};
-        let activeSlot = null;
+        let day = new Date().toISOString().split('T')[0];
+        let logs = JSON.parse(localStorage.getItem('uv_logs_v3')) || {};
+        let evs = JSON.parse(localStorage.getItem('uv_evs_v3')) || {};
 
-        function tab(t) {
+        function showTab(t) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
             document.getElementById(t).classList.add('active');
-            document.getElementById('nav-'+t).classList.add('active-nav');
+            document.getElementById('btn-'+t).classList.add('active-nav');
             if(t === 'planner') initPlanner();
             if(t === 'diary') initDiary();
         }
 
-        /* PLANNER SYSTEM */
         function initPlanner() {
-            const grid = document.getElementById('gridMain');
-            grid.innerHTML = "";
+            const times = document.getElementById('times');
+            const grid = document.getElementById('grid');
+            times.innerHTML = ""; grid.innerHTML = "";
             for(let h=0; h<24; h++) {
-                const label = document.createElement('div');
-                label.className = 'hour-cell time-label';
-                label.innerText = (h === 0) ? "12 AM" : (h < 12) ? h + " AM" : (h === 12) ? "12 PM" : (h-12) + " PM";
-                grid.appendChild(label);
-
-                for(let d=0; d<7; d++) {
-                    const cell = document.createElement('div');
-                    cell.className = 'hour-cell';
-                    let key = `${d}-${h}`;
-                    if(planDb[key]) {
-                        cell.innerHTML = `<div class="event-tag" onclick="event.stopPropagation(); editEv('${key}')">${planDb[key]}</div>`;
-                    }
-                    cell.onclick = () => { activeSlot = key; openModal(false); };
-                    grid.appendChild(cell);
+                let lbl = document.createElement('div'); lbl.className = 'time-label'; lbl.innerText = h+":00";
+                times.appendChild(lbl);
+            }
+            for(let d=0; d<7; d++) {
+                let col = document.createElement('div'); col.className = 'day-col';
+                let head = document.createElement('div'); head.className = 'day-header'; head.innerText = "DAY "+(d+1);
+                col.appendChild(head);
+                for(let h=0; h<24; h++) {
+                    let s = document.createElement('div'); s.className = 'slot';
+                    let key = d+'-'+h;
+                    if(evs[key]) s.innerHTML = `<div class="ev-box" onclick="event.stopPropagation(); delEv('${key}')">${evs[key]}</div>`;
+                    s.onclick = () => { let v = prompt("Event?"); if(v) { evs[key]=v; localStorage.setItem('uv_evs_v3', JSON.stringify(evs)); initPlanner(); } };
+                    col.appendChild(s);
                 }
+                grid.appendChild(col);
             }
         }
 
-        function openModal(isEdit) {
-            document.getElementById('evModal').style.display = 'block';
-            document.getElementById('delBtn').style.display = isEdit ? 'block' : 'none';
-            document.getElementById('evInp').value = isEdit ? planDb[activeSlot] : "";
-        }
+        function delEv(k) { delete evs[k]; localStorage.setItem('uv_evs_v3', JSON.stringify(evs)); initPlanner(); }
 
-        function confirmEv() {
-            let val = document.getElementById('evInp').value;
-            if(val) {
-                planDb[activeSlot] = val;
-                localStorage.setItem('uv_plan_v10', JSON.stringify(planDb));
-                initPlanner(); closeModal();
-            }
-        }
-
-        function editEv(key) { activeSlot = key; openModal(true); }
-        function deleteEv() { delete planDb[activeSlot]; localStorage.setItem('uv_plan_v10', JSON.stringify(planDb)); initPlanner(); closeModal(); }
-        function closeModal() { document.getElementById('evModal').style.display = 'none'; }
-
-        /* DIARY SYSTEM */
         function initDiary() {
-            const b = document.getElementById('book');
-            b.classList.add('flipping');
+            const book = document.getElementById('bookObj');
+            book.classList.add('page-turn'); // Visual feedback for turn
             setTimeout(() => {
-                const pretty = new Date(currDay).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
-                document.getElementById('curDateDisplay').innerText = pretty;
-                let data = diaryDb[currDay] || {l:"", r:""};
-                document.getElementById('txtL').value = data.l;
-                document.getElementById('txtR').value = data.r;
-                b.classList.remove('flipping');
-                upStyle();
+                document.getElementById('dateTag').innerText = new Date(day).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
+                let data = logs[day] || {l:"", r:""};
+                document.getElementById('L').value = data.l;
+                document.getElementById('R').value = data.r;
+                book.classList.remove('page-turn');
+                applyStyle();
             }, 300);
         }
 
         function save() {
-            diaryDb[currDay] = { l: document.getElementById('txtL').value, r: document.getElementById('txtR').value };
-            localStorage.setItem('uv_diary_v10', JSON.stringify(diaryDb));
+            logs[day] = { l: document.getElementById('L').value, r: document.getElementById('R').value };
+            localStorage.setItem('uv_logs_v3', JSON.stringify(logs));
         }
 
-        function move(n) {
+        function turn(n) {
             save();
-            let d = new Date(currDay); d.setDate(d.getDate() + n);
-            currDay = d.toISOString().split('T')[0];
+            let d = new Date(day); d.setDate(d.getDate() + n);
+            day = d.toISOString().split('T')[0];
             initDiary();
         }
 
-        function upStyle() {
-            const f = document.getElementById('fSel').value;
-            const s = document.getElementById('fSize').value + "px";
-            document.querySelectorAll('#diary textarea').forEach(t => { t.style.fontFamily = f; t.style.fontSize = s; });
+        function applyStyle() {
+            const f = document.getElementById('fnt').value;
+            document.querySelectorAll('#diary textarea').forEach(t => t.style.fontFamily = f);
         }
 
-        function jump(v) { if(v) { currDay = v; initDiary(); } }
-
+        function jump(v) { day = v; initDiary(); }
         function search(q) {
-            const res = document.getElementById('results'); res.innerHTML = "";
+            const r = document.getElementById('res'); r.innerHTML = "";
             if(q.length < 2) return;
-            for(let d in diaryDb) {
-                if(diaryDb[d].l.includes(q) || diaryDb[d].r.includes(q)) {
-                    let div = document.createElement('div');
-                    div.style.padding="5px; cursor:pointer;";
-                    div.innerText = "→ " + d;
-                    div.onclick = () => jump(d);
-                    res.appendChild(div);
+            for(let d in logs) {
+                if(logs[d].l.includes(q)) {
+                    let i = document.createElement('div'); i.innerText = d; i.style.padding="5px"; i.onclick = () => jump(d); r.appendChild(i);
                 }
             }
         }
