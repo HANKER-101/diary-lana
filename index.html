@@ -29,79 +29,7 @@
         .view.active { display: block; }
 
         /* HOME PAGE FIXES */
-        .moodboard { padding: 50px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            background: #000; 
-            color: white; 
-            min-height: 100vh; 
-            position: relative; 
-            overflow: hidden;
-        }
-        
-        /* THE UPDATED HERO TEXT WITH GLITCH */
-        .hero-text { 
-            font-family: 'Playfair Display'; 
-            font-style: italic; 
-            font-size: 6rem; 
-            margin: 20px 0 0 0; 
-            color: white; 
-            text-transform: none; 
-            position: relative;
-            animation: glitch 3s infinite;
-            z-index: 3;
-        }
-
-        /* THE VHS REC LIGHT */
-        .rec-light {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            font-family: 'Courier Prime', monospace;
-            color: white;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 2px;
-            z-index: 10;
-        }
-        .dot {
-            width: 12px;
-            height: 12px;
-            background-color: red;
-            border-radius: 50%;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes glitch {
-            0% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,255,0.75); }
-            14% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,255,0.75); }
-            15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,255,0.75); }
-            49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,255,0.75); }
-            50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,255,0.75); }
-            99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,255,0.75); }
-            100% { text-shadow: -0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,255,0.75); }
-        }
-
-        .home-bio {
-            max-width: 500px;
-            text-align: center;
-            line-height: 1.8;
-            margin-top: 30px;
-            font-size: 1rem;
-            color: #fdfaf0;
-            opacity: 0.6;
-            font-family: 'Courier Prime', monospace;
-            z-index: 3;
-        }
+        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; min-height: 100vh; }
         
         /* FIXED: Album Style Font */
         .hero-text { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 20px 0 0 0; color: white; text-transform: none; }
@@ -371,6 +299,7 @@
     </script>
 </body>
 </html>
+
 
 
 
