@@ -15,6 +15,7 @@
 
         body { background-color: var(--cream); margin: 0; padding: 0; font-family: 'Courier Prime', monospace; overflow-x: hidden; color: var(--ink); min-height: 100vh; }
 
+        /* NAVIGATION */
         nav {
             background: #000; padding: 20px; display: flex; justify-content: center; gap: 50px;
             position: sticky; top: 0; z-index: 9999; border-bottom: 4px solid var(--cherry);
@@ -25,61 +26,83 @@
         }
         nav button:hover { color: var(--cherry); }
 
-        /* VIEW TOGGLING - Fixed the !important conflict */
         .view { display: none; width: 100%; min-height: 100vh; }
         .view.active { display: block; }
         #diary.active { display: flex; justify-content: center; align-items: center; background: #1a120d; }
 
-        /* MOODBOARD STYLING */
-        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; min-height: 100vh; }
+        /* HOME PAGE */
+        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; min-height: 100vh; text-align: center; }
         .hero-text { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 20px 0 0 0; color: white; }
-        .scrapbook-area { display: flex; gap: 40px; margin-top: 40px; flex-wrap: nowrap; }
-        .polaroid { background: white; padding: 15px 15px 60px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: 0.4s; cursor: pointer; width: 250px; }
-        .polaroid img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
+        .home-bio { font-family: 'Courier Prime'; max-width: 600px; opacity: 0.8; margin: 20px 0 40px 0; line-height: 1.6; }
+        
+        .scrapbook-area { display: flex; gap: 40px; justify-content: center; flex-wrap: nowrap; }
+        .polaroid { background: white; padding: 15px 15px 50px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: 0.4s; width: 250px; color: #000; }
+        .polaroid img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .polaroid p { font-family: 'Dancing Script', cursive; font-size: 1.3rem; margin-top: 15px; }
+        .polaroid:hover { transform: scale(1.05); }
         .polaroid:hover img { filter: grayscale(0%); }
 
         /* PLANNER & CHECKLIST */
         .planner-container { display: flex; height: calc(100vh - 80px); background: white; }
-        .sidebar { width: 300px; background: #000; color: white; padding: 25px; border-right: 2px solid var(--cherry); display: flex; flex-direction: column; }
-        .sidebar h2 { font-family: 'Bebas Neue'; color: var(--cherry); font-size: 2rem; }
-        .todo-input { width: 100%; padding: 10px; background: #111; border: 1px solid #333; color: white; margin-bottom: 15px; font-family: 'Courier Prime'; }
+        .sidebar { width: 320px; background: #000; color: white; padding: 25px; border-right: 2px solid var(--cherry); }
+        .todo-input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; color: white; font-family: 'Courier Prime'; box-sizing: border-box; }
+        .todo-list { list-style: none; padding: 0; margin-top: 20px; }
+        .todo-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #222; }
         
-        /* Custom Checklist Checkbox Styling */
-        .todo-list { list-style: none; padding: 0; }
-        .todo-item { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #222; padding: 10px 0; }
-        .todo-item input[type="checkbox"] { appearance: none; width: 18px; height: 18px; border: 2px solid var(--cherry); cursor: pointer; position: relative; }
+        /* Rounded Checkbox */
+        .todo-item input[type="checkbox"] { appearance: none; width: 20px; height: 20px; border: 2px solid var(--cherry); border-radius: 50%; cursor: pointer; position: relative; }
         .todo-item input[type="checkbox"]:checked { background: var(--cherry); }
-        .todo-item input[type="checkbox"]:checked::after { content: '✓'; color: white; position: absolute; top: -3px; left: 2px; }
-        .todo-item span { flex-grow: 1; cursor: pointer; font-size: 0.9rem; }
-        .todo-item .del-btn { background: none; border: none; color: #444; cursor: pointer; font-size: 14px; }
-        .todo-item .del-btn:hover { color: var(--cherry); }
 
-        /* CALENDAR ACTIONS */
-        .event { position: absolute; left: 2px; right: 2px; background: var(--cherry); color: white; padding: 5px; font-size: 0.7rem; border-radius: 3px; cursor: pointer; }
-        .event-tools { display: none; position: absolute; right: 0; top: 0; background: #000; gap: 2px; padding: 2px; }
-        .event:hover .event-tools { display: flex; }
-        .ev-btn { background: #222; color: white; border: none; font-size: 8px; cursor: pointer; padding: 2px 4px; font-family: 'Bebas Neue'; }
-        .ev-btn:hover { background: var(--cherry); }
+        /* CALENDAR */
+        .calendar-view { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .grid-header { display: grid; grid-template-columns: 80px repeat(7, 1fr); background: #f9f9f9; border-bottom: 2px solid #000; }
+        .day-label { padding: 10px; text-align: center; font-family: 'Bebas Neue'; border-left: 1px solid #ddd; }
+        .scroll-area { overflow-y: scroll; flex-grow: 1; display: flex; }
+        .time-col { width: 80px; background: #f0f0f0; border-right: 1px solid #ccc; }
+        .time-slot-label { height: 60px; text-align: center; font-size: 0.7rem; color: #888; border-bottom: 1px solid #eee; line-height: 60px; }
+        .grid-columns { display: grid; grid-template-columns: repeat(7, 1fr); width: 100%; }
+        .grid-day { border-left: 1px solid #eee; height: 1440px; position: relative; }
+        .hour-slot { height: 60px; border-bottom: 1px solid #f0f0f0; cursor: cell; }
+        .event { position: absolute; left: 2px; right: 2px; background: var(--cherry); color: white; padding: 5px; font-size: 0.7rem; border-radius: 3px; cursor: pointer; overflow: hidden; }
 
-        /* DIARY SIDEBAR UI FIXES */
-        .archive-side { width: 280px; background: rgba(0,0,0,0.95); color: white; padding: 25px; height: 650px; display: flex; flex-direction: column; gap: 10px; }
-        .archive-side label { font-family: 'Bebas Neue'; letter-spacing: 2px; font-size: 0.8rem; color: #777; margin-top: 10px; }
+        /* THEMED DIARY CONTROLS */
+        .archive-side { width: 280px; background: rgba(0,0,0,0.95); color: white; padding: 25px; height: 650px; display: flex; flex-direction: column; gap: 15px; }
+        .archive-side label { font-family: 'Bebas Neue'; color: #666; font-size: 0.8rem; letter-spacing: 1px; }
         
-        /* Styled Inputs/Buttons for Diary */
-        .archive-side select, .archive-side input[type="date"], .archive-side input[type="text"] {
-            background: #111; border: 1px solid #333; color: white; padding: 10px; font-family: 'Courier Prime'; outline: none; transition: 0.3s;
-        }
-        .archive-side select:focus, .archive-side input:focus { border-color: var(--cherry); }
-        .archive-side button { cursor: pointer; transition: 0.3s; }
+        /* Custom Slider Styling (Removing the Blue) */
+        input[type=range] { -webkit-appearance: none; background: #333; height: 4px; border-radius: 5px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--cherry); cursor: pointer; }
 
+        .archive-side select, .archive-side input[type="date"], .archive-side input[type="text"] {
+            background: #111; border: 1px solid #333; color: white; padding: 10px; border-radius: 5px; font-family: 'Courier Prime';
+        }
+
+        /* DIARY BOOK */
         #bookWrapper { position: relative; perspective: 1500px; width: 900px; height: 650px; }
         #bookCover { width: 100%; height: 100%; background: #1a120d; border: 10px solid #000; border-left: 25px solid #000; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; position: absolute; transition: 0.8s; transform-origin: left; }
-        .book { width: 100%; height: 100%; background: var(--paper); display: flex; position: relative; border: 4px solid #000; visibility: hidden; }
+        .book { width: 100%; height: 100%; background: var(--paper); display: flex; border: 4px solid #000; visibility: hidden; box-shadow: 0 50px 100px rgba(0,0,0,0.5); }
         .page-content { width: 50%; padding: 50px; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; position: relative; }
         textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; }
+        textarea.bold-text { font-weight: bold; }
 
-        #modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 5px solid #000; padding: 30px; z-index: 10001; }
+        /* THE "PROPER" MODAL (Center Screen) */
+        #customModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 20000; align-items: center; justify-content: center;
+        }
+        .modal-box {
+            background: var(--paper); padding: 40px; border: 5px solid #000; width: 400px; text-align: center;
+            box-shadow: 0 0 50px var(--cherry);
+        }
+        .modal-box h2 { font-family: 'Bebas Neue'; color: var(--cherry); margin-top: 0; }
+        .modal-box input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #000; font-family: 'Courier Prime'; box-sizing: border-box; }
+        .modal-btns { display: flex; gap: 10px; justify-content: center; }
+        .modal-btns button { 
+            padding: 10px 25px; font-family: 'Bebas Neue'; cursor: pointer; border: none; font-size: 1.1rem;
+        }
+        .btn-save { background: var(--cherry); color: white; }
+        .btn-del { background: #000; color: white; }
+        .btn-cancel { background: #ccc; color: #333; }
     </style>
 </head>
 <body>
@@ -93,11 +116,15 @@
     <div id="home" class="view active">
         <div class="moodboard">
             <h1 class="hero-text">West Coast Log</h1>
+            <p style="letter-spacing: 5px; opacity: 0.6;">VINTAGE ARCHIVE.</p>
+            <p class="home-bio">
+                Welcome to your digital log. This is a private space to architect your life, 
+                schedule your getaway, and archive your deepest thoughts.
+            </p>
             <div class="scrapbook-area">
-                <div class="polaroid" style="transform:rotate(-3deg)"><img src="lanaflag.png"><p style="color:black;text-align:center;font-family:'Dancing Script';margin:20px;">"Red, white, blue is in the sky"</p></div>
-                <div class="polaroid" style="transform:rotate(2deg)"><img src="coke.png"><p style="color:black;text-align:center;font-family:'Dancing Script';margin:20px;">"Jimmy gon' buy me a Coca-Cola"</p></div>
-                <div class="polaroid" style="transform:rotate(-1deg)"><img src="lanacig.png"><p style="color:black;text-align:center;font-family:'Dancing Script';margin:20px;">"His Parliament's on fire and his hands are up"</p></div>
-        
+                <div class="polaroid" style="transform: rotate(-3deg);"><img src="lanaflag.png"><p>"Red, white, blue"</p></div>
+                <div class="polaroid" style="transform: rotate(2deg);"><img src="coke.png"><p>"Coca-Cola"</p></div>
+                <div class="polaroid" style="transform: rotate(-1deg);"><img src="lanacig.png"><p>"Sweet like cigarettes"</p></div>
             </div>
         </div>
     </div>
@@ -105,7 +132,7 @@
     <div id="planner" class="view">
         <div class="planner-container">
             <div class="sidebar">
-                <h2>CHECKLIST</h2>
+                <h2 style="font-family:'Bebas Neue'; color:var(--cherry);">CHECKLIST</h2>
                 <input type="text" class="todo-input" id="todoInp" placeholder="+ Add task..." onkeypress="addTodo(event)">
                 <ul class="todo-list" id="todoList"></ul>
             </div>
@@ -125,7 +152,6 @@
     <div id="diary" class="view">
         <div class="archive-side">
             <h3 style="font-family:'Times New Roman'; color:var(--cherry); font-size:2rem; margin:0;">ARCHIVES</h3>
-            
             <label>TYPEFACE</label>
             <select id="fnt" onchange="styleBook()">
                 <option value="'IM Fell English SC'">Old English</option>
@@ -139,9 +165,12 @@
                 <option value="'Arial'">Arial</option>
                 <option value="'Bebas Neue'">Bold Display</option>
             </select>
-
+            
             <label>INK SIZE</label>
             <input type="range" id="sz" min="14" max="35" value="20" oninput="styleBook()">
+
+            <label>EMPHASIS</label>
+            <button onclick="toggleBold()" style="background:#111; color:white; border:1px solid #333; padding:10px; font-family:'Bebas Neue'; cursor:pointer;">TOGGLE BOLD</button>
 
             <label>JUMP TO DATE</label>
             <input type="date" id="dateJump" onchange="jump(this.value)">
@@ -150,8 +179,8 @@
             <input type="text" id="searchTerm" placeholder="Keywords..." onkeyup="searchWords()">
             <div id="searchResults" style="overflow-y:auto; flex-grow:1;"></div>
 
-            <button onclick="deleteEntry()" style="color:var(--cherry); border:1px solid var(--cherry); background:none; padding:10px; font-family:'Bebas Neue'; margin-top:10px;">BURN ENTRY</button>
-            <button onclick="closeBook()" style="background:var(--cherry); color:white; border:none; padding:10px; font-family:'Bebas Neue';">CLOSE ARCHIVE</button>
+            <button onclick="deleteEntry()" style="background:none; border:1px solid var(--cherry); color:var(--cherry); padding:10px; font-family:'Bebas Neue'; cursor:pointer;">BURN ENTRY</button>
+            <button onclick="closeBook()" style="background:var(--cherry); color:white; border:none; padding:10px; font-family:'Bebas Neue'; cursor:pointer;">CLOSE ARCHIVE</button>
         </div>
 
         <div id="bookWrapper">
@@ -165,26 +194,33 @@
                 <div class="page-content" style="border-right:1px solid #ddd;">
                     <h3 id="dateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0;"></h3>
                     <textarea id="txtL" onkeyup="save()" placeholder="Write..."></textarea>
-                    <button onclick="move(-1)" style="position:absolute; bottom:20px; left:20px; background:black; color:white; border:none; padding:5px 15px; cursor:pointer; font-family:'Bebas Neue';">PREV</button>
+                    <button onclick="move(-1)" style="position:absolute; bottom:20px; left:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue';">PREV</button>
                 </div>
                 <div class="page-content">
                     <textarea id="txtR" onkeyup="save()" placeholder="..."></textarea>
-                    <button onclick="move(1)" style="position:absolute; bottom:20px; right:20px; background:black; color:white; border:none; padding:5px 15px; cursor:pointer; font-family:'Bebas Neue';">NEXT</button>
+                    <button onclick="move(1)" style="position:absolute; bottom:20px; right:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue';">NEXT</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="modal">
-        <h3 style="font-family:'Bebas Neue';">NEW EVENT</h3>
-        <input type="text" id="evN" placeholder="Description..." style="width:100%; padding:10px; box-sizing:border-box;"><br><br>
-        <button onclick="saveEv()" style="background:var(--cherry); color:white; width:100%; border:none; padding:10px; font-family:'Bebas Neue'; cursor:pointer;">SAVE</button>
-        <button onclick="document.getElementById('modal').style.display='none'" style="width:100%; margin-top:5px; border:none; padding:5px; cursor:pointer;">CANCEL</button>
+    <div id="customModal">
+        <div class="modal-box">
+            <h2 id="modalTitle">LOG ENTRY</h2>
+            <input type="text" id="modalInput">
+            <div class="modal-btns">
+                <button class="btn-save" onclick="handleModalSave()">SAVE</button>
+                <button class="btn-del" id="modalDelBtn" onclick="handleModalDelete()">DELETE</button>
+                <button class="btn-cancel" onclick="closeModal()">CANCEL</button>
+            </div>
+        </div>
     </div>
 
     <script>
         let day = new Date().toISOString().split('T')[0];
         let logs = JSON.parse(localStorage.getItem('uv_logs')) || {};
+        let currentEditingId = null;
+        let currentEditingType = null; // 'todo' or 'event'
         let selSlot = null;
 
         function tab(t) {
@@ -193,80 +229,103 @@
             if(t==='diary') buildDiary();
         }
 
-        /* CALENDAR GENERATION */
-        const timeLabels = document.getElementById('timeLabels');
-        const gridCols = document.getElementById('gridCols');
+        /* MODAL LOGIC */
+        function openModal(title, val, type, id = null) {
+            document.getElementById('customModal').style.display = 'flex';
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalInput').value = val;
+            currentEditingType = type;
+            currentEditingId = id;
+            document.getElementById('modalDelBtn').style.display = id ? 'block' : 'none';
+        }
+
+        function closeModal() { document.getElementById('customModal').style.display = 'none'; }
+
+        function handleModalSave() {
+            const val = document.getElementById('modalInput').value;
+            if(!val) return;
+
+            if(currentEditingType === 'new_event') {
+                const id = Date.now();
+                const ev = document.createElement('div');
+                ev.className = 'event'; ev.id = `ev-${id}`;
+                ev.style.top = (selSlot.h * 60 + 5) + "px";
+                ev.innerHTML = `<span onclick="openModal('EDIT EVENT', '${val}', 'event', '${id}')">${val}</span>`;
+                document.getElementById('gridCols').children[selSlot.d].appendChild(ev);
+            } else if(currentEditingType === 'event') {
+                document.querySelector(`#ev-${currentEditingId} span`).innerText = val;
+            } else if(currentEditingType === 'todo') {
+                document.querySelector(`#todo-${currentEditingId} span`).innerText = val;
+            }
+            closeModal();
+        }
+
+        function handleModalDelete() {
+            if(currentEditingType === 'event') document.getElementById(`ev-${currentEditingId}`).remove();
+            if(currentEditingType === 'todo') document.getElementById(`todo-${currentEditingId}`).remove();
+            closeModal();
+        }
+
+        /* PLANNER */
         for(let i=0; i<24; i++) {
             let l = document.createElement('div'); l.className='time-slot-label'; l.innerText=i+":00";
-            timeLabels.appendChild(l);
+            document.getElementById('timeLabels').appendChild(l);
         }
         for(let d=0; d<7; d++) {
             let col = document.createElement('div'); col.className='grid-day';
             for(let h=0; h<24; h++) {
                 let s = document.createElement('div'); s.className='hour-slot';
-                s.onclick = () => { selSlot={d,h}; document.getElementById('modal').style.display='block'; };
+                s.onclick = () => { selSlot={d,h}; openModal('NEW EVENT', '', 'new_event'); };
                 col.appendChild(s);
             }
-            gridCols.appendChild(col);
+            document.getElementById('gridCols').appendChild(col);
         }
 
-        /* PLANNER ACTIONS */
-        function saveEv() {
-            const n = document.getElementById('evN').value;
-            if(!n) return;
-            const id = Date.now();
-            const ev = document.createElement('div');
-            ev.className = 'event'; ev.id = `ev-${id}`;
-            ev.style.top = (selSlot.h * 60 + 5) + "px";
-            ev.innerHTML = `<span onclick="alert('Event Details: ${n}')">${n}</span>
-                <div class="event-tools">
-                    <button class="ev-btn" onclick="editEv('${id}')">EDIT</button>
-                    <button class="ev-btn" onclick="delEv('${id}')">DEL</button>
-                </div>`;
-            gridCols.children[selSlot.d].appendChild(ev);
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('evN').value = "";
-        }
-        function delEv(id) { event.stopPropagation(); document.getElementById(`ev-${id}`).remove(); }
-        function editEv(id) {
-            event.stopPropagation();
-            const ev = document.getElementById(`ev-${id}`);
-            const span = ev.querySelector('span');
-            const newVal = prompt("Edit event:", span.innerText);
-            if(newVal) span.innerText = newVal;
-        }
-
-        /* CHECKLIST ACTIONS */
+        /* CHECKLIST */
         function addTodo(e) {
             if(e.key==='Enter' && e.target.value!=="") {
                 const id = Date.now();
+                const val = e.target.value;
                 const li = document.createElement('li');
                 li.className = 'todo-item'; li.id = `todo-${id}`;
-                li.innerHTML = `<input type="checkbox"> <span onclick="editTodo('${id}')">${e.target.value}</span>
-                    <button class="del-btn" onclick="delTodo('${id}')">✕</button>`;
+                li.innerHTML = `<input type="checkbox"> <span onclick="openModal('EDIT TASK', '${val}', 'todo', '${id}')">${val}</span>`;
                 document.getElementById('todoList').appendChild(li);
                 e.target.value = "";
             }
         }
-        function delTodo(id) { document.getElementById(`todo-${id}`).remove(); }
-        function editTodo(id) {
-            const span = document.querySelector(`#todo-${id} span`);
-            const newVal = prompt("Edit task:", span.innerText);
-            if(newVal) span.innerText = newVal;
-        }
 
-        /* DIARY LOGIC */
+        /* DIARY */
         function buildDiary() {
             document.getElementById('dateDisplay').innerText = new Date(day + 'T12:00:00').toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
-            let data = logs[day] || {l:"", r:""};
+            let data = logs[day] || {l:"", r:"", bold: false};
             document.getElementById('txtL').value = data.l; 
             document.getElementById('txtR').value = data.r;
+            if(data.bold) {
+                document.getElementById('txtL').classList.add('bold-text');
+                document.getElementById('txtR').classList.add('bold-text');
+            } else {
+                document.getElementById('txtL').classList.remove('bold-text');
+                document.getElementById('txtR').classList.remove('bold-text');
+            }
             styleBook();
         }
+
         function save() {
-            logs[day] = {l: document.getElementById('txtL').value, r: document.getElementById('txtR').value};
+            const isBold = document.getElementById('txtL').classList.contains('bold-text');
+            logs[day] = {
+                l: document.getElementById('txtL').value, 
+                r: document.getElementById('txtR').value,
+                bold: isBold
+            };
             localStorage.setItem('uv_logs', JSON.stringify(logs));
         }
+
+        function toggleBold() {
+            document.getElementById('txtL').classList.toggle('bold-text');
+            document.getElementById('txtR').classList.toggle('bold-text');
+            save();
+        }
+
         function move(n) {
             save(); 
             let d = new Date(day + 'T12:00:00');
@@ -274,23 +333,28 @@
             day = d.toISOString().split('T')[0]; 
             buildDiary();
         }
+
         function openBook() {
             const cover = document.getElementById('bookCover');
             cover.style.transform = "rotateY(-110deg)";
             cover.style.opacity = "0";
             setTimeout(() => { cover.style.visibility = "hidden"; document.getElementById('bookObj').style.visibility = "visible"; }, 600);
         }
+
         function closeBook() {
             const cover = document.getElementById('bookCover');
             document.getElementById('bookObj').style.visibility = "hidden";
             cover.style.visibility = "visible"; cover.style.opacity = "1"; cover.style.transform = "rotateY(0deg)";
         }
+
         function styleBook() {
             let f = document.getElementById('fnt').value; 
             let s = document.getElementById('sz').value+"px";
             document.querySelectorAll('#diary textarea').forEach(t => { t.style.fontFamily=f; t.style.fontSize=s; });
         }
+
         function jump(v) { if(v) { day=v; buildDiary(); } }
+
         function searchWords() {
             const query = document.getElementById('searchTerm').value.toLowerCase();
             const res = document.getElementById('searchResults');
@@ -299,18 +363,17 @@
             for (let d in logs) {
                 if((logs[d].l + logs[d].r).toLowerCase().includes(query)) {
                     let div = document.createElement('div');
-                    div.style.padding = "5px"; div.style.cursor = "pointer"; div.style.color = "var(--cherry)";
+                    div.style.padding = "10px"; div.style.cursor = "pointer"; div.style.color = "var(--cherry)";
                     div.innerText = d;
                     div.onclick = () => { day = d; buildDiary(); };
                     res.appendChild(div);
                 }
             }
         }
+
         function deleteEntry() {
             if (confirm("Burn this entry?")) { delete logs[day]; localStorage.setItem('uv_logs', JSON.stringify(logs)); buildDiary(); }
         }
     </script>
 </body>
 </html>
-
-
