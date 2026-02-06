@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Ultraviolence | Pro Planner & Diary</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Times+New+Roman&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,700&family=Parisienne&family=Dancing+Script&family=IM+Fell+English+SC&family=Libre+Barcode+39&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Times+New+Roman&family=Malibu&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,700&family=Parisienne&family=Dancing+Script&family=IM+Fell+English+SC&family=Libre+Barcode+39&display=swap');
 
         :root {
             --cherry: #8b0000;
@@ -29,7 +29,79 @@
         .view.active { display: block; }
 
         /* HOME PAGE FIXES */
-        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; min-height: 100vh; }
+        .moodboard { padding: 50px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            background: #000; 
+            color: white; 
+            min-height: 100vh; 
+            position: relative; 
+            overflow: hidden;
+        }
+        
+        /* THE UPDATED HERO TEXT WITH GLITCH */
+        .hero-text { 
+            font-family: 'Playfair Display'; 
+            font-style: italic; 
+            font-size: 6rem; 
+            margin: 20px 0 0 0; 
+            color: white; 
+            text-transform: none; 
+            position: relative;
+            animation: glitch 3s infinite;
+            z-index: 3;
+        }
+
+        /* THE VHS REC LIGHT */
+        .rec-light {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-family: 'Courier Prime', monospace;
+            color: white;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background-color: red;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,255,0.75); }
+            14% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,255,0.75); }
+            15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,255,0.75); }
+            49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,255,0.75); }
+            50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,255,0.75); }
+            99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,255,0.75); }
+            100% { text-shadow: -0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,255,0.75); }
+        }
+
+        .home-bio {
+            max-width: 500px;
+            text-align: center;
+            line-height: 1.8;
+            margin-top: 30px;
+            font-size: 1rem;
+            color: #fdfaf0;
+            opacity: 0.6;
+            font-family: 'Courier Prime', monospace;
+            z-index: 3;
+        }
         
         /* FIXED: Album Style Font */
         .hero-text { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 20px 0 0 0; color: white; text-transform: none; }
@@ -100,6 +172,9 @@
         <div class="moodboard">
             <h1 class="hero-text">West Coast Log</h1>
             <p style="letter-spacing: 5px; opacity: 0.7;">VINTAGE ARCHIVE.</p>
+
+            <h3 class="home-bio" style="color:white;text-align:center;font-family:'Malibu';">"Money is the anthem, God you're so handsome."</h3>
+            <p style="color:white;text-align:center;font-family:'Courier Prime'>Welcome to your digital log. This is a private space to architect your life, schedule your getaway, and archive your deepest thoughts in a digital journal.</p>
             <div class="scrapbook-area">
                 <div class="polaroid"><img src="lanaflag.png"><p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:20px;">"Red, white, blue is in the sky."</p></div>
                 <div class="polaroid"><img src="coke.png"><p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:20px;">"Jimmy gonna buy me a Coca-Cola."</p></div>
@@ -296,6 +371,7 @@
     </script>
 </body>
 </html>
+
 
 
 
