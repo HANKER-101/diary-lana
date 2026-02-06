@@ -30,28 +30,42 @@
         .view.active { display: block; }
         #diary.active { display: flex; justify-content: center; align-items: center; background: #1a120d; }
 
-        /* HOME PAGE - FIXED HOVER & TEXT */
-        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        /* HOME PAGE - FIXED HOVER & ALIGNMENT */
+        .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; text-align: center; background: #000; }
         .hero-text { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 20px 0 0 0; color: white; }
-        .home-bio { font-family: 'Courier Prime'; max-width: 650px; opacity: 0.8; margin: 10px 0 50px 0; line-height: 1.6; font-size: 1.1rem; }
+        .home-bio { font-family: 'Courier Prime'; max-width: 650px; opacity: 0.8; margin: 10px auto 50px auto; line-height: 1.6; font-size: 1.1rem; }
         
-        .scrapbook-area { display: flex; gap: 40px; justify-content: center; align-items: center; padding-bottom: 50px; }
+        .scrapbook-area { display: flex; gap: 40px; justify-content: center; align-items: center; padding: 20px; }
+        
         .polaroid { 
-            background: white; padding: 15px 15px 40px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
-            transition: transform 0.6s ease; width: 250px; color: #000; cursor: pointer;
+            background: white; padding: 15px 15px 45px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+            transition: all 0.5s ease-in-out; width: 250px; color: #000; cursor: pointer; position: relative;
         }
+        
+        /* Specific rotations that will be neutralized on hover */
+        .pol-1 { transform: rotate(-3deg); }
+        .pol-2 { transform: rotate(2deg); }
+        .pol-3 { transform: rotate(-1deg); }
+
         .polaroid img { 
             width: 100%; height: 300px; object-fit: cover; 
-            filter: grayscale(100%); transition: filter 0.8s ease; 
+            filter: grayscale(100%); transition: all 0.6s ease; 
         }
+        
         .polaroid p { 
             font-family: 'Dancing Script', cursive !important; 
-            font-size: 1.4rem; margin-top: 15px; color: #000;
+            font-size: 1.5rem; margin-top: 15px; color: #000; text-align: center;
         }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
+
+        /* THE HOVER EFFECT */
+        .polaroid:hover { 
+            transform: scale(1.1) rotate(0deg) translateY(-20px); 
+            z-index: 50; 
+            box-shadow: 0 30px 60px rgba(139, 0, 0, 0.4);
+        }
         .polaroid:hover img { filter: grayscale(0%); }
 
-        /* PLANNER & CHECKLIST */
+        /* PLANNER & MODAL REMAINING THE SAME FOR STABILITY */
         .planner-container { display: flex; height: calc(100vh - 80px); background: white; color: #000; }
         .sidebar { width: 320px; background: #000; color: white; padding: 25px; border-right: 2px solid var(--cherry); }
         .todo-input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; color: white; font-family: 'Courier Prime'; box-sizing: border-box; }
@@ -60,7 +74,6 @@
         .todo-item input[type="checkbox"] { appearance: none; width: 20px; height: 20px; border: 2px solid var(--cherry); border-radius: 50%; cursor: pointer; }
         .todo-item input[type="checkbox"]:checked { background: var(--cherry); }
 
-        /* CALENDAR GRID */
         .calendar-view { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
         .grid-header { display: grid; grid-template-columns: 80px repeat(7, 1fr); background: #f9f9f9; border-bottom: 2px solid #000; }
         .day-label { padding: 10px; text-align: center; font-family: 'Bebas Neue'; border-left: 1px solid #ddd; }
@@ -72,7 +85,7 @@
         .hour-slot { height: 60px; border-bottom: 1px solid #f0f0f0; cursor: cell; }
         .event { position: absolute; left: 2px; right: 2px; background: var(--cherry); color: white; padding: 5px; font-size: 0.7rem; border-radius: 3px; cursor: pointer; }
 
-        /* DIARY CONTROLS - ROUNDED BUTTONS */
+        /* DIARY SIDEBAR - ROUNDED */
         .archive-side { width: 280px; background: rgba(0,0,0,0.95); color: white; padding: 25px; height: 650px; display: flex; flex-direction: column; gap: 15px; }
         .archive-side label { font-family: 'Bebas Neue'; color: #666; font-size: 0.8rem; letter-spacing: 1px; }
         
@@ -80,11 +93,12 @@
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--cherry); cursor: pointer; }
 
         .archive-side select, .archive-side input[type="date"], .archive-side input[type="text"] {
-            background: #111; border: 1px solid #333; color: white; padding: 10px; border-radius: 8px; font-family: 'Courier Prime';
+            background: #111; border: 1px solid #333; color: white; padding: 10px; border-radius: 12px; font-family: 'Courier Prime';
         }
         .archive-side button { 
-            border-radius: 30px; padding: 12px; font-family: 'Bebas Neue'; cursor: pointer; transition: 0.3s; 
+            border-radius: 50px; padding: 12px; font-family: 'Bebas Neue'; cursor: pointer; transition: 0.3s; background: #222; color: white; border: 1px solid #444;
         }
+        .archive-side button:hover { background: var(--cherry); border-color: white; }
 
         /* DIARY BOOK */
         #bookWrapper { position: relative; perspective: 1500px; width: 900px; height: 650px; }
@@ -106,8 +120,6 @@
         .modal-box input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #000; font-family: 'Courier Prime'; box-sizing: border-box; }
         .modal-btns { display: flex; gap: 10px; justify-content: center; }
         .modal-btns button { padding: 10px 25px; font-family: 'Bebas Neue'; cursor: pointer; border: none; border-radius: 5px; }
-        .btn-save { background: var(--cherry); color: white; }
-        .btn-del { background: #000; color: white; }
     </style>
 </head>
 <body>
@@ -127,9 +139,9 @@
                 schedule your getaway, and archive your deepest thoughts.
             </p>
             <div class="scrapbook-area">
-                <div class="polaroid" style="transform: rotate(-3deg);"><img src="lanaflag.png"><p>"Red, white, blue"</p></div>
-                <div class="polaroid" style="transform: rotate(2deg);"><img src="coke.png"><p>"Coca-Cola"</p></div>
-                <div class="polaroid" style="transform: rotate(-1deg);"><img src="lanacig.png"><p>"Sweet like cigarettes"</p></div>
+                <div class="polaroid pol-1"><img src="lanaflag.png"><p>"Red, white, blue"</p></div>
+                <div class="polaroid pol-2"><img src="coke.png"><p>"Coca-Cola"</p></div>
+                <div class="polaroid pol-3"><img src="lanacig.png"><p>"Sweet like cigarettes"</p></div>
             </div>
         </div>
     </div>
@@ -174,17 +186,13 @@
             <label>INK SIZE</label>
             <input type="range" id="sz" min="14" max="35" value="20" oninput="styleBook()">
 
-            <button onclick="toggleBold()" style="background:#111; color:white; border:1px solid #333;">TOGGLE BOLD</button>
-
-            <label>JUMP TO DATE</label>
+            <button onclick="toggleBold()">TOGGLE BOLD</button>
             <input type="date" id="dateJump" onchange="jump(this.value)">
-
-            <label>SEARCH LOGS</label>
-            <input type="text" id="searchTerm" placeholder="Keywords..." onkeyup="searchWords()">
+            <input type="text" id="searchTerm" placeholder="Search logs..." onkeyup="searchWords()">
             <div id="searchResults" style="overflow-y:auto; flex-grow:1;"></div>
 
-            <button onclick="deleteEntry()" style="background:none; border:1px solid var(--cherry); color:var(--cherry);">BURN ENTRY</button>
-            <button onclick="closeBook()" style="background:var(--cherry); color:white; border:none;">CLOSE ARCHIVE</button>
+            <button onclick="deleteEntry()" style="color:var(--cherry); border-color:var(--cherry);">BURN ENTRY</button>
+            <button onclick="closeBook()" style="background:var(--cherry); color:white;">CLOSE ARCHIVE</button>
         </div>
 
         <div id="bookWrapper">
@@ -198,11 +206,11 @@
                 <div class="page-content" style="border-right:1px solid #ddd;">
                     <h3 id="dateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0;"></h3>
                     <textarea id="txtL" onkeyup="save()" placeholder="Write..."></textarea>
-                    <button onclick="move(-1)" style="position:absolute; bottom:20px; left:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue'; border-radius:5px;">PREV</button>
+                    <button onclick="move(-1)" style="position:absolute; bottom:20px; left:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue'; border-radius:50px;">PREV</button>
                 </div>
                 <div class="page-content">
                     <textarea id="txtR" onkeyup="save()" placeholder="..."></textarea>
-                    <button onclick="move(1)" style="position:absolute; bottom:20px; right:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue'; border-radius:5px;">NEXT</button>
+                    <button onclick="move(1)" style="position:absolute; bottom:20px; right:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue'; border-radius:50px;">NEXT</button>
                 </div>
             </div>
         </div>
@@ -213,8 +221,8 @@
             <h2 id="modalTitle">LOG ENTRY</h2>
             <input type="text" id="modalInput">
             <div class="modal-btns">
-                <button class="btn-save" onclick="handleModalSave()">SAVE</button>
-                <button class="btn-del" id="modalDelBtn" onclick="handleModalDelete()">DELETE</button>
+                <button style="background:var(--cherry); color:white;" onclick="handleModalSave()">SAVE</button>
+                <button style="background:#000; color:white;" id="modalDelBtn" onclick="handleModalDelete()">DELETE</button>
                 <button style="background:#ccc;" onclick="closeModal()">CANCEL</button>
             </div>
         </div>
@@ -268,7 +276,7 @@
             closeModal();
         }
 
-        /* PLANNER SETUP */
+        /* PLANNER LOGIC */
         for(let i=0; i<24; i++) {
             let l = document.createElement('div'); l.className='time-slot-label'; l.innerText=i+":00";
             document.getElementById('timeLabels').appendChild(l);
@@ -295,11 +303,12 @@
             }
         }
 
-        /* DIARY */
+        /* DIARY LOGIC */
         function buildDiary() {
             document.getElementById('dateDisplay').innerText = new Date(day + 'T12:00:00').toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
             let data = logs[day] || {l:"", r:"", bold: false};
-            document.getElementById('txtL').value = data.l; document.getElementById('txtR').value = data.r;
+            document.getElementById('txtL').value = data.l; 
+            document.getElementById('txtR').value = data.r;
             if(data.bold) { document.getElementById('txtL').classList.add('bold-text'); document.getElementById('txtR').classList.add('bold-text'); }
             else { document.getElementById('txtL').classList.remove('bold-text'); document.getElementById('txtR').classList.remove('bold-text'); }
             styleBook();
