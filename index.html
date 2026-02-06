@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Ultraviolence | Daily Log</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,900&family=Parisienne&display=swap');
+        /* ADDED THE NEW FONTS YOU REQUESTED */
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,900&family=Parisienne&family=Dancing+Script&family=IM+Fell+English+SC&family=Libre+Barcode+39&display=swap');
 
         :root {
             --cherry: #8b0000;
@@ -42,7 +43,7 @@
         .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
         .polaroid:hover img { filter: grayscale(0%); }
 
-        /* FULL PAGE PLANNER */
+        /* PLANNER */
         .planner-wrap { padding: 40px; max-width: 1200px; margin: 0 auto; }
         .cal-table { width: 100%; border-collapse: collapse; background: white; border: 3px solid #000; table-layout: fixed; }
         .cal-table th { background: #000; color: white; padding: 15px; font-family: 'Bebas Neue'; font-size: 1.5rem; border: 1px solid #333; }
@@ -50,25 +51,35 @@
         .cal-table td:hover { background: #fdf0f0; }
         .event-tag { background: var(--cherry); color: white; font-size: 0.7rem; padding: 3px; margin-top: 5px; border-radius: 2px; }
 
-        /* DIARY BOOK */
-        #diary-view { background: #1a120d; display: flex; align-items: center; justify-content: center; padding: 40px 0; }
+        /* NEW DIARY STYLING */
+        #diary { background: #1a120d; }
+        .diary-container { display: flex; align-items: center; justify-content: center; padding: 40px 0; min-height: 100vh; }
+        
+        .archive-side { 
+            width: 250px; background: rgba(0,0,0,0.9); color: white; padding: 25px; 
+            display: flex; flex-direction: column; gap: 15px; height: 650px;
+        }
+        .archive-side label { font-family: 'Bebas Neue'; letter-spacing: 1px; }
+        .archive-side input, .archive-side select { background: #222; border: 1px solid #444; color: white; padding: 8px; width: 100%; }
+
         .book { 
             width: 900px; height: 650px; background: white; display: flex; 
             box-shadow: 0 0 60px #000; position: relative; 
         }
         .book::before { content: ''; position: absolute; left: 50%; width: 2px; height: 100%; background: rgba(0,0,0,0.1); z-index: 5; }
-        .page-content { 
+        
+        .book-page { 
             width: 50%; padding: 50px; background: var(--paper); 
             background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px;
         }
         textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; }
 
-        /* SIDEBAR */
-        .side-panel { 
-            width: 250px; background: rgba(0,0,0,0.9); color: white; padding: 25px; 
-            display: flex; flex-direction: column; gap: 15px; height: 650px;
+        .book-footer {
+            position: absolute; bottom: -60px; width: 100%; display: flex; justify-content: space-between;
         }
-        .side-panel input, .side-panel select { background: #222; border: 1px solid #444; color: white; padding: 8px; width: 100%; }
+        .btn-move {
+            background: black; color: white; border: none; padding: 10px 20px; cursor: pointer; font-family: 'Bebas Neue';
+        }
 
         /* MODAL */
         #modal { 
@@ -95,8 +106,7 @@
                 <div class="polaroid" style="transform: rotate(-1deg);"><img src="coke.png"><p style="color:black;text-align:center;">DIET SODA</p></div>
             </div>
             <div style="margin-top: 50px; max-width: 700px; text-align: center; font-family: 'Courier Prime'; line-height: 1.8;">
-                This is your private world. Use the <b>Planner</b> to map out your days and the <b>Diary</b> to write the stories you'll never tell. 
-                Everything is saved locally to your browser.
+                This is your private world. Use the <b>Planner</b> to map out your days and the <b>Diary</b> to write stories...
             </div>
         </div>
     </div>
@@ -112,29 +122,44 @@
     </div>
 
     <div id="diary" class="view">
-        <div id="diary-view">
-            <div class="side-panel">
-                <h3 style="font-family:'Bebas Neue';">ARCHIVES</h3>
-                <label>FONT</label>
-                <select id="fnt" onchange="styleBook()"><option value="'Homemade Apple'">Handwritten</option><option value="'Special Elite'">Typewriter</option><option value="'Parisienne'">Coquette</option></select>
-                <label>SIZE</label>
-                <input type="range" id="sz" min="14" max="35" value="20" oninput="styleBook()">
-                <label>JUMP TO</label>
-                <input type="date" onchange="jump(this.value)">
-                <input type="text" placeholder="Search word..." onkeyup="search(this.value)">
-                <div id="results" style="overflow-y:auto; flex-grow:1; font-size:0.8rem;"></div>
+        <div class="diary-container">
+            <div class="archive-side">
+                <h2 style="font-family:'Bebas Neue'; letter-spacing:2px; margin-bottom:5px;">ARCHIVES</h2>
+                
+                <label style="font-size:0.6rem;">FONT STYLE</label>
+                <select id="fontPick" onchange="updateStyle()">
+                    <option value="'Homemade Apple'">Handwritten</option>
+                    <option value="'Courier Prime'">Typewriter</option>
+                    <option value="'Special Elite'">Grunge Elite</option>
+                    <option value="'Dancing Script'">Cursive Script</option>
+                    <option value="'Parisienne'">Coquette</option>
+                    <option value="'IM Fell English SC'">Old English</option>
+                    <option value="'Libre Barcode 39'">Barcode</option>
+                    <option value="'Playfair Display'">Classic Serif</option>
+                </select>
+
+                <label style="font-size:0.6rem;">FONT SIZE</label>
+                <input type="range" id="sizePick" min="14" max="35" value="20" oninput="updateStyle()">
+
+                <label style="font-size:0.6rem; margin-top:10px;">JUMP TO DATE</label>
+                <input type="date" onchange="goTo(this.value)">
+
+                <label style="font-size:0.6rem; margin-top:10px;">FIND WORDS</label>
+                <input type="text" placeholder="Search..." onkeyup="search(this.value)">
+                <div id="results" style="overflow-y:auto; flex-grow:1;"></div>
             </div>
-            <div class="book" id="bookElement">
-                <div class="page-content">
-                    <h3 id="dateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0;"></h3>
-                    <textarea id="txtL" onkeyup="saveLog()" placeholder="Dear Diary..."></textarea>
+
+            <div class="book" id="bookObj">
+                <div class="book-page left-page">
+                    <h3 id="dateH" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0;"></h3>
+                    <textarea id="box1" onkeyup="save()" placeholder="Start your entry..."></textarea>
                 </div>
-                <div class="page-content">
-                    <textarea id="txtR" onkeyup="saveLog()" placeholder="..."></textarea>
+                <div class="book-page right-page">
+                    <textarea id="box2" onkeyup="save()" placeholder="Write more..."></textarea>
                 </div>
-                <div style="position:absolute; bottom:-60px; width:100%; display:flex; justify-content:space-between;">
-                    <button onclick="move(-1)" style="background:black; color:white; border:none; padding:10px 20px; cursor:pointer; font-family:'Bebas Neue';">PREVIOUS</button>
-                    <button onclick="move(1)" style="background:black; color:white; border:none; padding:10px 20px; cursor:pointer; font-family:'Bebas Neue';">NEXT</button>
+                <div class="book-footer">
+                    <button class="btn-move" onclick="turn(-1)">◀ PREVIOUS DAY</button>
+                    <button class="btn-move" onclick="turn(1)">NEXT DAY ▶</button>
                 </div>
             </div>
         </div>
@@ -162,6 +187,7 @@
             if(t === 'diary') buildDiary();
         }
 
+        /* PLANNER LOGIC */
         function buildPlanner() {
             const grid = document.getElementById('plannerGrid');
             grid.innerHTML = "";
@@ -191,37 +217,41 @@
         }
         function closeM() { document.getElementById('modal').style.display='none'; }
 
+        /* DIARY LOGIC UPDATED FOR NEW IDs */
         function buildDiary() {
-            const b = document.getElementById('bookElement');
+            const b = document.getElementById('bookObj');
             b.style.opacity = "0.5";
             setTimeout(() => {
-                document.getElementById('dateDisplay').innerText = new Date(day).toLocaleDateString('en-US', {month:'long', day:'numeric'}).toUpperCase();
+                document.getElementById('dateH').innerText = new Date(day).toLocaleDateString('en-US', {month:'long', day:'numeric'}).toUpperCase();
                 let data = entries[day] || {l:"", r:""};
-                document.getElementById('txtL').value = data.l;
-                document.getElementById('txtR').value = data.r;
+                document.getElementById('box1').value = data.l;
+                document.getElementById('box2').value = data.r;
                 b.style.opacity = "1";
-                styleBook();
+                updateStyle();
             }, 200);
         }
 
-        function saveLog() {
-            entries[day] = { l: document.getElementById('txtL').value, r: document.getElementById('txtR').value };
+        function save() {
+            entries[day] = { l: document.getElementById('box1').value, r: document.getElementById('box2').value };
             localStorage.setItem('lana_diary_v7', JSON.stringify(entries));
         }
 
-        function move(n) {
-            saveLog();
+        function turn(n) {
+            save();
             let d = new Date(day); d.setDate(d.getDate() + n);
             day = d.toISOString().split('T')[0];
             buildDiary();
         }
 
-        function jump(v) { if(v) { day = v; buildDiary(); } }
+        function goTo(v) { if(v) { day = v; buildDiary(); } }
 
-        function styleBook() {
-            const f = document.getElementById('fnt').value;
-            const s = document.getElementById('sz').value + "px";
-            document.querySelectorAll('#diary textarea').forEach(tx => { tx.style.fontFamily = f; tx.style.fontSize = s; });
+        function updateStyle() {
+            const f = document.getElementById('fontPick').value;
+            const s = document.getElementById('sizePick').value + "px";
+            document.querySelectorAll('#diary textarea').forEach(tx => { 
+                tx.style.fontFamily = f; 
+                tx.style.fontSize = s; 
+            });
         }
 
         function search(q) {
@@ -229,11 +259,12 @@
             if(q.length < 2) return;
             for(let date in entries) {
                 if(entries[date].l.includes(q) || entries[date].r.includes(q)) {
-                    let d = document.createElement('div'); d.style.padding="5px"; d.style.cursor="pointer"; d.style.borderBottom="1px solid #333";
-                    d.innerText = date; d.onclick = () => jump(date); res.appendChild(d);
+                    let d = document.createElement('div'); 
+                    d.style.padding="5px"; d.style.cursor="pointer"; d.style.borderBottom="1px solid #333"; d.style.color="white";
+                    d.innerText = date; d.onclick = () => goTo(date); res.appendChild(d);
                 }
             }
         }
     </script>
 </body>
-</html>    
+</html>
