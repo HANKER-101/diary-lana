@@ -10,131 +10,149 @@
             --cherry: #8b0000;
             --cream: #f4f1ea;
             --ink: #1a1a1a;
-            --nav-h: 90px;
         }
 
+        /* RESET - ALLOW SCROLLING */
         * { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; overflow: hidden; font-family: 'Courier Prime', monospace; }
+        body, html { 
+            margin: 0; padding: 0; background: #000; 
+            font-family: 'Courier Prime', monospace; 
+            color: var(--ink);
+            overflow-x: hidden; /* Prevent side-scrolling only */
+        }
 
-        /* FIXED HEADER - PREVENTS TITLE OVERLAP */
+        /* NAVIGATION - STICKY BUT NOT OBSTRUCTIVE */
         nav {
-            height: var(--nav-h); width: 100%; background: #000; border-bottom: 3px solid var(--cherry);
-            display: flex; justify-content: center; align-items: center; gap: 50px;
-            position: fixed; top: 0; z-index: 9999;
+            background: #000; height: 90px; width: 100%;
+            display: flex; justify-content: center; align-items: center; gap: 40px;
+            border-bottom: 3px solid var(--cherry);
+            position: sticky; top: 0; z-index: 9999;
         }
         nav button {
-            background: transparent; border: none; color: white; font-family: 'Bebas Neue'; 
-            font-size: 2rem; cursor: pointer; letter-spacing: 5px; transition: 0.3s;
+            background: transparent; border: none; color: white; 
+            font-family: 'Bebas Neue'; font-size: 2.2rem; 
+            cursor: pointer; letter-spacing: 5px; transition: 0.3s;
         }
         nav button:hover { color: var(--cherry); }
         .active-nav { color: var(--cherry) !important; text-decoration: underline; }
 
-        /* CONTENT STAGE - PUSHED BELOW HEADER */
-        .stage { margin-top: var(--nav-h); height: calc(100vh - var(--nav-h)); position: relative; width: 100%; background: var(--cream); }
-        .view { display: none; height: 100%; width: 100%; }
-        .view.active { display: flex; }
+        /* VIEW LOGIC - FLEX COLUMN */
+        .view { display: none; min-height: calc(100vh - 90px); width: 100%; background: var(--cream); }
+        .view.active { display: flex; flex-direction: column; }
 
-        /* HOME SCREEN - CINEMATIC */
-        #home { background: #000; flex-direction: column; align-items: center; justify-content: center; color: white; padding-bottom: 50px; }
-        .hero-title { font-family: 'Bebas Neue'; font-size: 9rem; letter-spacing: 15px; margin: 0; color: white; line-height: 1; }
-        .scrapbook { display: flex; gap: 30px; margin-top: 50px; }
-        .polaroid { background: white; padding: 12px 12px 50px 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; transition: 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
-        .polaroid img { width: 220px; height: 280px; object-fit: cover; filter: grayscale(100%); transition: 1.2s; display: block; }
-        /* TITLE AT BOTTOM OF POLAROID */
-        .polaroid p { position: absolute; bottom: 8px; left: 0; width: 100%; text-align: center; color: black; font-family: 'Bebas Neue'; font-size: 1.4rem; margin: 0; }
+        /* HOME PAGE - SCROLLABLE */
+        #home { background: #000; color: white; align-items: center; padding: 60px 20px; }
+        .hero-title { font-family: 'Bebas Neue'; font-size: clamp(4rem, 10vw, 9rem); letter-spacing: 15px; margin: 0; }
+        
+        .scrapbook { 
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            gap: 40px; margin-top: 50px; width: 100%; 
+        }
+        .polaroid { 
+            background: white; padding: 15px 15px 60px 15px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; 
+            transition: 0.5s; 
+        }
+        .polaroid img { width: 250px; height: 320px; object-fit: cover; filter: grayscale(100%); display: block; }
+        .polaroid p { 
+            position: absolute; bottom: 10px; left: 0; width: 100%; 
+            text-align: center; color: black; font-family: 'Bebas Neue'; 
+            font-size: 1.6rem; margin: 0; 
+        }
         .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; }
         .polaroid:hover img { filter: grayscale(0%); }
 
-        /* GOOGLE CALENDAR GRID */
-        .planner-view { display: flex; width: 100%; background: white; height: 100%; }
-        .planner-sidebar { width: 250px; border-right: 1px solid #ddd; background: #f9f9f9; padding: 20px; flex-shrink: 0; }
-        .calendar-grid { flex-grow: 1; display: grid; grid-template-columns: 70px repeat(7, 1fr); overflow-y: auto; }
-        .time-label { height: 60px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #999; font-size: 0.7rem; text-align: right; padding: 5px; }
+        /* PLANNER - VERTICAL GRID */
+        .planner-container { display: flex; flex-direction: row; height: 100%; min-height: 800px; background: white; }
+        .planner-sidebar { width: 200px; border-right: 1px solid #ddd; background: #f9f9f9; padding: 20px; flex-shrink: 0; }
+        .calendar-main { flex-grow: 1; display: grid; grid-template-columns: 80px repeat(7, 1fr); overflow-y: auto; }
+        .time-row { height: 60px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; color: #999; font-size: 0.7rem; text-align: right; padding: 5px; }
         .slot { height: 60px; border-bottom: 1px solid #eee; border-right: 1px solid #eee; position: relative; cursor: cell; }
-        .slot:hover { background: rgba(139, 0, 0, 0.05); }
-        .event-chip { position: absolute; inset: 2px; background: var(--cherry); color: white; padding: 4px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; }
+        .event-box { position: absolute; inset: 2px; background: var(--cherry); color: white; padding: 5px; font-size: 0.7rem; border-radius: 4px; overflow: hidden; }
 
-        /* DIARY & REAL HINGED PAGE TURN */
-        .diary-view { display: flex; width: 100%; height: 100%; }
-        .archive-sidebar { width: 280px; background: #000; color: white; padding: 25px; border-right: 2px solid var(--cherry); display: flex; flex-direction: column; gap: 20px; flex-shrink: 0; }
-        .archive-sidebar h2 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--cherry); margin: 0; }
-        .archive-sidebar select, .archive-sidebar input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 10px; width: 100%; }
+        /* DIARY - FLEX LAYOUT */
+        .diary-container { display: flex; flex-direction: row; height: calc(100vh - 90px); }
+        .archive-sidebar { 
+            width: 280px; background: #000; color: white; padding: 20px; 
+            display: flex; flex-direction: column; gap: 15px; overflow-y: auto;
+        }
+        .archive-sidebar h2 { font-family: 'Bebas Neue'; font-size: 2rem; color: var(--cherry); margin: 0; }
+        .archive-sidebar select, .archive-sidebar input { background: #1a1a1a; color: white; border: 1px solid #333; padding: 10px; width: 100%; }
 
-        .book-container { flex-grow: 1; background: #130d0a; display: flex; align-items: center; justify-content: center; perspective: 2500px; position: relative; }
-        .book { width: 900px; height: 620px; position: relative; transform-style: preserve-3d; transition: transform 0.6s ease; }
-        
-        /* THE HINGE FLIP */
-        .page { width: 450px; height: 100%; background: var(--paper); position: absolute; top: 0; transform-origin: left; transition: transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1); padding: 50px; box-sizing: border-box; backface-visibility: hidden; box-shadow: inset 2px 0 10px rgba(0,0,0,0.1); }
-        .page-left { left: 0; z-index: 1; border-right: 1px solid rgba(0,0,0,0.1); }
-        .page-right { left: 450px; z-index: 0; }
-        
-        .flipping { transform: rotateY(-180deg); }
+        .book-stage { 
+            flex-grow: 1; background: #130d0a; display: flex; 
+            align-items: center; justify-content: center; position: relative;
+        }
+        .book { 
+            width: 90%; max-width: 900px; height: 80%; background: #fdfaf0; 
+            display: flex; box-shadow: 0 30px 60px rgba(0,0,0,0.5); 
+            transition: opacity 0.3s ease;
+        }
+        .page { width: 50%; padding: 40px; border: 1px solid rgba(0,0,0,0.05); }
+        .page-left { border-right: 2px solid rgba(0,0,0,0.1); }
+        textarea { 
+            width: 100%; height: 100%; background: transparent; border: none; 
+            outline: none; resize: none; font-size: 1.2rem; line-height: 1.6;
+        }
 
-        textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; font-size: 1.2rem; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; }
-
-        .book-nav { position: absolute; bottom: 30px; display: flex; gap: 400px; }
-        .book-nav button { background: #000; color: white; border: none; padding: 12px 40px; font-family: 'Bebas Neue'; font-size: 1.5rem; cursor: pointer; transition: 0.3s; }
-        .book-nav button:hover { background: var(--cherry); }
+        .controls { position: absolute; bottom: 20px; display: flex; gap: 20px; }
+        .controls button { background: #000; color: white; border: none; padding: 10px 30px; font-family: 'Bebas Neue'; font-size: 1.2rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <nav>
-        <button onclick="tab('home')" id="tab-home">HOME</button>
-        <button onclick="tab('planner')" id="tab-planner">PLANNER</button>
-        <button onclick="tab('diary')" id="tab-diary">THE DIARY</button>
+        <button onclick="tab('home')" id="btn-home">HOME</button>
+        <button onclick="tab('planner')" id="btn-planner">PLANNER</button>
+        <button onclick="tab('diary')" id="btn-diary">THE DIARY</button>
     </nav>
 
-    <div class="stage">
-        <div id="home" class="view active">
-            <h1 class="hero-title">ULTRAVIOLENCE</h1>
-            <div class="scrapbook">
-                <div class="polaroid" style="transform: rotate(-3deg);"><img src="Cadillac.png"><p>GETAWAY</p></div>
-                <div class="polaroid" style="transform: rotate(2deg);"><img src="lanacig.png"><p>LANA</p></div>
-                <div class="polaroid" style="transform: rotate(-1deg);"><img src="coke.png"><p>DIET SODA</p></div>
-            </div>
+    <div id="home" class="view active">
+        <h1 class="hero-title">ULTRAVIOLENCE</h1>
+        <div class="scrapbook">
+            <div class="polaroid" style="transform:rotate(-2deg)"><img src="Cadillac.png"><p>GETAWAY</p></div>
+            <div class="polaroid" style="transform:rotate(3deg)"><img src="lanacig.png"><p>LANA</p></div>
+            <div class="polaroid" style="transform:rotate(-1deg)"><img src="coke.png"><p>DIET SODA</p></div>
         </div>
+    </div>
 
-        <div id="planner" class="view">
-            <div class="planner-view">
-                <div class="planner-sidebar">
-                    <h2 style="font-family:'Bebas Neue'; color:var(--cherry)">CALENDAR</h2>
-                    <p style="font-size:0.7rem">FEBRUARY 2026</p>
-                    <hr>
-                </div>
-                <div class="calendar-grid" id="calGrid"></div>
+    <div id="planner" class="view">
+        <div class="planner-container">
+            <div class="planner-sidebar">
+                <h3 style="font-family:'Bebas Neue'; color:var(--cherry)">SCHEDULE</h3>
+                <p style="font-size:0.7rem">FEB 2026</p>
             </div>
+            <div class="calendar-main" id="calGrid"></div>
         </div>
+    </div>
 
-        <div id="diary" class="view">
-            <div class="diary-view">
-                <div class="archive-sidebar">
-                    <h2>ARCHIVES</h2>
-                    <label>TYPOGRAPHY</label>
-                    <select id="fnt" onchange="upStyle()">
-                        <option value="'Homemade Apple'">Handwritten</option>
-                        <option value="'Special Elite'">Grunge</option>
-                        <option value="'Courier Prime'">Typewriter</option>
-                    </select>
-                    <label>JUMP TO</label>
-                    <input type="date" onchange="jump(this.value)">
-                    <input type="text" placeholder="Search entries..." onkeyup="search(this.value)" style="margin-top:10px;">
-                    <div id="results" style="overflow-y:auto; font-size:0.7rem;"></div>
+    <div id="diary" class="view">
+        <div class="diary-container">
+            <div class="archive-sidebar">
+                <h2>ARCHIVES</h2>
+                <label style="font-size:0.7rem">FONT</label>
+                <select id="fSelect" onchange="upStyle()">
+                    <option value="'Homemade Apple'">Handwritten</option>
+                    <option value="'Special Elite'">Grunge</option>
+                    <option value="'Courier Prime'">Typewriter</option>
+                </select>
+                <label style="font-size:0.7rem">JUMP</label>
+                <input type="date" onchange="jump(this.value)">
+                <div id="results" style="font-size:0.7rem; color:#888;"></div>
+            </div>
+            <div class="book-stage">
+                <div class="book" id="diaryBook">
+                    <div class="page page-left">
+                        <h4 id="dateH" style="margin:0; font-family:'Bebas Neue'; color:var(--cherry); font-size:1.5rem;"></h4>
+                        <textarea id="L" onkeyup="save()" placeholder="Write..."></textarea>
+                    </div>
+                    <div class="page">
+                        <textarea id="R" onkeyup="save()" placeholder="..."></textarea>
+                    </div>
                 </div>
-                <div class="book-container">
-                    <div class="book" id="bookMain">
-                        <div class="page page-left">
-                            <h3 id="dateTag" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0 0 10px 0;"></h3>
-                            <textarea id="areaL" onkeyup="save()" placeholder="Write..."></textarea>
-                        </div>
-                        <div class="page page-right" id="pRight">
-                            <textarea id="areaR" onkeyup="save()" placeholder="Continued..."></textarea>
-                        </div>
-                    </div>
-                    <div class="book-nav">
-                        <button onclick="move(-1)">PREVIOUS</button>
-                        <button onclick="move(1)">NEXT</button>
-                    </div>
+                <div class="controls">
+                    <button onclick="move(-1)">PREV</button>
+                    <button onclick="move(1)">NEXT</button>
                 </div>
             </div>
         </div>
@@ -142,14 +160,22 @@
 
     <script>
         let day = new Date().toISOString().split('T')[0];
-        let logs = JSON.parse(localStorage.getItem('uv_logs_vFinal')) || {};
-        let plan = JSON.parse(localStorage.getItem('uv_plan_vFinal')) || {};
+        let logs = JSON.parse(localStorage.getItem('uv_logs')) || {};
+        let plan = JSON.parse(localStorage.getItem('uv_plan')) || {};
 
         function tab(t) {
+            // 1. Clear all active views
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active-nav'));
-            document.getElementById(t).classList.add('active');
-            document.getElementById('tab-'+t).classList.add('active-nav');
+            
+            // 2. Activate the selected one
+            const target = document.getElementById(t);
+            if(target) {
+                target.classList.add('active');
+                document.getElementById('btn-'+t).classList.add('active-nav');
+            }
+
+            // 3. Init sub-sections
             if(t === 'planner') initPlanner();
             if(t === 'diary') initDiary();
         }
@@ -159,61 +185,53 @@
             const grid = document.getElementById('calGrid');
             grid.innerHTML = "";
             for(let h=0; h<24; h++) {
-                let lbl = document.createElement('div'); lbl.className = 'time-label'; lbl.innerText = h+":00";
+                let lbl = document.createElement('div');
+                lbl.className = 'time-row'; lbl.innerText = h + ":00";
                 grid.appendChild(lbl);
                 for(let d=0; d<7; d++) {
-                    let cell = document.createElement('div'); cell.className = 'slot';
+                    let cell = document.createElement('div');
+                    cell.className = 'slot';
                     let key = d + '-' + h;
-                    if(plan[key]) cell.innerHTML = `<div class="event-chip" onclick="event.stopPropagation(); delEv('${key}')">${plan[key]}</div>`;
+                    if(plan[key]) cell.innerHTML = `<div class="event-box" onclick="event.stopPropagation(); delPlan('${key}')">${plan[key]}</div>`;
                     cell.onclick = () => { let v = prompt("Event?"); if(v){ plan[key]=v; savePlan(); } };
                     grid.appendChild(cell);
                 }
             }
         }
-        function savePlan() { localStorage.setItem('uv_plan_vFinal', JSON.stringify(plan)); initPlanner(); }
-        function delEv(k) { if(confirm("Delete?")){ delete plan[k]; savePlan(); } }
+        function savePlan() { localStorage.setItem('uv_plan', JSON.stringify(plan)); initPlanner(); }
+        function delPlan(k) { delete plan[k]; savePlan(); }
 
         /* DIARY LOGIC */
         function initDiary() {
-            const page = document.getElementById('pRight');
-            page.style.opacity = "0.3"; // Visual transition cue
+            const book = document.getElementById('diaryBook');
+            book.style.opacity = "0.4"; // Simple "turn" effect
             setTimeout(() => {
-                document.getElementById('dateTag').innerText = new Date(day).toLocaleDateString('en-US', {month:'long', day:'numeric'}).toUpperCase();
+                document.getElementById('dateH').innerText = new Date(day).toLocaleDateString('en-US', {month:'short', day:'numeric'}).toUpperCase();
                 let data = logs[day] || {l:"", r:""};
-                document.getElementById('areaL').value = data.l;
-                document.getElementById('areaR').value = data.r;
-                page.style.opacity = "1";
+                document.getElementById('L').value = data.l;
+                document.getElementById('R').value = data.r;
+                book.style.opacity = "1";
                 upStyle();
-            }, 250);
+            }, 200);
         }
-
         function save() {
-            logs[day] = { l: document.getElementById('areaL').value, r: document.getElementById('areaR').value };
-            localStorage.setItem('uv_logs_vFinal', JSON.stringify(logs));
+            logs[day] = { l: document.getElementById('L').value, r: document.getElementById('R').value };
+            localStorage.setItem('uv_logs', JSON.stringify(logs));
         }
-
         function move(n) {
             save();
             let d = new Date(day); d.setDate(d.getDate() + n);
             day = d.toISOString().split('T')[0];
             initDiary();
         }
-
         function upStyle() {
-            const f = document.getElementById('fnt').value;
+            const f = document.getElementById('fSelect').value;
             document.querySelectorAll('textarea').forEach(t => t.style.fontFamily = f);
         }
-
         function jump(v) { day = v; initDiary(); }
-        function search(q) {
-            const res = document.getElementById('results'); res.innerHTML = "";
-            if(q.length < 2) return;
-            for(let d in logs) {
-                if(logs[d].l.includes(q)) {
-                    let div = document.createElement('div'); div.innerText = d; div.style.padding="5px"; div.onclick = () => jump(d); res.appendChild(div);
-                }
-            }
-        }
+
+        // Start at Home
+        tab('home');
     </script>
 </body>
 </html>
