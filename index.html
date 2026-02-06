@@ -34,47 +34,53 @@
         /* FIXED: Album Style Font */
         .hero-text { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 20px 0 0 0; color: white; text-transform: none; }
         
+       /* THE SCRAPBOOK CONTAINER */
         .scrapbook-area { 
             display: flex; 
-            gap: 30px; 
-            margin-top: 50px; 
-            flex-wrap: nowrap; /* Forces them to stay in a row */
+            flex-direction: row; /* Force horizontal */
             justify-content: center; 
-            padding-bottom: 50px;
+            align-items: center;
+            gap: 40px; 
+            margin-top: 40px; 
             width: 100%;
-            max-width: 1200px;
+            height: auto;
+            flex-wrap: nowrap; /* Prevent stacking */
         }
         
+        /* THE INDIVIDUAL POLAROID */
         .polaroid { 
             background: white; 
-            padding: 15px 15px 15px 15px; /* Balanced padding */
+            padding: 15px 15px 60px 15px; /* Extra bottom padding for the text */
             box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); 
-            cursor: pointer; 
-            /* This gives them a natural messy "table" look */
-            transform: rotate(-3deg); 
-            flex: 0 0 auto; /* Prevents them from stretching */
+            transition: all 0.4s ease;
+            cursor: pointer;
+            width: 250px; /* Fixed width stops the stretching */
+            flex-shrink: 0; /* Stops them from squishing */
         }
 
-        /* Natural tilt for each one */
-        .polaroid:nth-child(2) { transform: rotate(2deg) translateY(-10px); }
-        .polaroid:nth-child(3) { transform: rotate(-2deg) translateY(5px); }
-
+        /* The Image inside */
         .polaroid img { 
-            width: 220px; /* Slightly smaller to fit better */
-            height: 280px; 
+            width: 100%; 
+            height: 300px; 
             object-fit: cover; 
             filter: grayscale(100%); 
+            display: block; /* Removes weird bottom gaps */
             transition: filter 0.6s ease; 
-            display: block;
         }
+        
+        /* Tilt them so they look hand-placed */
+        .polaroid:nth-child(1) { transform: rotate(-3deg); }
+        .polaroid:nth-child(2) { transform: rotate(2deg); }
+        .polaroid:nth-child(3) { transform: rotate(-1deg); }
 
         /* Hover Effects */
         .polaroid:hover { 
-            transform: rotate(0deg) scale(1.1) !important; 
-            z-index: 10; 
+            transform: rotate(0deg) scale(1.08) !important; 
+            z-index: 100; 
         }
-        .polaroid:hover img { filter: grayscale(0%); }
+        .polaroid:hover img { 
+            filter: grayscale(0%); 
+        }
 
         /* PLANNER & DIARY (Kept from previous working version) */
         .planner-container { display: flex; height: calc(100vh - 80px); background: white; }
@@ -329,6 +335,7 @@
     </script>
 </body>
 </html>
+
 
 
 
