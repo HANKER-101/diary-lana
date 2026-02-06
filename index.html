@@ -4,118 +4,98 @@
     <meta charset="UTF-8">
     <title>Ultraviolence | Daily Log</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@1,900&family=Homemade+Apple&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@1,900&family=Homemade+Apple&family=Dancing+Script:wght@600&family=Special+Elite&display=swap');
 
         :root {
             --cherry: #8b0000;
             --cream: #f4f1ea;
             --ink: #1a1a1a;
-            --leather: #2a1d15;
+            --leather: #3d2b1f;
         }
 
         body {
             background-color: var(--cream);
             cursor: url('https://cdn.custom-cursor.com/db/cursor/32/c_heart.png'), auto;
             font-family: 'Courier Prime', monospace;
-            margin: 0; padding: 0;
-            overflow-x: hidden;
-            color: var(--ink);
+            margin: 0; padding: 0; overflow-x: hidden;
         }
 
-        /* Bold Top Navigation */
+        /* TOP NAVIGATION */
         .top-nav {
-            background: #000;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            border-bottom: 5px solid var(--cherry);
-            position: sticky;
-            top: 0;
-            z-index: 5000;
+            background: #000; padding: 15px; display: flex; justify-content: center; gap: 60px;
+            border-bottom: 5px solid var(--cherry); position: sticky; top: 0; z-index: 5000;
         }
-        .top-nav a {
-            color: white;
-            font-family: 'Bebas Neue';
-            font-size: 2rem;
-            text-decoration: none;
-            cursor: pointer;
-            letter-spacing: 3px;
-        }
-        .top-nav a:hover { color: var(--cherry); text-shadow: 0 0 10px var(--cherry); }
+        .top-nav a { color: white; font-family: 'Bebas Neue'; font-size: 1.8rem; text-decoration: none; cursor: pointer; letter-spacing: 2px; }
+        .top-nav a:hover { color: var(--cherry); }
 
-        .page { display: none; padding-top: 20px; }
-        .page.active { display: block; }
+        .page-view { display: none; padding-top: 20px; }
+        .page-view.active { display: block; }
 
-        /* COMIC GRAIN */
-        .halftone {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(#000 12%, transparent 13%);
-            background-size: 3px 3px; opacity: 0.08; pointer-events: none; z-index: 1000;
-        }
-
-        .reveal-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image_1fcf3f.png');
-            background-size: cover; background-position: center; z-index: -1;
-            clip-path: circle(0% at 50% 50%); transition: 1.2s;
-        }
-        .reveal-bg.active { clip-path: circle(150% at 50% 50%); z-index: 1; }
-
-        /* HOME PAGE GRID */
-        .container {
-            display: grid; grid-template-columns: 400px 1fr 300px;
-            gap: 30px; padding: 40px; position: relative; z-index: 10;
-        }
-        .polaroid {
-            background: white; padding: 12px 12px 50px 12px;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.3); margin-bottom: 30px;
-        }
-        .polaroid img { width: 100%; height: 320px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
-        .polaroid:hover img { filter: grayscale(0%); }
-
-        .calendar-box { background: white; border: 3px solid #000; padding: 20px; box-shadow: 15px 15px 0px var(--cherry); }
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid #000; }
-        .day { background: white; min-height: 100px; border: 1px solid #000; padding: 5px; cursor: pointer; }
-        .day:hover { background: #fffde7; }
-        .event-tag { font-size: 0.6rem; color: white; background: var(--cherry); margin-top: 2px; padding: 2px; }
-
-        /* LEATHER DIARY VIEW */
+        /* DIARY PAGE STYLING */
         #diary-view {
-            background: var(--leather);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .leather-book {
-            width: 800px; height: 600px;
-            background: #fff;
-            border-left: 20px solid #1a120d;
-            box-shadow: 0 0 50px #000;
-            padding: 50px;
-            background-image: linear-gradient(#e5e5e5 1px, transparent 1px);
-            background-size: 100% 35px;
-            position: relative;
-        }
-        .diary-textarea {
-            width: 100%; height: 100%;
-            background: transparent; border: none; outline: none;
-            font-family: 'Homemade Apple', cursive;
-            font-size: 1.4rem; line-height: 35px; resize: none;
-        }
-        .book-nav { margin-top: 20px; display: flex; gap: 20px; }
-        .btn {
-            background: var(--cherry); color: white; border: 2px solid #000;
-            padding: 10px 20px; font-family: 'Bebas Neue'; font-size: 1.5rem; cursor: pointer;
+            background: radial-gradient(circle, #5d4037 0%, #2a1d15 100%);
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        #modal {
-            display: none; position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); background: white;
-            padding: 30px; border: 5px solid #000; z-index: 6000;
+        /* THE BOOK CONTAINER */
+        .book {
+            width: 900px; height: 600px; display: flex;
+            background: #fff; position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            border-radius: 5px; perspective: 1500px;
         }
+
+        /* THE SPINE / BINDING */
+        .book::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            width: 40px; height: 100%; z-index: 10;
+            background: linear-gradient(to right, rgba(0,0,0,0.2), transparent 20%, transparent 80%, rgba(0,0,0,0.2));
+            border-left: 1px solid rgba(0,0,0,0.1); border-right: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .book-page {
+            width: 50%; height: 100%; padding: 40px; box-sizing: border-box;
+            background-color: #fdfaf0;
+            background-image: linear-gradient(#e5e5e5 1px, transparent 1px);
+            background-size: 100% 30px; line-height: 30px;
+        }
+
+        .left-page { border-radius: 5px 0 0 5px; border-right: 1px solid #ddd; }
+        .right-page { border-radius: 0 5px 5px 0; }
+
+        /* ANIMATION CLASS */
+        .page-turn-anim {
+            animation: flip 0.6s ease-in-out;
+        }
+        @keyframes flip {
+            0% { transform: rotateY(0deg); opacity: 1; }
+            50% { transform: rotateY(-10deg); opacity: 0.5; }
+            100% { transform: rotateY(0deg); opacity: 1; }
+        }
+
+        .diary-textarea {
+            width: 100%; height: 100%; background: transparent; border: none; outline: none;
+            resize: none; overflow-y: auto; font-size: 1.2rem;
+        }
+
+        /* SETTINGS BAR */
+        .diary-settings {
+            margin-bottom: 20px; background: rgba(0,0,0,0.5); padding: 10px 20px;
+            border-radius: 50px; display: flex; gap: 15px; align-items: center; color: white;
+        }
+        select, input[type="number"] {
+            background: #fff; border: none; padding: 5px; font-family: 'Courier Prime';
+        }
+
+        /* --- REST OF YOUR ORIGINAL HOME STYLES --- */
+        .container { display: grid; grid-template-columns: 350px 1fr 300px; gap: 20px; padding: 30px; }
+        .polaroid { background: white; padding: 10px 10px 40px 10px; box-shadow: 10px 10px 20px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        .polaroid img { width: 100%; height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; }
+        .polaroid:hover img { filter: grayscale(0%); }
+        .calendar-box { background: white; border: 3px solid #000; padding: 15px; box-shadow: 10px 10px 0px var(--cherry); }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid #000; }
+        .day { background: white; min-height: 80px; border: 1px solid #000; padding: 5px; cursor: pointer; }
+        .event-tag { font-size: 0.6rem; background: var(--cherry); color: white; margin-top: 2px; }
     </style>
 </head>
 <body>
@@ -125,14 +105,11 @@
         <a onclick="showTab('diary-view')">THE DIARY</a>
     </div>
 
-    <div class="halftone"></div>
-    <div class="reveal-bg" id="reveal"></div>
-
-    <div id="home-view" class="page active">
+    <div id="home-view" class="page-view active">
         <div class="container">
             <div class="scrapbook">
-                <h1 style="font-family:'Bebas Neue'; font-size:4rem; color:var(--cherry);">NATIONAL ANTHEM</h1>
-                <div class="polaroid"><img src="cadillac2.png"><div style="text-align:center;font-family:'Playfair Display'">The Getaway</div></div>
+                <h1 style="font-family:'Bebas Neue'; font-size:4rem; color:var(--cherry); line-height:0.8;">NATIONAL ANTHEM</h1>
+                <div class="polaroid"><img src="Cadillac.png"><div style="text-align:center;font-family:'Playfair Display'">The Getaway</div></div>
                 <div class="polaroid"><img src="coke.png"><div style="text-align:center;font-family:'Playfair Display'">Diet Soda</div></div>
                 <div class="polaroid"><img src="lanacig.png"><div style="text-align:center;font-family:'Playfair Display'">Lana</div></div>
             </div>
@@ -147,38 +124,84 @@
         </div>
     </div>
 
-    <div id="diary-view" class="page">
-        <div style="text-align:center; margin-bottom:10px;">
-            <h2 id="diaryDate" style="font-family:'Bebas Neue'; color:white; font-size:3rem; margin:0;">FEBRUARY 1, 2026</h2>
+    <div id="diary-view" class="page-view">
+        <div class="diary-settings">
+            <span>Font:</span>
+            <select id="fontSelect" onchange="updateStyle()">
+                <option value="'Homemade Apple', cursive">Handwritten</option>
+                <option value="'Courier Prime', monospace">Typewriter</option>
+                <option value="'Special Elite', cursive">Grunge</option>
+                <option value="'Dancing Script', cursive">Elegant</option>
+            </select>
+            <span>Size:</span>
+            <input type="number" id="sizeInput" value="20" min="12" max="40" onchange="updateStyle()">
+            <button onclick="saveDiary()" style="background:var(--cherry); color:white; border:none; padding:5px 15px; cursor:pointer;">SAVE BOOK</button>
         </div>
-        <div class="leather-book">
-            <textarea id="mainDiaryText" class="diary-textarea" placeholder="Write your heart out..."></textarea>
-        </div>
-        <div class="book-nav">
-            <button class="btn" onclick="turnPage(-1)">← PREVIOUS</button>
-            <button class="btn" onclick="saveDiary()">SAVE ENTRY</button>
-            <button class="btn" onclick="turnPage(1)">NEXT →</button>
-        </div>
-    </div>
 
-    <div id="modal">
-        <h3 style="font-family:'Bebas Neue'">Log Event</h3>
-        <input type="time" id="evTime" style="width:100%"><br><br>
-        <input type="text" id="evTitle" placeholder="What's the plan?" style="width:100%"><br><br>
-        <button class="btn" onclick="saveEvent()">SAVE</button>
-        <button class="btn" onclick="closeModal()" style="background:#555">CANCEL</button>
+        <div class="book" id="bookElement">
+            <div class="book-page left-page">
+                <h2 id="leftDate" style="font-family:'Bebas Neue'; color:var(--cherry); border-bottom:1px solid #ddd; margin:0;">FEBRUARY 1</h2>
+                <textarea id="leftText" class="diary-textarea" placeholder="Dear Diary..."></textarea>
+            </div>
+            <div class="book-page right-page">
+                <h2 id="rightDate" style="font-family:'Bebas Neue'; color:var(--cherry); border-bottom:1px solid #ddd; margin:0;">FEBRUARY 2</h2>
+                <textarea id="rightText" class="diary-textarea" placeholder="Continued..."></textarea>
+            </div>
+        </div>
+
+        <div style="margin-top:20px; display:flex; gap:30px;">
+            <button onclick="turnPage(-2)" style="background:none; border:none; color:white; font-size:3rem; cursor:pointer;">◀</button>
+            <button onclick="turnPage(2)" style="background:none; border:none; color:white; font-size:3rem; cursor:pointer;">▶</button>
+        </div>
     </div>
 
     <script>
-        let currentDay = 1;
-        let selectedCalDay = null;
+        let currentLeftDay = 1;
         let events = JSON.parse(localStorage.getItem('lana_events')) || {};
         let diaryEntries = JSON.parse(localStorage.getItem('lana_diary_long')) || {};
 
         function showTab(tabId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            if(tabId === 'diary-view') loadPage();
+            if(tabId === 'diary-view') loadBook();
+        }
+
+        function loadBook() {
+            const book = document.getElementById('bookElement');
+            book.classList.remove('page-turn-anim');
+            void book.offsetWidth; // Trigger reflow for animation
+            book.classList.add('page-turn-anim');
+
+            document.getElementById('leftDate').innerText = `FEBRUARY ${currentLeftDay}`;
+            document.getElementById('rightDate').innerText = `FEBRUARY ${currentLeftDay + 1}`;
+            
+            document.getElementById('leftText').value = diaryEntries[currentLeftDay] || "";
+            document.getElementById('rightText').value = diaryEntries[currentLeftDay + 1] || "";
+            updateStyle();
+        }
+
+        function turnPage(step) {
+            saveDiary();
+            currentLeftDay += step;
+            if(currentLeftDay < 1) currentLeftDay = 1;
+            if(currentLeftDay > 27) currentLeftDay = 27;
+            loadBook();
+        }
+
+        function saveDiary() {
+            diaryEntries[currentLeftDay] = document.getElementById('leftText').value;
+            diaryEntries[currentLeftDay + 1] = document.getElementById('rightText').value;
+            localStorage.setItem('lana_diary_long', JSON.stringify(diaryEntries));
+        }
+
+        function updateStyle() {
+            const font = document.getElementById('fontSelect').value;
+            const size = document.getElementById('sizeInput').value + "px";
+            const areas = document.querySelectorAll('.diary-textarea');
+            areas.forEach(a => {
+                a.style.fontFamily = font;
+                a.style.fontSize = size;
+            });
         }
 
         function initCal() {
@@ -189,51 +212,11 @@
                 d.className = 'day';
                 d.innerHTML = `<b>${i}</b>`;
                 if(events[i]) events[i].forEach(e => { d.innerHTML += `<div class="event-tag">${e.t} ${e.n}</div>` });
-                d.onclick = () => { selectedCalDay = i; document.getElementById('modal').style.display='block'; };
                 grid.appendChild(d);
             }
         }
-
-        function saveEvent() {
-            const t = document.getElementById('evTime').value;
-            const n = document.getElementById('evTitle').value;
-            if(!events[selectedCalDay]) events[selectedCalDay] = [];
-            events[selectedCalDay].push({t, n});
-            localStorage.setItem('lana_events', JSON.stringify(events));
-            closeModal(); initCal();
-        }
-
-        function closeModal() { document.getElementById('modal').style.display='none'; }
-
-        // Diary Logic
-        function loadPage() {
-            document.getElementById('diaryDate').innerText = `FEBRUARY ${currentDay}, 2026`;
-            document.getElementById('mainDiaryText').value = diaryEntries[currentDay] || "";
-        }
-
-        function saveDiary() {
-            diaryEntries[currentDay] = document.getElementById('mainDiaryText').value;
-            localStorage.setItem('lana_diary_long', JSON.stringify(diaryEntries));
-            alert("Diary saved.");
-        }
-
-        function turnPage(dir) {
-            currentDay += dir;
-            if(currentDay < 1) currentDay = 1;
-            if(currentDay > 28) currentDay = 28;
-            loadPage();
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && e.target.tagName !== 'TEXTAREA') {
-                e.preventDefault();
-                document.getElementById('reveal').classList.toggle('active');
-            }
-        });
 
         initCal();
     </script>
 </body>
 </html>
-
-
