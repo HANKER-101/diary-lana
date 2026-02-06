@@ -140,28 +140,28 @@
             <h1 class="hero-text">West Coast Log</h1>
             <p style="letter-spacing: 5px; opacity: 0.7;">VINTAGE ARCHIVE.</p>
 
-           <h3 class="home-bio" style="color:white;text-align:center;font-family:'Malibu';">"Money is the anthem, God you're so handsome."</h3>
+            <h3 class="home-bio" style="color:white;text-align:center;font-family:'Malibu';">"Money is the anthem, God you're so handsome."</h3>
 
-<p style="color:white; text-align:center; font-family:'Courier Prime', monospace; max-width: 600px; opacity: 0.8; margin-bottom: 30px;">
-    Welcome to your digital log. This is a private space to architect your life, schedule your getaway, and archive your deepest thoughts.
-</p>
+            <p style="color:white; text-align:center; font-family:'Courier Prime', monospace; max-width: 600px; opacity: 0.8; margin-bottom: 30px;">
+                Welcome to your digital log. This is a private space to architect your life, schedule your getaway, and archive your deepest thoughts.
+            </p>
 
-<div class="scrapbook-area">
-    <div class="polaroid">
-        <img src="lanaflag.png">
-        <p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:15px;font-size:1.2rem;">"Red, white, blue"</p>
-    </div>
-    <div class="polaroid">
-        <img src="coke.png">
-        <p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:15px;font-size:1.2rem;">"Coca-Cola"</p>
-    </div>
-    <div class="polaroid">
-        <img src="lanacig.png">
-        <p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:15px;font-size:1.2rem;">"Sweet like cigarettes"</p>
-    </div>
-</div>
-
-    <div id="planner" class="view">
+            <div class="scrapbook-area">
+                <div class="polaroid">
+                    <img src="lanaflag.png">
+                    <p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:15px;font-size:1.2rem;">"Red, white, blue"</p>
+                </div>
+                <div class="polaroid">
+                    <img src="coke.png">
+                    <p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:15px;font-size:1.2rem;">"Coca-Cola"</p>
+                </div>
+                <div class="polaroid">
+                    <img src="lanacig.png">
+                    <p style="color:black;text-align:center;font-family:'Dancing Script';margin-top:15px;font-size:1.2rem;">"Sweet like cigarettes"</p>
+                </div>
+            </div>
+        </div>
+    </div> <div id="planner" class="view">
         <div class="planner-container">
             <div class="sidebar">
                 <h2>CHECKLIST</h2>
@@ -216,8 +216,7 @@
                         <p style="font-family:'Bebas Neue'; color:var(--cherry); letter-spacing:5px;">PRIVATE ARCHIVE</p>
                     </div>
                 </div>
-                <div class="book" id="bookObj">
-                    <div class="page-content" style="border-right:1px solid rgba(0,0,0,0.1);">
+                <div class="book" id="bookObj" style="visibility: hidden;"> <div class="page-content" style="border-right:1px solid rgba(0,0,0,0.1);">
                         <h3 id="dateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0;"></h3>
                         <textarea id="txtL" onkeyup="save()" placeholder="Write..."></textarea>
                         <button onclick="move(-1)" style="position:absolute; bottom:20px; left:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue'; z-index:10;">PREV</button>
@@ -243,26 +242,46 @@
         let logs = JSON.parse(localStorage.getItem('uv_logs')) || {};
         let selSlot = null;
 
+        // FIXED TAB LOGIC: Removed forced display:none conflict
         function tab(t) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(t).classList.add('active');
-            if(t==='diary') buildDiary();
+            document.querySelectorAll('.view').forEach(v => {
+                v.classList.remove('active');
+                v.style.display = "none"; 
+            });
+            
+            const target = document.getElementById(t);
+            target.classList.add('active');
+            
+            // Flex for diary, block for others
+            if(t === 'diary') {
+                target.style.display = "flex";
+                buildDiary();
+            } else {
+                target.style.display = "block";
+            }
         }
 
-        /* PLANNER BUILD */
-        for(let i=0; i<24; i++) {
-            let l = document.createElement('div'); l.className='time-slot-label'; l.innerText=i+":00";
-            document.getElementById('timeLabels').appendChild(l);
-        }
-        for(let d=0; d<7; d++) {
-            let col = document.createElement('div'); col.className='grid-day';
-            for(let h=0; h<24; h++) {
-                let s = document.createElement('div'); s.className='hour-slot';
-                s.onclick = () => { selSlot={d,h}; document.getElementById('modal').style.display='block'; };
-                col.appendChild(s);
+        /* PLANNER BUILD (Only run once) */
+        function initPlanner() {
+            const labels = document.getElementById('timeLabels');
+            const grid = document.getElementById('gridCols');
+            if(labels.children.length > 0) return; // Prevent double build
+
+            for(let i=0; i<24; i++) {
+                let l = document.createElement('div'); l.className='time-slot-label'; l.innerText=i+":00";
+                labels.appendChild(l);
             }
-            document.getElementById('gridCols').appendChild(col);
+            for(let d=0; d<7; d++) {
+                let col = document.createElement('div'); col.className='grid-day';
+                for(let h=0; h<24; h++) {
+                    let s = document.createElement('div'); s.className='hour-slot';
+                    s.onclick = () => { selSlot={d,h}; document.getElementById('modal').style.display='block'; };
+                    col.appendChild(s);
+                }
+                grid.appendChild(col);
+            }
         }
+        initPlanner();
 
         function saveEv() {
             let n = document.getElementById('evN').value;
@@ -270,6 +289,7 @@
             ev.style.top = (selSlot.h * 60 + 5) + "px"; ev.innerText = n;
             document.getElementById('gridCols').children[selSlot.d].appendChild(ev);
             document.getElementById('modal').style.display='none';
+            document.getElementById('evN').value = "";
         }
 
         function addTodo(e) {
@@ -308,13 +328,18 @@
         }
 
         function jump(v) { if(v) { day=v; buildDiary(); } }
+        
         function openBook() {
             const cover = document.getElementById('bookCover');
             const book = document.getElementById('bookObj');
             cover.style.transform = "rotateY(-110deg)";
             cover.style.opacity = "0";
-            setTimeout(() => { cover.style.visibility = "hidden"; book.style.visibility = "visible"; }, 600);
+            setTimeout(() => { 
+                cover.style.visibility = "hidden"; 
+                book.style.visibility = "visible"; 
+            }, 600);
         }
+
         function closeBook() {
             const cover = document.getElementById('bookCover');
             const book = document.getElementById('bookObj');
@@ -323,6 +348,7 @@
             cover.style.opacity = "1";
             cover.style.transform = "rotateY(0deg)";
         }
+
         function searchWords() {
             const query = document.getElementById('searchTerm').value.toLowerCase();
             const resultsDiv = document.getElementById('searchResults');
@@ -339,6 +365,7 @@
                 }
             }
         }
+
         function deleteEntry() {
             if (confirm("Burn this entry forever?")) {
                 delete logs[day];
@@ -349,6 +376,7 @@
     </script>
 </body>
 </html>
+
 
 
 
