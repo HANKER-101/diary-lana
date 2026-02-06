@@ -25,9 +25,23 @@
         }
         nav button:hover { color: var(--cherry); }
 
-        .view { display: none; width: 100%; }
-        .view.active { display: block; }
+        /* Ensure views are visible when active */
+        .view { 
+            display: none !important; 
+            width: 100%; 
+            min-height: 100vh;
+        }
 
+        .view.active { 
+            display: block !important; 
+        }
+
+        /* Specific fix for Diary being flex */
+        #diary.active {
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+        }
         /* HOME PAGE FIXES */
         .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; min-height: 100vh; }
         
@@ -335,6 +349,7 @@
     </script>
 </body>
 </html>
+
 
 
 
