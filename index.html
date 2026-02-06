@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Ultraviolence | Pro Planner & Diary</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Times+New+Roman&family=Malibu&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,700&family=Parisienne&family=Dancing+Script&family=IM+Fell+English+SC&family=Libre+Barcode+39&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Times+New+Roman&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,700&family=Parisienne&family=Dancing+Script&family=IM+Fell+English+SC&family=Libre+Barcode+39&display=swap');
 
         :root {
             --cherry: #8b0000;
@@ -25,72 +25,61 @@
         }
         nav button:hover { color: var(--cherry); }
 
+        /* VIEW TOGGLING - Fixed the !important conflict */
         .view { display: none; width: 100%; min-height: 100vh; }
-        .view.active { display: block !important; }
+        .view.active { display: block; }
+        #diary.active { display: flex; justify-content: center; align-items: center; background: #1a120d; }
 
-        /* HOME / MOODBOARD */
+        /* MOODBOARD STYLING */
         .moodboard { padding: 50px; display: flex; flex-direction: column; align-items: center; background: #000; color: white; min-height: 100vh; }
         .hero-text { font-family: 'Playfair Display'; font-style: italic; font-size: 6rem; margin: 20px 0 0 0; color: white; }
-        .scrapbook-area { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 40px; margin-top: 40px; width: 100%; flex-wrap: nowrap; }
-        .polaroid { background: white; padding: 15px 15px 60px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: all 0.4s ease; cursor: pointer; width: 250px; flex-shrink: 0; }
-        .polaroid img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.6s; }
-        .polaroid:hover { transform: scale(1.05); z-index: 10; }
+        .scrapbook-area { display: flex; gap: 40px; margin-top: 40px; flex-wrap: nowrap; }
+        .polaroid { background: white; padding: 15px 15px 60px 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: 0.4s; cursor: pointer; width: 250px; }
+        .polaroid img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%); }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 10; }
         .polaroid:hover img { filter: grayscale(0%); }
 
         /* PLANNER & CHECKLIST */
         .planner-container { display: flex; height: calc(100vh - 80px); background: white; }
         .sidebar { width: 300px; background: #000; color: white; padding: 25px; border-right: 2px solid var(--cherry); display: flex; flex-direction: column; }
         .sidebar h2 { font-family: 'Bebas Neue'; color: var(--cherry); font-size: 2rem; }
-        .todo-input { width: 100%; padding: 10px; background: #111; border: 1px solid #333; color: white; margin-bottom: 15px; font-family: 'Courier Prime'; box-sizing: border-box; }
+        .todo-input { width: 100%; padding: 10px; background: #111; border: 1px solid #333; color: white; margin-bottom: 15px; font-family: 'Courier Prime'; }
         
-        .todo-list { flex-grow: 1; overflow-y: auto; list-style: none; padding: 0; }
-        .todo-item { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #222; padding: 10px 0; font-size: 0.85rem; }
-        
-        /* Custom Checkbox */
+        /* Custom Checklist Checkbox Styling */
+        .todo-list { list-style: none; padding: 0; }
+        .todo-item { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #222; padding: 10px 0; }
         .todo-item input[type="checkbox"] { appearance: none; width: 18px; height: 18px; border: 2px solid var(--cherry); cursor: pointer; position: relative; }
         .todo-item input[type="checkbox"]:checked { background: var(--cherry); }
-        .todo-item input[type="checkbox"]:checked::after { content: '✓'; color: white; position: absolute; top: -3px; left: 2px; font-size: 14px; }
-        .todo-item span { flex-grow: 1; cursor: pointer; }
-        .todo-item input[type="checkbox"]:checked + span { text-decoration: line-through; opacity: 0.5; }
-        .del-todo { background: none; border: none; color: #444; cursor: pointer; font-size: 14px; transition: 0.3s; }
-        .del-todo:hover { color: var(--cherry); }
+        .todo-item input[type="checkbox"]:checked::after { content: '✓'; color: white; position: absolute; top: -3px; left: 2px; }
+        .todo-item span { flex-grow: 1; cursor: pointer; font-size: 0.9rem; }
+        .todo-item .del-btn { background: none; border: none; color: #444; cursor: pointer; font-size: 14px; }
+        .todo-item .del-btn:hover { color: var(--cherry); }
 
-        /* CALENDAR GRID */
-        .calendar-view { flex-grow: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .grid-header { display: grid; grid-template-columns: 80px repeat(7, 1fr); background: #f9f9f9; border-bottom: 2px solid #000; }
-        .day-label { padding: 10px; text-align: center; border-left: 1px solid #ddd; font-family: 'Bebas Neue'; }
-        .scroll-area { overflow-y: scroll; flex-grow: 1; display: flex; }
-        .time-col { width: 80px; background: #f0f0f0; border-right: 1px solid #ccc; }
-        .time-slot-label { height: 60px; text-align: center; font-size: 0.7rem; color: #888; border-bottom: 1px solid #eee; line-height: 60px; }
-        .grid-columns { display: grid; grid-template-columns: repeat(7, 1fr); width: 100%; }
-        .grid-day { border-left: 1px solid #eee; height: 1440px; position: relative; }
-        .hour-slot { height: 60px; border-bottom: 1px solid #f0f0f0; cursor: cell; }
-        
-        /* Event Styling & Actions */
-        .event { position: absolute; left: 2px; right: 2px; background: var(--cherry); color: white; padding: 6px; font-size: 0.7rem; border-radius: 3px; z-index: 5; cursor: pointer; overflow: hidden; }
-        .event-actions { display: none; position: absolute; right: 2px; top: 2px; background: rgba(0,0,0,0.8); gap: 2px; }
-        .event:hover .event-actions { display: flex; }
-        .ev-btn { background: #000; color: white; border: none; font-size: 8px; cursor: pointer; padding: 2px 4px; font-family: 'Bebas Neue'; }
-        .ev-btn:hover { color: var(--cherry); }
+        /* CALENDAR ACTIONS */
+        .event { position: absolute; left: 2px; right: 2px; background: var(--cherry); color: white; padding: 5px; font-size: 0.7rem; border-radius: 3px; cursor: pointer; }
+        .event-tools { display: none; position: absolute; right: 0; top: 0; background: #000; gap: 2px; padding: 2px; }
+        .event:hover .event-tools { display: flex; }
+        .ev-btn { background: #222; color: white; border: none; font-size: 8px; cursor: pointer; padding: 2px 4px; font-family: 'Bebas Neue'; }
+        .ev-btn:hover { background: var(--cherry); }
 
-        /* DIARY SIDEBAR CONTROLS */
-        #diary.active { display: flex !important; justify-content: center; align-items: center; }
-        .archive-side { width: 280px; background: rgba(0,0,0,0.9); color: white; padding: 25px; height: 650px; display: flex; flex-direction: column; gap: 15px; }
-        .archive-side label { font-family: 'Bebas Neue'; letter-spacing: 2px; font-size: 0.8rem; color: #888; margin-top: 10px; }
+        /* DIARY SIDEBAR UI FIXES */
+        .archive-side { width: 280px; background: rgba(0,0,0,0.95); color: white; padding: 25px; height: 650px; display: flex; flex-direction: column; gap: 10px; }
+        .archive-side label { font-family: 'Bebas Neue'; letter-spacing: 2px; font-size: 0.8rem; color: #777; margin-top: 10px; }
         
-        .archive-side select, .archive-side input { 
-            background: #111; border: 1px solid #333; color: white; padding: 10px; 
-            font-family: 'Courier Prime'; outline: none; transition: 0.3s; width: 100%; box-sizing: border-box;
+        /* Styled Inputs/Buttons for Diary */
+        .archive-side select, .archive-side input[type="date"], .archive-side input[type="text"] {
+            background: #111; border: 1px solid #333; color: white; padding: 10px; font-family: 'Courier Prime'; outline: none; transition: 0.3s;
         }
         .archive-side select:focus, .archive-side input:focus { border-color: var(--cherry); }
+        .archive-side button { cursor: pointer; transition: 0.3s; }
 
         #bookWrapper { position: relative; perspective: 1500px; width: 900px; height: 650px; }
-        #bookCover { width: 100%; height: 100%; background: #1a120d; border: 10px solid #000; border-left: 25px solid #000; box-shadow: 20px 20px 50px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; position: absolute; transition: 0.8s; transform-origin: left; }
-        .book { width: 100%; height: 100%; background: var(--paper); display: flex; box-shadow: 0 0 60px #000; position: relative; border: 4px solid #000; visibility: hidden; }
-        .page-content { width: 50%; padding: 50px; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; position: relative; box-sizing: border-box;}
+        #bookCover { width: 100%; height: 100%; background: #1a120d; border: 10px solid #000; border-left: 25px solid #000; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; position: absolute; transition: 0.8s; transform-origin: left; }
+        .book { width: 100%; height: 100%; background: var(--paper); display: flex; position: relative; border: 4px solid #000; visibility: hidden; }
+        .page-content { width: 50%; padding: 50px; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; position: relative; }
         textarea { width: 100%; height: 100%; background: transparent; border: none; outline: none; resize: none; line-height: 35px; }
-        
-        #modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 5px solid #000; padding: 30px; z-index: 10001; width: 300px;}
+
+        #modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 5px solid #000; padding: 30px; z-index: 10001; }
     </style>
 </head>
 <body>
@@ -104,11 +93,10 @@
     <div id="home" class="view active">
         <div class="moodboard">
             <h1 class="hero-text">West Coast Log</h1>
-            <p style="letter-spacing: 5px; opacity: 0.7;">VINTAGE ARCHIVE.</p>
             <div class="scrapbook-area">
-                <div class="polaroid"><img src="lanaflag.png"><p style="color:black;text-align:center;font-family:'Dancing Script';">"Red, white, blue"</p></div>
-                <div class="polaroid"><img src="coke.png"><p style="color:black;text-align:center;font-family:'Dancing Script';">"Coca-Cola"</p></div>
-                <div class="polaroid"><img src="lanacig.png"><p style="color:black;text-align:center;font-family:'Dancing Script';">"Sweet like cigarettes"</p></div>
+                <div class="polaroid" style="transform:rotate(-3deg)"><img src="lanaflag.png"><p style="color:black;text-align:center;font-family:'Dancing Script';">"Red, white, blue"</p></div>
+                <div class="polaroid" style="transform:rotate(2deg)"><img src="coke.png"><p style="color:black;text-align:center;font-family:'Dancing Script';">"Coca-Cola"</p></div>
+                <div class="polaroid" style="transform:rotate(-1deg)"><img src="lanacig.png"><p style="color:black;text-align:center;font-family:'Dancing Script';">"Sweet like cigarettes"</p></div>
             </div>
         </div>
     </div>
@@ -136,33 +124,39 @@
     <div id="diary" class="view">
         <div class="archive-side">
             <h3 style="font-family:'Times New Roman'; color:var(--cherry); font-size:2rem; margin:0;">ARCHIVES</h3>
+            
             <label>TYPEFACE</label>
             <select id="fnt" onchange="styleBook()">
                 <option value="'Courier Prime'">Typewriter</option>
                 <option value="'Homemade Apple'">Handwritten</option>
                 <option value="'Special Elite'">Grunge Elite</option>
-                <option value="'Dancing Script'">Cursive Script</option>
+                <option value="'Parisienne'">Coquette</option>
             </select>
+
             <label>INK SIZE</label>
             <input type="range" id="sz" min="14" max="35" value="20" oninput="styleBook()">
+
             <label>JUMP TO DATE</label>
             <input type="date" id="dateJump" onchange="jump(this.value)">
+
             <label>SEARCH LOGS</label>
             <input type="text" id="searchTerm" placeholder="Keywords..." onkeyup="searchWords()">
             <div id="searchResults" style="overflow-y:auto; flex-grow:1;"></div>
-            <button onclick="deleteEntry()" style="color:var(--cherry); border:1px solid var(--cherry); background:none; cursor:pointer; font-family:'Bebas Neue'; padding:10px;">BURN ENTRY</button>
-            <button onclick="closeBook()" style="background:var(--cherry); color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue';">CLOSE ARCHIVE</button>
+
+            <button onclick="deleteEntry()" style="color:var(--cherry); border:1px solid var(--cherry); background:none; padding:10px; font-family:'Bebas Neue'; margin-top:10px;">BURN ENTRY</button>
+            <button onclick="closeBook()" style="background:var(--cherry); color:white; border:none; padding:10px; font-family:'Bebas Neue';">CLOSE ARCHIVE</button>
         </div>
+
         <div id="bookWrapper">
             <div id="bookCover" onclick="openBook()">
                 <div style="text-align:center; border:2px solid var(--cherry); padding:40px;">
-                    <h1 style="font-family:'Playfair Display'; color:var(--cream); font-size:3rem;">ULTRAVIOLENCE</h1>
+                    <h1 style="font-family:'Playfair Display'; color:var(--cream); font-size:3rem; margin:0;">ULTRAVIOLENCE</h1>
                     <p style="font-family:'Bebas Neue'; color:var(--cherry); letter-spacing:5px;">PRIVATE ARCHIVE</p>
                 </div>
             </div>
             <div class="book" id="bookObj">
                 <div class="page-content" style="border-right:1px solid #ddd;">
-                    <h3 id="dateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry);"></h3>
+                    <h3 id="dateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0;"></h3>
                     <textarea id="txtL" onkeyup="save()" placeholder="Write..."></textarea>
                     <button onclick="move(-1)" style="position:absolute; bottom:20px; left:20px; background:black; color:white; border:none; padding:5px 15px; cursor:pointer; font-family:'Bebas Neue';">PREV</button>
                 </div>
@@ -175,10 +169,10 @@
     </div>
 
     <div id="modal">
-        <h3 style="font-family:'Bebas Neue'; color:var(--cherry);">NEW EVENT</h3>
+        <h3 style="font-family:'Bebas Neue';">NEW EVENT</h3>
         <input type="text" id="evN" placeholder="Description..." style="width:100%; padding:10px; box-sizing:border-box;"><br><br>
         <button onclick="saveEv()" style="background:var(--cherry); color:white; width:100%; border:none; padding:10px; font-family:'Bebas Neue'; cursor:pointer;">SAVE</button>
-        <button onclick="document.getElementById('modal').style.display='none'" style="width:100%; border:none; padding:5px; margin-top:5px; cursor:pointer;">CANCEL</button>
+        <button onclick="document.getElementById('modal').style.display='none'" style="width:100%; margin-top:5px; border:none; padding:5px; cursor:pointer;">CANCEL</button>
     </div>
 
     <script>
@@ -187,20 +181,17 @@
         let selSlot = null;
 
         function tab(t) {
-            document.querySelectorAll('.view').forEach(v => {
-                v.classList.remove('active');
-                v.style.display = "none";
-            });
-            const target = document.getElementById(t);
-            target.classList.add('active');
-            target.style.display = (t === 'diary') ? "flex" : "block";
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(t).classList.add('active');
             if(t==='diary') buildDiary();
         }
 
-        /* PLANNER LOGIC */
+        /* CALENDAR GENERATION */
+        const timeLabels = document.getElementById('timeLabels');
+        const gridCols = document.getElementById('gridCols');
         for(let i=0; i<24; i++) {
             let l = document.createElement('div'); l.className='time-slot-label'; l.innerText=i+":00";
-            document.getElementById('timeLabels').appendChild(l);
+            timeLabels.appendChild(l);
         }
         for(let d=0; d<7; d++) {
             let col = document.createElement('div'); col.className='grid-day';
@@ -209,9 +200,10 @@
                 s.onclick = () => { selSlot={d,h}; document.getElementById('modal').style.display='block'; };
                 col.appendChild(s);
             }
-            document.getElementById('gridCols').appendChild(col);
+            gridCols.appendChild(col);
         }
 
+        /* PLANNER ACTIONS */
         function saveEv() {
             const n = document.getElementById('evN').value;
             if(!n) return;
@@ -219,32 +211,32 @@
             const ev = document.createElement('div');
             ev.className = 'event'; ev.id = `ev-${id}`;
             ev.style.top = (selSlot.h * 60 + 5) + "px";
-            ev.innerHTML = `<span onclick="alert('Details: ${n}')">${n}</span>
-                <div class="event-actions">
+            ev.innerHTML = `<span onclick="alert('Event Details: ${n}')">${n}</span>
+                <div class="event-tools">
                     <button class="ev-btn" onclick="editEv('${id}')">EDIT</button>
-                    <button class="ev-btn" onclick="delEv('${id}')">X</button>
+                    <button class="ev-btn" onclick="delEv('${id}')">DEL</button>
                 </div>`;
-            document.getElementById('gridCols').children[selSlot.d].appendChild(ev);
+            gridCols.children[selSlot.d].appendChild(ev);
             document.getElementById('modal').style.display = 'none';
             document.getElementById('evN').value = "";
         }
-
         function delEv(id) { event.stopPropagation(); document.getElementById(`ev-${id}`).remove(); }
-        function editEv(id) { 
+        function editEv(id) {
             event.stopPropagation();
-            const span = document.querySelector(`#ev-${id} span`);
+            const ev = document.getElementById(`ev-${id}`);
+            const span = ev.querySelector('span');
             const newVal = prompt("Edit event:", span.innerText);
             if(newVal) span.innerText = newVal;
         }
 
-        /* CHECKLIST LOGIC */
+        /* CHECKLIST ACTIONS */
         function addTodo(e) {
             if(e.key==='Enter' && e.target.value!=="") {
                 const id = Date.now();
                 const li = document.createElement('li');
                 li.className = 'todo-item'; li.id = `todo-${id}`;
                 li.innerHTML = `<input type="checkbox"> <span onclick="editTodo('${id}')">${e.target.value}</span>
-                    <button class="del-todo" onclick="delTodo('${id}')">✕</button>`;
+                    <button class="del-btn" onclick="delTodo('${id}')">✕</button>`;
                 document.getElementById('todoList').appendChild(li);
                 e.target.value = "";
             }
@@ -264,12 +256,10 @@
             document.getElementById('txtR').value = data.r;
             styleBook();
         }
-
         function save() {
             logs[day] = {l: document.getElementById('txtL').value, r: document.getElementById('txtR').value};
             localStorage.setItem('uv_logs', JSON.stringify(logs));
         }
-
         function move(n) {
             save(); 
             let d = new Date(day + 'T12:00:00');
@@ -277,32 +267,23 @@
             day = d.toISOString().split('T')[0]; 
             buildDiary();
         }
-
         function openBook() {
             const cover = document.getElementById('bookCover');
-            const book = document.getElementById('bookObj');
             cover.style.transform = "rotateY(-110deg)";
             cover.style.opacity = "0";
-            setTimeout(() => { cover.style.visibility = "hidden"; book.style.visibility = "visible"; }, 600);
+            setTimeout(() => { cover.style.visibility = "hidden"; document.getElementById('bookObj').style.visibility = "visible"; }, 600);
         }
-
         function closeBook() {
             const cover = document.getElementById('bookCover');
-            const book = document.getElementById('bookObj');
-            book.style.visibility = "hidden";
-            cover.style.visibility = "visible";
-            cover.style.opacity = "1";
-            cover.style.transform = "rotateY(0deg)";
+            document.getElementById('bookObj').style.visibility = "hidden";
+            cover.style.visibility = "visible"; cover.style.opacity = "1"; cover.style.transform = "rotateY(0deg)";
         }
-
         function styleBook() {
             let f = document.getElementById('fnt').value; 
             let s = document.getElementById('sz').value+"px";
             document.querySelectorAll('#diary textarea').forEach(t => { t.style.fontFamily=f; t.style.fontSize=s; });
         }
-
         function jump(v) { if(v) { day=v; buildDiary(); } }
-
         function searchWords() {
             const query = document.getElementById('searchTerm').value.toLowerCase();
             const res = document.getElementById('searchResults');
@@ -318,13 +299,8 @@
                 }
             }
         }
-
         function deleteEntry() {
-            if (confirm("Burn this entry?")) {
-                delete logs[day];
-                localStorage.setItem('uv_logs', JSON.stringify(logs));
-                buildDiary();
-            }
+            if (confirm("Burn this entry?")) { delete logs[day]; localStorage.setItem('uv_logs', JSON.stringify(logs)); buildDiary(); }
         }
     </script>
 </body>
