@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Ultraviolence | Pro Planner & Diary</title>
     <style>
-        /* Expanded Font Library */
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Times+New+Roman&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,700&family=Parisienne&family=Dancing+Script&family=IM+Fell+English+SC&family=Libre+Barcode+39&family=Pinyon+Script&family=Mrs+Saint+Delafield&family=Great+Vibes&family=Almendra+Display&display=swap');
+        /* Expanded Font Library - Added Medieval & Gothic Options */
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime&family=Homemade+Apple&family=Special+Elite&family=Playfair+Display:ital,wght@1,700&family=Parisienne&family=Dancing+Script&family=IM+Fell+English+SC&family=Libre+Barcode+39&family=Pinyon+Script&family=Mrs+Saint+Delafield&family=Great+Vibes&family=Almendra+Display&family=UnifrakturMaguntia&family=Meie+Script&family=EB+Garamond&display=swap');
 
         :root {
             --cherry: #8b0000;
@@ -80,23 +80,19 @@
         /* DIARY BOOK */
         #bookWrapper { position: relative; perspective: 1500px; width: 900px; height: 650px; }
         #bookCover { width: 100%; height: 100%; background: #1a120d; border: 10px solid #000; border-left: 25px solid #000; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; position: absolute; transition: 0.8s; transform-origin: left; }
-        .book { width: 100%; height: 100%; background: var(--paper); display: flex; border: 4px solid #000; visibility: hidden; color: #000; }
+        .book { width: 100%; height: 100%; background: var(--paper); display: flex; border: 4px solid #000; visibility: hidden; color: #1a1a1a; }
         .page-content { width: 50%; padding: 50px; background-image: linear-gradient(#e5e5e5 1px, transparent 1px); background-size: 100% 35px; position: relative; }
         
-        /* THE CRITICAL TEXTAREA FIX */
         #txtL, #txtR { 
             width: 100%; height: 100%; background: transparent; border: none; outline: none; 
-            resize: none; line-height: 35px; font-size: 20px; transition: font-family 0.2s, font-size 0.2s;
+            resize: none; line-height: 35px; font-size: 20px; transition: font-size 0.2s;
+            color: #1a1a1a;
         }
         .bold-text { font-weight: bold !important; }
 
         /* MODAL */
         #customModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20000; align-items: center; justify-content: center; }
         .modal-box { background: var(--paper); padding: 40px; border: 5px solid #000; width: 400px; text-align: center; color: #000; }
-        .modal-box h2 { font-family: 'Bebas Neue'; color: var(--cherry); margin-top: 0; font-size: 2rem; }
-        .modal-box input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #000; font-family: 'Courier Prime'; box-sizing: border-box; }
-        .modal-btns { display: flex; gap: 10px; justify-content: center; }
-        .modal-btns button { padding: 10px 25px; font-family: 'Bebas Neue'; cursor: pointer; border: none; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -145,17 +141,17 @@
             <h3 style="font-family:'Times New Roman'; color:var(--cherry); font-size:2rem; margin:0;">ARCHIVES</h3>
             <label>PEN STYLE</label>
             <select id="fnt" onchange="styleBook()">
-                <option value="'Almendra Display'">Medieval Calligraphy</option>
-                <option value="'IM Fell English SC'">Old English</option>
-                <option value="'Courier Prime'">Typewriter</option>
-                <option value="'Homemade Apple'">Handwritten</option>
-                <option value="'Mrs Saint Delafield'">Signature Script</option>
-                <option value="'Pinyon Script'">Formal Cursive</option>
-                <option value="'Great Vibes'">Coquette Cursive</option>
-                <option value="'Dancing Script'">Casual Script</option>
-                <option value="'Special Elite'">Grunge Elite</option>
-                <option value="'Libre Barcode 39'">Barcode</option>
-                <option value="'Playfair Display'">Classic Serif</option>
+                <option value="'UnifrakturMaguntia', cursive">Medieval Gothic</option>
+                <option value="'Almendra Display', serif">Medieval Calligraphy</option>
+                <option value="'IM Fell English SC', serif">Old English</option>
+                <option value="'Meie Script', cursive">Royal Script</option>
+                <option value="'Mrs Saint Delafield', cursive">Signature Script</option>
+                <option value="'Pinyon Script', cursive">Formal Cursive</option>
+                <option value="'Homemade Apple', cursive">Handwritten</option>
+                <option value="'Courier Prime', monospace">Typewriter</option>
+                <option value="'EB Garamond', serif">Classic Garamond</option>
+                <option value="'Special Elite', cursive">Grunge Elite</option>
+                <option value="'Libre Barcode 39', cursive">Barcode</option>
             </select>
             
             <label>INK SIZE</label>
@@ -180,11 +176,11 @@
             <div class="book" id="bookObj">
                 <div class="page-content" style="border-right:1px solid #ddd;">
                     <h3 id="dateDisplay" style="font-family:'Bebas Neue'; color:var(--cherry); margin:0;"></h3>
-                    <textarea id="txtL" onkeyup="save()" placeholder="Write..."></textarea>
+                    <textarea id="txtL" oninput="save()" placeholder="Write..."></textarea>
                     <button onclick="move(-1)" style="position:absolute; bottom:20px; left:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue'; border-radius:50px;">PREV</button>
                 </div>
                 <div class="page-content">
-                    <textarea id="txtR" onkeyup="save()" placeholder="..."></textarea>
+                    <textarea id="txtR" oninput="save()" placeholder="..."></textarea>
                     <button onclick="move(1)" style="position:absolute; bottom:20px; right:20px; background:black; color:white; border:none; padding:10px; cursor:pointer; font-family:'Bebas Neue'; border-radius:50px;">NEXT</button>
                 </div>
             </div>
@@ -217,7 +213,6 @@
         }
 
         /* PLANNER GRID GENERATION */
-        const gridHeader = document.querySelector('.grid-header');
         const gridCols = document.getElementById('gridCols');
         const timeLabels = document.getElementById('timeLabels');
         
@@ -235,14 +230,12 @@
             gridCols.appendChild(col);
         }
 
-        /* MODAL HANDLERS */
         function openModal(title, val, type, id = null) {
             document.getElementById('customModal').style.display = 'flex';
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalInput').value = val;
             currentEditingType = type;
             currentEditingId = id;
-            document.getElementById('modalDelBtn').style.display = id ? 'block' : 'none';
         }
         function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
@@ -256,17 +249,7 @@
                 ev.style.top = (selSlot.h * 60 + 5) + "px";
                 ev.innerHTML = `<span onclick="event.stopPropagation(); openModal('EDIT EVENT', '${val}', 'event', '${id}')">${val}</span>`;
                 document.getElementById('gridCols').children[selSlot.d].appendChild(ev);
-            } else if(currentEditingType === 'event') {
-                document.querySelector(`#ev-${currentEditingId} span`).innerText = val;
-            } else if(currentEditingType === 'todo') {
-                document.querySelector(`#todo-${currentEditingId} span`).innerText = val;
             }
-            closeModal();
-        }
-
-        function handleModalDelete() {
-            if(currentEditingType === 'event') document.getElementById(`ev-${currentEditingId}`).remove();
-            if(currentEditingType === 'todo') document.getElementById(`todo-${currentEditingId}`).remove();
             closeModal();
         }
 
@@ -282,78 +265,64 @@
             }
         }
 
-        /* DIARY CORE LOGIC */
+        /* DIARY CORE LOGIC - FIXED FONT ENGINE */
         function buildDiary() {
             document.getElementById('dateDisplay').innerText = new Date(day + 'T12:00:00').toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'}).toUpperCase();
+            let data = logs[day] || {l:"", r:"", bold: false, font: "'UnifrakturMaguntia', cursive", size: "22"};
             
-            let data = logs[day] || {l:"", r:"", bold: false, font: "'Almendra Display'", size: "22"};
+            document.getElementById('txtL').value = data.l; 
+            document.getElementById('txtR').value = data.r;
+            document.getElementById('fnt').value = data.font;
+            document.getElementById('sz').value = data.size;
             
-            const leftPage = document.getElementById('txtL');
-            const rightPage = document.getElementById('txtR');
-            
-            leftPage.value = data.l; 
-            rightPage.value = data.r;
-            
-            // Set font from data
-            if(data.font) document.getElementById('fnt').value = data.font;
-            if(data.size) document.getElementById('sz').value = data.size;
-            
-            // Apply Bold
             if(data.bold) {
-                leftPage.classList.add('bold-text');
-                rightPage.classList.add('bold-text');
+                document.getElementById('txtL').classList.add('bold-text');
+                document.getElementById('txtR').classList.add('bold-text');
                 document.getElementById('boldBtn').classList.add('bold-active');
             } else {
-                leftPage.classList.remove('bold-text');
-                rightPage.classList.remove('bold-text');
+                document.getElementById('txtL').classList.remove('bold-text');
+                document.getElementById('txtR').classList.remove('bold-text');
                 document.getElementById('boldBtn').classList.remove('bold-active');
             }
-            
             styleBook();
         }
 
         function save() {
-            const fontSel = document.getElementById('fnt').value;
-            const sizeSel = document.getElementById('sz').value;
-            const isBold = document.getElementById('txtL').classList.contains('bold-text');
-            
             logs[day] = { 
                 l: document.getElementById('txtL').value, 
                 r: document.getElementById('txtR').value, 
-                bold: isBold,
-                font: fontSel,
-                size: sizeSel
+                bold: document.getElementById('txtL').classList.contains('bold-text'),
+                font: document.getElementById('fnt').value,
+                size: document.getElementById('sz').value
             };
             localStorage.setItem('uv_logs', JSON.stringify(logs));
-        }
-
-        function toggleBold() { 
-            const lp = document.getElementById('txtL');
-            const rp = document.getElementById('txtR');
-            const btn = document.getElementById('boldBtn');
-            
-            lp.classList.toggle('bold-text');
-            rp.classList.toggle('bold-text');
-            btn.classList.toggle('bold-active');
-            save(); 
         }
 
         function styleBook() { 
             let f = document.getElementById('fnt').value; 
             let s = document.getElementById('sz').value + "px"; 
             
-            // Force apply to textareas specifically
-            const textareas = [document.getElementById('txtL'), document.getElementById('txtR')];
-            textareas.forEach(t => {
-                t.style.fontFamily = f;
-                t.style.fontSize = s;
-            });
+            const tl = document.getElementById('txtL');
+            const tr = document.getElementById('txtR');
+            
+            // This is the direct override that forces the browser to update fonts
+            tl.style.setProperty('font-family', f, 'important');
+            tr.style.setProperty('font-family', f, 'important');
+            tl.style.fontSize = s;
+            tr.style.fontSize = s;
             save();
         }
 
+        function toggleBold() { 
+            document.getElementById('txtL').classList.toggle('bold-text');
+            document.getElementById('txtR').classList.toggle('bold-text');
+            document.getElementById('boldBtn').classList.toggle('bold-active');
+            save(); 
+        }
+
         function move(n) { save(); let d = new Date(day + 'T12:00:00'); d.setDate(d.getDate() + n); day = d.toISOString().split('T')[0]; buildDiary(); }
-        function openBook() { const cover = document.getElementById('bookCover'); cover.style.transform = "rotateY(-110deg)"; cover.style.opacity = "0"; setTimeout(() => { cover.style.visibility = "hidden"; document.getElementById('bookObj').style.visibility = "visible"; }, 600); }
-        function closeBook() { const cover = document.getElementById('bookCover'); document.getElementById('bookObj').style.visibility = "hidden"; cover.style.visibility = "visible"; cover.style.opacity = "1"; cover.style.transform = "rotateY(0deg)"; }
+        function openBook() { document.getElementById('bookCover').style.transform = "rotateY(-110deg)"; document.getElementById('bookCover').style.opacity = "0"; setTimeout(() => { document.getElementById('bookCover').style.visibility = "hidden"; document.getElementById('bookObj').style.visibility = "visible"; }, 600); }
+        function closeBook() { let c = document.getElementById('bookCover'); document.getElementById('bookObj').style.visibility = "hidden"; c.style.visibility = "visible"; c.style.opacity = "1"; c.style.transform = "rotateY(0deg)"; }
         function jump(v) { if(v) { day=v; buildDiary(); } }
         
         function searchWords() {
